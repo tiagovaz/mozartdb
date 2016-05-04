@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 
+@python_2_unicode_compatible
 class City(models.Model):
     name = models.CharField(max_length=150)
 
@@ -12,6 +14,7 @@ class City(models.Model):
         verbose_name = "Ville"
         verbose_name_plural = "Ville"
 
+@python_2_unicode_compatible
 class Country(models.Model):
     name = models.CharField(max_length=150)
 
@@ -22,6 +25,7 @@ class Country(models.Model):
         verbose_name = "Pays"
         verbose_name_plural = "Pays"
 
+@python_2_unicode_compatible
 class Place(models.Model):
     venue = models.CharField(max_length=200)
     city = models.ForeignKey('City')
@@ -34,6 +38,7 @@ class Place(models.Model):
         verbose_name = "Lieu"
         verbose_name_plural = "Lieu"
 
+@python_2_unicode_compatible
 class Type(models.Model):
     type = models.CharField(max_length=200)
 
@@ -44,6 +49,7 @@ class Type(models.Model):
         verbose_name = "Nature de l'évènement"
         verbose_name_plural = "Nature de l'évènement"
 
+@python_2_unicode_compatible
 class Performer(models.Model):
     name = models.CharField(max_length=200)
 
@@ -54,6 +60,7 @@ class Performer(models.Model):
         verbose_name = "Interprète"
         verbose_name_plural = "Interprète"
 
+@python_2_unicode_compatible
 class Speaker(models.Model):
     name = models.CharField(max_length=200)
 
@@ -64,6 +71,7 @@ class Speaker(models.Model):
         verbose_name = "Conférencier"
         verbose_name_plural = "Conférencier"
 
+@python_2_unicode_compatible
 class Piece(models.Model):
     description = models.CharField(max_length=200)
 
@@ -74,6 +82,7 @@ class Piece(models.Model):
         verbose_name = "Œuvre"
         verbose_name_plural = "Œuvre"
 
+@python_2_unicode_compatible
 class Event(models.Model):
     """The main class for all 'Mozart' events."""
     title = models.CharField(max_length=200, null=True, blank=True)
