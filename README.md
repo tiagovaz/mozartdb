@@ -1,2 +1,3 @@
 # mozartdb
-Mozart Data Base
+Mozart database
+http://oicrm.org
