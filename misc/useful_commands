@@ -1,0 +1,6 @@
+# graphical model
+./manage.py graph_models mozartweb -g -o mozartdb.png
+
+# migrations
+python manage.py makemigrations mozartweb; python manage.py migrate; python manage.py runserver
+
