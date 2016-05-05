@@ -2,6 +2,8 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from gm2m import GM2MField
+
 
 @python_2_unicode_compatible
 class City(models.Model):
