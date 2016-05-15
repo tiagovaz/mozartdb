@@ -65,3 +65,4 @@ main/migrations/*
 /.pydevproject
 /.settings/
 mozartweb/migrations/
+mozartdb/static/images/

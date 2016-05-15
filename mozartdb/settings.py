@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'bootstrap3_datepicker',
     'mozartweb',
     'django_extensions',
     'suit',
@@ -124,3 +125,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+PROJECT_ROOT = os.path.realpath(os.path.dirname(__file__))
+MEDIA_ROOT = PROJECT_ROOT + '/static/images/'
+MEDIA_URL = '/media/'  #put whatever you want that when url is rendered it will be /media/imagename.jpg
