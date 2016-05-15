@@ -34,7 +34,7 @@ class Place(models.Model):
     country = models.ForeignKey('Country')
 
     def __str__(self):
-        return "%s %s, %s" % (self.venue, self.city, self.country)
+        return "%s, %s, %s" % (self.venue, self.city, self.country)
 
     class Meta:
         verbose_name = "Lieu"
