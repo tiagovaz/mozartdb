@@ -90,7 +90,7 @@ class Event(models.Model):
     title = models.CharField("Titre ou description de l'évènement", max_length=200, null=True, blank=True)
     reference = models.CharField("Référence", max_length=200, null=True, blank=True)
     place = models.ForeignKey('Place', verbose_name='Lieu')
-    poster = models.ImageField(null=True, blank=True, verbose_name='Affiche')
+    poster = models.ImageField(upload_to = 'posters', null=True, blank=True, verbose_name='Affiche')
     type = models.ForeignKey('Type', verbose_name="Nature de l'évènement")
     performer = models.ManyToManyField('Performer', verbose_name="Interprètes")
     speaker = models.ManyToManyField('Speaker', verbose_name="Conférenciers/ères")

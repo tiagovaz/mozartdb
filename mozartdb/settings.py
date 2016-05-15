@@ -126,5 +126,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 PROJECT_ROOT = os.path.realpath(os.path.dirname(__file__))
-MEDIA_ROOT = PROJECT_ROOT + '/static/images/'
+MEDIA_ROOT = PROJECT_ROOT + '/media/'
 MEDIA_URL = '/media/'  #put whatever you want that when url is rendered it will be /media/imagename.jpg
