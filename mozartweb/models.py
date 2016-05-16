@@ -75,10 +75,10 @@ class Speaker(models.Model):
 
 @python_2_unicode_compatible
 class Piece(models.Model):
-    description = models.CharField("Titre de l'œuvre interpretée", max_length=200)
+    name = models.CharField("Titre de l'œuvre interpretée", max_length=200)
 
     def __str__(self):
-        return self.description
+        return self.name
 
     class Meta:
         verbose_name = "Œuvre"

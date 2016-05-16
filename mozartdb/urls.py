@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from mozartweb.views import CountryAutocomplete, CityAutocomplete, PerformerAutocomplete
+from mozartweb.views import CountryAutocomplete, CityAutocomplete, PerformerAutocomplete, PieceAutocomplete
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^country-autocomplete/$', CountryAutocomplete.as_view(), name='country-autocomplete',),
     url(r'^city-autocomplete/$', CityAutocomplete.as_view(), name='city-autocomplete',),
-    url(r'^performer-autocomplete/$', PerformerAutocomplete.as_view(), name='performer-autocomplete',),
+    url(r'^piece-autocomplete/$', PieceAutocomplete.as_view(), name='piece-autocomplete',),
+    url(r'^performer-autocomplete/$', PerformerAutocomplete.as_view(), name='performer-autocomplete',)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
