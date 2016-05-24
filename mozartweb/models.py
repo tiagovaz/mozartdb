@@ -87,15 +87,15 @@ class Piece(models.Model):
 @python_2_unicode_compatible
 class Event(models.Model):
     """The main class for all 'Mozart' events."""
-    title = models.CharField("Titre ou description de l'évènement", max_length=200, null=True, blank=True)
+    title = models.CharField("Titre ou description de l'évènement", max_length=200)
     reference = models.CharField("Référence", max_length=200, null=True, blank=True)
-    place = models.ForeignKey('Place', verbose_name='Lieu')
+    place = models.ForeignKey('Place', verbose_name='Lieu', null=True, blank=True)
     poster = models.ImageField(upload_to = 'posters', null=True, blank=True, verbose_name='Affiche')
-    type = models.ForeignKey('Type', verbose_name="Nature de l'évènement")
-    performer = models.ManyToManyField('Performer', verbose_name="Interprètes")
-    speaker = models.ManyToManyField('Speaker', verbose_name="Conférenciers/ères")
-    piece = models.ManyToManyField('Piece', verbose_name="Œuvres interpretées")
-    date = models.DateField()
+    type = models.ForeignKey('Type', verbose_name="Nature de l'évènement", null=True, blank=True)
+    performer = models.ManyToManyField('Performer', verbose_name="Interprètes", blank=True)
+    speaker = models.ManyToManyField('Speaker', verbose_name="Conférenciers/ères", blank=True)
+    piece = models.ManyToManyField('Piece', verbose_name="Œuvres interpretées", blank=True)
+    date = models.DateField(null=True, blank=True)
 
     class Meta:
         verbose_name = "Évenement"
