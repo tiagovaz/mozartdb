@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from mozartweb.views import CountryAutocomplete, CityAutocomplete, PerformerAutocomplete, PieceAutocomplete, SpeakerAutocomplete, \
-    SpeechAutocomplete
+    SpeechAutocomplete, PlaceAutocomplete
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -27,5 +27,6 @@ urlpatterns = [
     url(r'^piece-autocomplete/$', PieceAutocomplete.as_view(), name='piece-autocomplete',),
     url(r'^performer-autocomplete/$', PerformerAutocomplete.as_view(), name='performer-autocomplete',),
     url(r'^speaker-autocomplete/$', SpeakerAutocomplete.as_view(), name='speaker-autocomplete',),
-    url(r'^speech-autocomplete/$', SpeechAutocomplete.as_view(), name='speech-autocomplete',)
+    url(r'^speech-autocomplete/$', SpeechAutocomplete.as_view(), name='speech-autocomplete',),
+    url(r'^place-autocomplete/$', PlaceAutocomplete.as_view(), name='place-autocomplete',)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

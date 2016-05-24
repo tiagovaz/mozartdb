@@ -18,7 +18,8 @@ class EventForm(forms.ModelForm):
         widgets = {
             'performer': autocomplete.ModelSelect2Multiple('performer-autocomplete'),
             'piece': autocomplete.ModelSelect2Multiple('piece-autocomplete'),
-            'speech': autocomplete.ModelSelect2Multiple('speech-autocomplete')
+            'speech': autocomplete.ModelSelect2Multiple('speech-autocomplete'),
+            'place': autocomplete.ModelSelect2('place-autocomplete')
         }
 
 class SpeechForm(forms.ModelForm):
