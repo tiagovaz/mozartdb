@@ -3,8 +3,10 @@ from django.contrib import admin
 from models import *
 from forms import *
 
-#class EventAdmin(admin.ModelAdmin):
-#    raw_id_fields = ("performer",)
+class EventAdmin(admin.ModelAdmin):
+    fields = ("performer",)
+
+
 
 
 admin.site.register(City)
