@@ -52,6 +52,22 @@ class Type(models.Model):
         verbose_name_plural = "Nature de l'évènement"
 
 @python_2_unicode_compatible
+class Reference(models.Model):
+    article_title = models.CharField("Titre de l'article", max_length=150, blank=True)
+    journal_title = models.CharField("Titre du journal", max_length=150, blank=True)
+    page = models.CharField("Page(s)", max_length=150, blank=True)
+    date = models.DateField(null=True, verbose_name="Date", blank=True)
+    article_file = models.FileField(upload_to='articles', null=True, blank=True, verbose_name='Article en PDF')
+
+    def __str__(self):
+        return self.article_title
+
+    class Meta:
+        verbose_name = "Ville"
+        verbose_name_plural = "Ville"
+
+
+@python_2_unicode_compatible
 class Performer(models.Model):
     name = models.CharField("Nom de l'interprète", max_length=200)
 
@@ -68,7 +84,8 @@ class Speech(models.Model):
     speaker = models.ManyToManyField('Speaker', verbose_name='Nome du/de la conférencier/ère', blank=True)
 
     def __str__(self):
-        return self.title
+        #FIXME: return all speakers from this speech
+        return "%s par %s" % (self.title, 'SPEAKER')
 
     class Meta:
         verbose_name = "Conférence"
@@ -100,14 +117,15 @@ class Piece(models.Model):
 class Event(models.Model):
     """The main class for all 'Mozart' events."""
     title = models.CharField("Titre ou description de l'évènement", max_length=200)
-    reference = models.CharField("Référence", max_length=200, null=True, blank=True)
+    reference = models.ForeignKey("Reference", blank=True, null=True)
     place = models.ForeignKey('Place', verbose_name='Lieu', null=True, blank=True)
     poster = models.ImageField(upload_to = 'posters', null=True, blank=True, verbose_name='Affiche')
     type = models.ForeignKey('Type', verbose_name="Nature de l'évènement", null=True, blank=True)
     performer = models.ManyToManyField('Performer', verbose_name="Interprètes", blank=True)
     speech = models.ManyToManyField('Speech', verbose_name="Conférence", blank=True)
     piece = models.ManyToManyField('Piece', verbose_name="Œuvres interpretées", blank=True)
-    date = models.DateField(null=True, blank=True)
+    start_date = models.DateField(null=True, verbose_name="Début de l'évenement", blank=True)
+    end_date = models.DateField(null=True, verbose_name="Fin de l'évenement", blank=True)
 
     class Meta:
         verbose_name = "Évenement"

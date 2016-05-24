@@ -18,6 +18,13 @@ class EventForm(forms.ModelForm):
         widgets = {
             'performer': autocomplete.ModelSelect2Multiple('performer-autocomplete'),
             'piece': autocomplete.ModelSelect2Multiple('piece-autocomplete'),
-            'speaker': autocomplete.ModelSelect2Multiple('speaker-autocomplete')
+            'speech': autocomplete.ModelSelect2Multiple('speech-autocomplete')
         }
 
+class SpeechForm(forms.ModelForm):
+    class Meta:
+        model = Speech
+        fields = ('__all__')
+        widgets = {
+            'speaker': autocomplete.ModelSelect2Multiple('speaker-autocomplete')
+        }

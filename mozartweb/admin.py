@@ -12,15 +12,16 @@ class EventAdmin(admin.ModelAdmin):
 admin.site.register(City)
 admin.site.register(Country)
 admin.site.register(Type)
-admin.site.register(Speech)
-
+class SpeechAdmin(admin.ModelAdmin):
+    form = SpeechForm
+admin.site.register(Speech, SpeechAdmin)
+admin.site.register(Reference)
 class PlaceAdmin(admin.ModelAdmin):
     form = PlaceForm
 admin.site.register(Place, PlaceAdmin)
 admin.site.register(Performer)
 admin.site.register(Piece)
 admin.site.register(Speaker)
-
 class EventAdmin(admin.ModelAdmin):
     form = EventForm
 admin.site.register(Event, EventAdmin)
