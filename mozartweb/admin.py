@@ -10,6 +10,7 @@ from forms import *
 admin.site.register(City)
 admin.site.register(Country)
 admin.site.register(Type)
+admin.site.register(Speech)
 
 class PlaceAdmin(admin.ModelAdmin):
     form = PlaceForm

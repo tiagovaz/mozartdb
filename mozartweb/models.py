@@ -63,6 +63,18 @@ class Performer(models.Model):
         verbose_name_plural = "Interprète"
 
 @python_2_unicode_compatible
+class Speech(models.Model):
+    title = models.CharField("Titre de la conférence", max_length=200, default="Conférence sans titre")
+    speaker = models.ManyToManyField('Speaker', verbose_name='Nome du/de la conférencier/ère', blank=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Conférence"
+        verbose_name_plural = "Conférences"
+
+@python_2_unicode_compatible
 class Speaker(models.Model):
     name = models.CharField("Nome du/de la conférencier/ère", max_length=200)
 
@@ -93,7 +105,7 @@ class Event(models.Model):
     poster = models.ImageField(upload_to = 'posters', null=True, blank=True, verbose_name='Affiche')
     type = models.ForeignKey('Type', verbose_name="Nature de l'évènement", null=True, blank=True)
     performer = models.ManyToManyField('Performer', verbose_name="Interprètes", blank=True)
-    speaker = models.ManyToManyField('Speaker', verbose_name="Conférenciers/ères", blank=True)
+    speech = models.ManyToManyField('Speech', verbose_name="Conférence", blank=True)
     piece = models.ManyToManyField('Piece', verbose_name="Œuvres interpretées", blank=True)
     date = models.DateField(null=True, blank=True)
 
