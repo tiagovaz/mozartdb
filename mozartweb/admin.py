@@ -4,7 +4,7 @@ from models import *
 from forms import *
 
 class EventAdmin(admin.ModelAdmin):
-    fields = ("performer",)
+    fields = ("titre","reference", "place", "poster", "type", "performer", "piece", "speech")
 
 
 
