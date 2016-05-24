@@ -60,7 +60,7 @@ class Performer(models.Model):
 
     class Meta:
         verbose_name = "Interprète"
-        verbose_name_plural = "Interprète"
+        verbose_name_plural = "Interprètes"
 
 @python_2_unicode_compatible
 class Speech(models.Model):
@@ -83,7 +83,7 @@ class Speaker(models.Model):
 
     class Meta:
         verbose_name = "Conférencier/ère"
-        verbose_name_plural = "Conférencier/ère"
+        verbose_name_plural = "Conférenciers/ères"
 
 @python_2_unicode_compatible
 class Piece(models.Model):
