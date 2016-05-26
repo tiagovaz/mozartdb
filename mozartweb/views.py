@@ -1,6 +1,40 @@
 from django.shortcuts import render
 from dal import autocomplete
+from django.views import generic
+from django.views.generic import View
+
 from models import *
+from mozartweb.filters import EventFilter
+from mozartweb.forms import Search
+
+class EventList(generic.ListView):
+    template_name = 'list.html'
+    context_object_name = 'events'
+    model = Event
+
+    def dispatch(self, *args, **kwargs):
+        return super(EventList, self).dispatch(*args, **kwargs)
+
+    def get_queryset(self):
+        return EventFilter(self.request.GET, queryset=Event.objects.all())
+
+    def get_context_data(self, **kwargs):
+        context = super(EventList, self).get_context_data(**kwargs)
+
+        all_events = EventFilter(self.request.GET, queryset=Event.objects.all())
+        context['view'] = "events"
+        context['form'] = all_events.form
+
+        return context
+
+class SearchForm(View):
+    def get(self, request):
+        search_form = Search()
+        return render(request, 'search.html', {'form': search_form})
+
+    def post(self, request):
+        pass
+
 
 class CountryAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):

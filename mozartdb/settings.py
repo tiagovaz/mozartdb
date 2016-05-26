@@ -33,10 +33,12 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'bootstrap3_datepicker',
     'mozartweb',
+    'bootstrap3',
     'django_extensions',
     'suit',
     'dal',
     'dal_select2',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

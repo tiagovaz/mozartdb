@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from mozartweb.views import CountryAutocomplete, CityAutocomplete, PerformerAutocomplete, PieceAutocomplete, SpeakerAutocomplete, \
-    SpeechAutocomplete, PlaceAutocomplete
+
+from mozartweb.views import *
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -28,5 +28,11 @@ urlpatterns = [
     url(r'^performer-autocomplete/$', PerformerAutocomplete.as_view(), name='performer-autocomplete',),
     url(r'^speaker-autocomplete/$', SpeakerAutocomplete.as_view(), name='speaker-autocomplete',),
     url(r'^speech-autocomplete/$', SpeechAutocomplete.as_view(), name='speech-autocomplete',),
-    url(r'^place-autocomplete/$', PlaceAutocomplete.as_view(), name='place-autocomplete',)
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    url(r'^place-autocomplete/$', PlaceAutocomplete.as_view(), name='place-autocomplete',),
+    url(r'^search/', SearchForm.as_view()),
+    url(
+            r'^list/$',
+            EventList.as_view(),
+            name='harvest_list'
+        ),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
