@@ -134,3 +134,5 @@ MEDIA_URL = '/media/'
 FIXTURE_DIRS = (
    'mozartweb/fixtures/',
 )
+
+FILTERS_HELP_TEXT_FILTER = False
