@@ -6,9 +6,6 @@ from forms import *
 class EventAdmin(admin.ModelAdmin):
     fields = ("titre","reference", "place", "poster", "type", "performer", "piece", "speech")
 
-
-
-
 admin.site.register(City)
 admin.site.register(Country)
 admin.site.register(Type)

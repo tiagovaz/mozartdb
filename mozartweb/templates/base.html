@@ -12,7 +12,7 @@
 
         <title>
             {% block title %}
-                Banque de données - Mozart
+                {% trans "Saskatoon - Urbain harvesting management system" %}
             {% endblock %}
         </title>
 
@@ -60,7 +60,7 @@
                                 {% csrf_token %}
                                 <input type="hidden" value="" name="language" id="language" />
                             </form>
-                            {% trans "Language"  %}<i class="fa fa-caret-down"></i>
+                            {% trans "Language"  %}</i> <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-header">{% trans "Language" %}</li>
@@ -144,7 +144,7 @@
                 <!-- /.navbar-static-side -->
             </nav>
 
-            <div id="page-wrapper" style="padding-top:20px;">
+            <div id="page-wrapper" style="padding-top:1px;">
                 {% if messages %}
                     {% for message in messages %}
                         {% if message.tags == 'error' %}

@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+
 import django_filters
+
 from models import *
+
 
 class EventFilter(django_filters.FilterSet):
     speech__speaker = django_filters.CharFilter(label="Conférencier-ère", lookup_expr='icontains')
@@ -13,6 +16,12 @@ class EventFilter(django_filters.FilterSet):
     place__country = django_filters.ModelChoiceFilter(label="Pays", queryset=Country.objects.all())
     place__venue = django_filters.CharFilter(label="Lieu", lookup_expr='icontains')
     speech__title = django_filters.CharFilter(label="Titre de la conférence", lookup_expr='icontains')
+    #year = django_filters.MethodFilter(label='Année', action='year_range')
+    year = django_filters.NumberFilter(label='Année', name='start_date', lookup_expr='year')
+    month = django_filters.NumberFilter(label='Mois', name='start_date', lookup_expr='month')
+
+ #   def year_range(self, queryset, value):
+ #       return queryset.filter()
 
     class Meta:
         model = Event
@@ -28,6 +37,6 @@ class EventFilter(django_filters.FilterSet):
             'place__venue',
             'place__city',
             'place__country',
-            'start_date',
-            'end_date',
+            'month',
+            'year'
         ]

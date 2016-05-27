@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from django_date_extensions.fields import ApproximateDateField
 
 
 @python_2_unicode_compatible
@@ -63,8 +64,8 @@ class Reference(models.Model):
         return self.article_title
 
     class Meta:
-        verbose_name = "Ville"
-        verbose_name_plural = "Ville"
+        verbose_name = "Réference"
+        verbose_name_plural = "Réferences"
 
 
 @python_2_unicode_compatible
@@ -85,7 +86,7 @@ class Speech(models.Model):
 
     def __str__(self):
         #FIXME: return all speakers from this speech
-        return "%s par %s" % (self.title, 'SPEAKER')
+        return self.title + " par " + "".join(s.name for s in self.speaker.all())
 
     class Meta:
         verbose_name = "Conférence"

@@ -27,6 +27,30 @@ class EventList(generic.ListView):
 
         return context
 
+class EventDetail(generic.DetailView):
+    model = Event
+    context_object_name = 'event'
+    template_name = 'detail.html'
+
+    #TODO: check if we use the same template for anons
+    def dispatch(self, *args, **kwargs):
+        get_object_or_404(
+            Reference,
+            id=self.kwargs['pk']
+        )
+        if self.request.user.is_authenticated():
+            self.template_name = 'detail.html'
+
+        return super(EventDetail, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(EventDetail, self).get_context_data(**kwargs)
+
+        context['form_comment'] = CommentForm()
+        context['form_request'] = RequestForm()
+
+        return context
+
 class SearchForm(View):
     def get(self, request):
         search_form = Search()

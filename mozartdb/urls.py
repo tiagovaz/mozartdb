@@ -29,10 +29,20 @@ urlpatterns = [
     url(r'^speaker-autocomplete/$', SpeakerAutocomplete.as_view(), name='speaker-autocomplete',),
     url(r'^speech-autocomplete/$', SpeechAutocomplete.as_view(), name='speech-autocomplete',),
     url(r'^place-autocomplete/$', PlaceAutocomplete.as_view(), name='place-autocomplete',),
-    url(r'^search/', SearchForm.as_view()),
     url(
             r'^list/$',
             EventList.as_view(),
-            name='harvest_list'
+            name='event_list'
         ),
+    url(
+            r'^event/$',
+            EventList.as_view(),
+            name='event_details'
+        ),
+    url(
+            r'^$',
+            EventList.as_view(),
+            name='event'
+        ),
+
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
