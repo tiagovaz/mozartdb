@@ -27,7 +27,9 @@
             <strong>{% trans "Date fin" %} :</strong> {{event.end_date}}<br>
         </div>
         <div class="col-sm-4">
-            <strong>Affiche :</strong> <a href="/media/{{ event.poster }}"><img src="/media/{{ event.poster }}" height='70'"></a>
+            {% if event.poster %}
+                <strong>Affiche :</strong> <a href="/media/{{ event.poster }}"><img src="/media/{{ event.poster }}" height='70'"></a>
+            {% endif %}
         </div>
     </div>
 
