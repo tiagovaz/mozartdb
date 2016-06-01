@@ -60,7 +60,7 @@ class Reference(models.Model):
     article_file = models.FileField(upload_to='articles', null=True, blank=True, verbose_name='Article en PDF')
 
     def __str__(self):
-        return self.article_title
+        return "« %s », <em>%s</em>, p. %s, %s" % (self.article_title, self.journal_title, self.page, self.date)
 
     class Meta:
         verbose_name = "Réference"
@@ -85,7 +85,7 @@ class Speech(models.Model):
 
     def __str__(self):
         #FIXME: return all speakers from this speech
-        return self.title + " par " + "".join(s.name for s in self.speaker.all())
+        return self.title + " par " + ", ".join(s.name for s in self.speaker.all())
 
     class Meta:
         verbose_name = "Conférence"

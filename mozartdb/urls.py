@@ -35,14 +35,13 @@ urlpatterns = [
             name='event_list'
         ),
     url(
-            r'^event/$',
-            EventList.as_view(),
-            name='event_details'
-        ),
-    url(
             r'^$',
             EventList.as_view(),
             name='event'
         ),
-
+    url(
+            r'^(?P<pk>\d+)$',
+            EventDetail.as_view(),
+            name='event_detail'
+        ),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

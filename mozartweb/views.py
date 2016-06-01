@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from dal import autocomplete
 from django.views import generic
 from django.views.generic import View
@@ -32,24 +32,21 @@ class EventDetail(generic.DetailView):
     context_object_name = 'event'
     template_name = 'detail.html'
 
-    #TODO: check if we use the same template for anons
     def dispatch(self, *args, **kwargs):
         get_object_or_404(
-            Reference,
+            Event,
             id=self.kwargs['pk']
         )
-        if self.request.user.is_authenticated():
-            self.template_name = 'detail.html'
+        #if self.request.user.is_authenticated():
+        #    self.template_name = 'harvest/harvest/detail.html'
 
         return super(EventDetail, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(EventDetail, self).get_context_data(**kwargs)
 
-        context['form_comment'] = CommentForm()
-        context['form_request'] = RequestForm()
-
         return context
+
 
 class SearchForm(View):
     def get(self, request):

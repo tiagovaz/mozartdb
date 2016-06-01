@@ -37,7 +37,7 @@
                                {% for event in events %}
                                 <tr class="odd gradeX">
                                     <td class="text-center">
-                                        <a href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.id }}/change/?_popup=1');">
+                                        <a href="{% url "event_detail" event.id %}">
                                             {{ event.title }}
                                         </a>
                                     </td>
