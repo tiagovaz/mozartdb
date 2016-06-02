@@ -114,6 +114,18 @@ class Piece(models.Model):
         verbose_name_plural = "Œuvre"
 
 @python_2_unicode_compatible
+class Comment(models.Model):
+    comment = models.CharField("Nom de la ville", max_length=150)
+    date = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Ville"
+        verbose_name_plural = "Ville"
+
+@python_2_unicode_compatible
 class Event(models.Model):
     """The main class for all 'Mozart' events."""
     title = models.CharField("Titre ou description de l'évènement", max_length=200)
@@ -122,12 +134,14 @@ class Event(models.Model):
     poster = models.ImageField(upload_to = 'posters', null=True, blank=True, verbose_name='Affiche')
     type = models.ForeignKey('Type', verbose_name="Nature de l'évènement", null=True, blank=True)
     performer = models.ManyToManyField('Performer', verbose_name="Interprètes", blank=True)
+    comment = models.ManyToManyField('Comment', verbose_name="Commentaire", blank=True)
     speech = models.ManyToManyField('Speech', verbose_name="Conférence", blank=True)
     piece = models.ManyToManyField('Piece', verbose_name="Œuvres interpretées", blank=True)
     start_date = models.DateField(null=True, verbose_name="Début de l'évenement", blank=True)
     end_date = models.DateField(null=True, verbose_name="Fin de l'évenement", blank=True)
     month_is_estimated = models.BooleanField(default=False, verbose_name="Le mois est estimé")
     day_is_estimated = models.BooleanField(default=False, verbose_name="Le jour est estimé")
+    relates_to = models.ForeignKey('self')
 
     class Meta:
         verbose_name = "Événement"

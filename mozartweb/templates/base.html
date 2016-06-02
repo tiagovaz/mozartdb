@@ -49,31 +49,11 @@
             <!-- Navigation -->
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href=''>Banque de données - Mozart</a>
+                    <a class="navbar-brand" href='/'>Banque de données - Mozart</a>
                 </div>
                 <!-- /.navbar-header -->
 
                 <ul class="nav navbar-top-links navbar-right">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <form action="/i18n/setlang/" method="post" style="display: none" id="change_language_form">
-                                {% csrf_token %}
-                                <input type="hidden" value="" name="language" id="language" />
-                            </form>
-                            {% trans "Language"  %}</i> <i class="fa fa-caret-down"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-header">{% trans "Language" %}</li>
-                            <li>
-                                {% get_current_language as LANGUAGE_CODE %}
-                                {% get_available_languages as LANGUAGES %}
-                                {% get_language_info_list for LANGUAGES as languages %}
-                                {% for language in languages %}
-                                    <a lang_code="{{ language.code }}" class="change_language">{{ language.name_local|capfirst }} </a>
-                                {% endfor %}
-                            </li>
-                        </ul>
-                    </li>
                     {% if user.email %}
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -224,14 +204,6 @@
                 popupWindow = window.open(
                     url,'popUpWindow','height=800,width=1000,left=500,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
             }
-        </script>
-
-        <script>
-            $('.change_language').click(function(e){
-                e.preventDefault();
-                $('#language').val($(this).attr('lang_code'));
-                $('#change_language_form').submit();
-            });
         </script>
         {% block extrascript %}{% endblock %}
     </body>
