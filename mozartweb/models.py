@@ -60,7 +60,7 @@ class Reference(models.Model):
     article_file = models.FileField(upload_to='articles', null=True, blank=True, verbose_name='Article en PDF')
 
     def __str__(self):
-        return "« %s », <em>%s</em>, p. %s, %s" % (self.article_title, self.journal_title, self.page, self.date)
+        return "« %s », %s, p. %s, %s" % (self.article_title, self.journal_title, self.page, self.date)
 
     class Meta:
         verbose_name = "Réference"
