@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
@@ -134,14 +135,13 @@ class Event(models.Model):
     poster = models.ImageField(upload_to = 'posters', null=True, blank=True, verbose_name='Affiche')
     type = models.ForeignKey('Type', verbose_name="Nature de l'évènement", null=True, blank=True)
     performer = models.ManyToManyField('Performer', verbose_name="Interprètes", blank=True)
-    comment = models.ManyToManyField('Comment', verbose_name="Commentaire", blank=True)
     speech = models.ManyToManyField('Speech', verbose_name="Conférence", blank=True)
     piece = models.ManyToManyField('Piece', verbose_name="Œuvres interpretées", blank=True)
     start_date = models.DateField(null=True, verbose_name="Début de l'évenement", blank=True)
     end_date = models.DateField(null=True, verbose_name="Fin de l'évenement", blank=True)
     month_is_estimated = models.BooleanField(default=False, verbose_name="Le mois est estimé")
     day_is_estimated = models.BooleanField(default=False, verbose_name="Le jour est estimé")
-    relates_to = models.ForeignKey('self')
+    relates_to_radio = models.ForeignKey('Event', verbose_name="Radio difusion", null=True, blank=True)
 
     class Meta:
         verbose_name = "Événement"
@@ -149,3 +149,34 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+@python_2_unicode_compatible
+class Comment(models.Model):
+    content = models.CharField(
+        verbose_name="Commentaire",
+        max_length=500
+    )
+
+    created_date = models.DateTimeField(
+        verbose_name="Date du commentaire",
+        auto_now_add=True
+    )
+
+    author = models.ForeignKey(
+        User,
+        verbose_name="Auteur",
+        related_name="comment"
+    )
+
+    event = models.ForeignKey(
+        'Event',
+        verbose_name="Événement",
+        related_name="comment"
+    )
+
+    class Meta:
+        verbose_name = "Commentaire"
+        verbose_name_plural = "Commentaires"
+
+    def __str__(self):
+        return self.content

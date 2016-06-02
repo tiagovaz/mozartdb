@@ -1,11 +1,15 @@
+from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render, get_object_or_404
 from dal import autocomplete
+from django.utils.decorators import method_decorator
 from django.views import generic
 from django.views.generic import View
 
 from models import *
 from mozartweb.filters import EventFilter
-from mozartweb.forms import Search
+from mozartweb.forms import Search, CommentForm
+
 
 class EventList(generic.ListView):
     template_name = 'list.html'
@@ -44,6 +48,8 @@ class EventDetail(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(EventDetail, self).get_context_data(**kwargs)
+        context['form_comment'] = CommentForm()
+
 
         return context
 
@@ -160,3 +166,38 @@ class ReferenceAutocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(name__istartswith=self.q)
 
         return qs
+
+class RadioAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        # Don't forget to filter out results depending on the visitor !
+        if not self.request.user.is_authenticated():
+            return Event.objects.none()
+
+        qs = Event.objects.all()
+
+        if self.q:
+            qs = qs.filter(title__istartswith=self.q)
+
+        return qs
+
+class CommentCreate(generic.CreateView):
+    model = Comment
+    template_name = 'create_comment.html'
+    fields = [
+        'content'
+    ]
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(CommentCreate, self).dispatch(*args, **kwargs)
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.event = Event.objects.get(id=self.kwargs['pk'])
+        return super(CommentCreate, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy(
+            'event_detail',
+            kwargs={'pk': self.kwargs['pk']}
+        )

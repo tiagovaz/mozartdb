@@ -52,6 +52,7 @@ class EventForm(forms.ModelForm):
             'speech': autocomplete.ModelSelect2Multiple('speech-autocomplete'),
             'place': autocomplete.ModelSelect2('place-autocomplete'),
             'reference': autocomplete.ModelSelect2Multiple('reference-autocomplete'),
+            'relates_to_radio': autocomplete.ModelSelect2Multiple('radio-autocomplete'),
         }
 
 class SpeechForm(forms.ModelForm):
@@ -60,4 +61,19 @@ class SpeechForm(forms.ModelForm):
         fields = ('__all__')
         widgets = {
             'speaker': autocomplete.ModelSelect2Multiple('speaker-autocomplete')
+        }
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = [
+            'content'
+        ]
+
+        widgets = {
+            'content': forms.Textarea(
+                attrs={
+                    'placeholder': "Votre commentaire ici."
+                }
+            ),
         }

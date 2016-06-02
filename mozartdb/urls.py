@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^speech-autocomplete/$', SpeechAutocomplete.as_view(), name='speech-autocomplete',),
     url(r'^place-autocomplete/$', PlaceAutocomplete.as_view(), name='place-autocomplete',),
     url(r'^reference-autocomplete/$', ReferenceAutocomplete.as_view(), name='reference-autocomplete',),
+    url(r'^radio-autocomplete/$', RadioAutocomplete.as_view(), name='radio-autocomplete',),
     url(
             r'^list/$',
             EventList.as_view(),
@@ -45,4 +46,10 @@ urlpatterns = [
             EventDetail.as_view(),
             name='event_detail'
         ),
+    url(
+            r'^(?P<pk>\d+)/new_comment$',
+            CommentCreate.as_view(),
+            name='comment_create'
+        ),
+
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
