@@ -17,18 +17,25 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-4">
+
+        <div class="col-sm-2">
+            {% if event.poster %}
+                        <a href="/media/{{ event.poster }}"> <img src="/media/{{ event.poster }}" height='130'"></a>
+            {% endif %}
+        </div>
+
+        <div class="col-sm-6">
             <strong>{% trans "Nature de l'évenement" %} :</strong> {{ event.type|default:"" }}<br>
             <strong>{% trans "Lieu" %} :</strong> {{ event.place|default:"" }}<br>
-        </div>
-        <div class="col-sm-4">
             <strong>{% trans "Date début" %} :</strong> {{event.start_date|default:""}}<br>
             <strong>{% trans "Date fin" %} :</strong> {{event.end_date|default:""}}<br>
-        </div>
-        <div class="col-sm-4">
-            {% if event.poster %}
-                <strong>Affiche :</strong> <a href="/media/{{ event.poster }}"><img src="/media/{{ event.poster }}" height='70'"></a>
-            {% endif %}
+
+            <strong>{% trans "Difusions radio associés" %} :</strong>
+            <ul>
+                {% for r in event.relates_to_radio.all %}
+                    <li><a href="/{{ r.id }}">{{ r }}</a></li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 
@@ -36,7 +43,7 @@
 
     <div class="row">
         <div class="col-sm-6">
-          <div class="panel panel-default">
+          <div class="panel panel-primary">
                 <div class="panel-heading">
                     <i class="fa fa-music fa-fw"></i><b> Pièces</b>
                 </div>
@@ -49,7 +56,7 @@
                 </div>
             </div>        </div>
         <div class="col-sm-6">
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
                     <i class="fa fa-female fa-fw"></i><b> Interprètes</b>
                 </div>
@@ -65,7 +72,7 @@
      </div>
     <div class="row">
         <div class="col-sm-6">
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
                     <i class="fa fa-book fa-fw"></i><b> Références</b>
                 </div>
@@ -83,7 +90,7 @@
             </div>
          </div>
                <div class="col-sm-6">
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
                     <i class="fa fa-group fa-fw"></i><b> Conférences</b>
                 </div>

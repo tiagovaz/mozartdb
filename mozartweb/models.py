@@ -141,7 +141,7 @@ class Event(models.Model):
     end_date = models.DateField(null=True, verbose_name="Fin de l'évenement", blank=True)
     month_is_estimated = models.BooleanField(default=False, verbose_name="Le mois est estimé")
     day_is_estimated = models.BooleanField(default=False, verbose_name="Le jour est estimé")
-    relates_to_radio = models.ForeignKey('Event', verbose_name="Radio difusion", null=True, blank=True)
+    relates_to_radio = models.ManyToManyField('Event', verbose_name="Radio difusion", blank=True)
 
     class Meta:
         verbose_name = "Événement"

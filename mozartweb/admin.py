@@ -29,7 +29,7 @@ class CommentInline(admin.TabularInline):
 class EventAdmin(admin.ModelAdmin):
     #fields = ("title", "reference", "start_date", "end_date", "place", "poster", "type", "performer", "piece", "speech")
     form = EventForm
-    inlines = [
-        CommentInline,
-    ]
+    # inlines = [
+    #     CommentInline,
+    # ]
 admin.site.register(Event, EventAdmin)
