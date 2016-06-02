@@ -1,7 +1,4 @@
 from django.contrib import admin
-from django.forms import TextInput, Textarea, ModelForm
-
-from models import *
 from forms import *
 
 admin.site.register(City)
@@ -18,6 +15,6 @@ admin.site.register(Performer)
 admin.site.register(Piece)
 admin.site.register(Speaker)
 class EventAdmin(admin.ModelAdmin):
-    fields = ("title","reference", "place", "poster", "type", "performer", "piece", "speech")
+    #fields = ("title", "reference", "start_date", "end_date", "place", "poster", "type", "performer", "piece", "speech")
     form = EventForm
 admin.site.register(Event, EventAdmin)

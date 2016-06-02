@@ -42,14 +42,14 @@ class Place(models.Model):
 
 @python_2_unicode_compatible
 class Type(models.Model):
-    type = models.CharField("Nature de l'évènement", max_length=200)
+    type = models.CharField("Nature de l'événement", max_length=200)
 
     def __str__(self):
         return self.type
 
     class Meta:
-        verbose_name = "Nature de l'évènement"
-        verbose_name_plural = "Nature de l'évènement"
+        verbose_name = "Nature de l'événement"
+        verbose_name_plural = "Nature de l'événement"
 
 @python_2_unicode_compatible
 class Reference(models.Model):
@@ -63,8 +63,8 @@ class Reference(models.Model):
         return "« %s », %s, p. %s, %s" % (self.article_title, self.journal_title, self.page, self.date)
 
     class Meta:
-        verbose_name = "Réference"
-        verbose_name_plural = "Réferences"
+        verbose_name = "Référence"
+        verbose_name_plural = "Références"
 
 
 @python_2_unicode_compatible
@@ -117,7 +117,7 @@ class Piece(models.Model):
 class Event(models.Model):
     """The main class for all 'Mozart' events."""
     title = models.CharField("Titre ou description de l'évènement", max_length=200)
-    reference = models.ForeignKey("Reference", blank=True, null=True)
+    reference = models.ManyToManyField("Reference", blank=True, verbose_name="Référence")
     place = models.ForeignKey('Place', verbose_name='Lieu', null=True, blank=True)
     poster = models.ImageField(upload_to = 'posters', null=True, blank=True, verbose_name='Affiche')
     type = models.ForeignKey('Type', verbose_name="Nature de l'évènement", null=True, blank=True)
@@ -126,10 +126,12 @@ class Event(models.Model):
     piece = models.ManyToManyField('Piece', verbose_name="Œuvres interpretées", blank=True)
     start_date = models.DateField(null=True, verbose_name="Début de l'évenement", blank=True)
     end_date = models.DateField(null=True, verbose_name="Fin de l'évenement", blank=True)
+    month_is_estimated = models.BooleanField(default=False, verbose_name="Le mois est estimé")
+    day_is_estimated = models.BooleanField(default=False, verbose_name="Le jour est estimé")
 
     class Meta:
-        verbose_name = "Évenement"
-        verbose_name_plural = "Évenement"
+        verbose_name = "Événement"
+        verbose_name_plural = "Événement"
 
     def __str__(self):
         return self.title

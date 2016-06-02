@@ -2,8 +2,6 @@ from crispy_forms.helper import FormHelper
 from dal import autocomplete
 from django import forms
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, HTML, Field, Div
-from suit.widgets import AutosizedTextarea
-
 
 from models import *
 
@@ -49,11 +47,11 @@ class EventForm(forms.ModelForm):
         model = Event
         fields = ('__all__')
         widgets = {
-            'title': AutosizedTextarea,
             'performer': autocomplete.ModelSelect2Multiple('performer-autocomplete'),
             'piece': autocomplete.ModelSelect2Multiple('piece-autocomplete'),
             'speech': autocomplete.ModelSelect2Multiple('speech-autocomplete'),
             'place': autocomplete.ModelSelect2('place-autocomplete'),
+            'reference': autocomplete.ModelSelect2Multiple('reference-autocomplete'),
         }
 
 class SpeechForm(forms.ModelForm):

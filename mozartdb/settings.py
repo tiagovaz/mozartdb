@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'mozartweb',
     'bootstrap3',
     'django_extensions',
-    'suit',
+#    'suit',
     'dal',
     'dal_select2',
     'crispy_forms',

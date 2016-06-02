@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^speaker-autocomplete/$', SpeakerAutocomplete.as_view(), name='speaker-autocomplete',),
     url(r'^speech-autocomplete/$', SpeechAutocomplete.as_view(), name='speech-autocomplete',),
     url(r'^place-autocomplete/$', PlaceAutocomplete.as_view(), name='place-autocomplete',),
+    url(r'^reference-autocomplete/$', ReferenceAutocomplete.as_view(), name='reference-autocomplete',),
     url(
             r'^list/$',
             EventList.as_view(),
