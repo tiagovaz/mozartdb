@@ -152,7 +152,8 @@ class Event(models.Model):
 
 @python_2_unicode_compatible
 class Comment(models.Model):
-    content = models.CharField(
+
+    content = models.TextField(
         verbose_name="Commentaire",
         max_length=500
     )
@@ -162,10 +163,10 @@ class Comment(models.Model):
         auto_now_add=True
     )
 
-    author = models.ForeignKey(
+    user = models.ForeignKey(
         User,
         verbose_name="Auteur",
-        related_name="comment"
+        related_name="comment",
     )
 
     event = models.ForeignKey(

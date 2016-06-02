@@ -18,13 +18,12 @@
 
     <div class="row">
         <div class="col-sm-4">
-            <strong>{% trans "Nature de l'évenement" %} :</strong> {{ event.type }}<br>
-            <strong>{% trans "Lieu" %} :</strong> {{ event.place }}<br>
-            <strong>{% trans "Réference" %} :</strong> {{ event.reference|safe }}<br>
+            <strong>{% trans "Nature de l'évenement" %} :</strong> {{ event.type|default:"" }}<br>
+            <strong>{% trans "Lieu" %} :</strong> {{ event.place|default:"" }}<br>
         </div>
         <div class="col-sm-4">
-            <strong>{% trans "Date début" %} :</strong> {{event.start_date}}<br>
-            <strong>{% trans "Date fin" %} :</strong> {{event.end_date}}<br>
+            <strong>{% trans "Date début" %} :</strong> {{event.start_date|default:""}}<br>
+            <strong>{% trans "Date fin" %} :</strong> {{event.end_date|default:""}}<br>
         </div>
         <div class="col-sm-4">
             {% if event.poster %}
@@ -36,7 +35,7 @@
     <hr>
 
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-6">
           <div class="panel panel-default">
                 <div class="panel-heading">
                     <b>{% trans "Pièces" %} :</b>
@@ -49,7 +48,7 @@
                     </ul>
                 </div>
             </div>        </div>
-        <div class="col-sm-4">
+        <div class="col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <b>{% trans "Interprètes" %} :</b>
@@ -63,7 +62,27 @@
                 </div>
             </div>
          </div>
-               <div class="col-sm-4">
+     </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <b>{% trans "Références" %} :</b>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                    {% for r in event.reference.all %}
+                        {% if r.article_file %}
+                            <li><a href="/media/{{ r.article_file }}">{{ r }}</a></li>
+                        {% else %}
+                            <li>{{ r }}</li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+         </div>
+               <div class="col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <b>{% trans "Conférences" %} :</b>
@@ -78,6 +97,7 @@
             </div>
          </div>
      </div>
+
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-default">
@@ -87,15 +107,15 @@
                             {% trans "Ajouter commentaire" %}
                         </a>
                     </span>
-                    {% trans "Commentaires" %}
+                    <b>{% trans "Commentaires" %} :</b>
                 </div>
 
                 <table class="table table-hover table-condensed">
                     {% for comment in event.comment.all %}
                     <tr>
                         <td>
-                            <strong>{{comment.author}} en {{comment.created_date}}</strong><br>
-                            {{comment.content}}
+                            "{{comment.content}}", par {{comment.user}} en {{comment.created_date}}<br>
+
                         </td>
                     </tr>
                     {% endfor %}

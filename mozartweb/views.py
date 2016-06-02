@@ -192,7 +192,7 @@ class CommentCreate(generic.CreateView):
         return super(CommentCreate, self).dispatch(*args, **kwargs)
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        form.instance.user = self.request.user
         form.instance.event = Event.objects.get(id=self.kwargs['pk'])
         return super(CommentCreate, self).form_valid(form)
 
