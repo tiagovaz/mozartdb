@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-                {% trans "Détails de l'événement" %} "<em>{{ event.title }}"</em>
+                <em>{{ event.title }}</em>
                 <a class="btn btn-xs btn-warning" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.id }}/change/?_popup=1');">
                     <i class="fa fa-pencil"></i> {% trans "Modifier" %}
                 </a>
@@ -18,26 +18,28 @@
 
     <div class="row">
 
-        <div class="col-sm-2">
-            {% if event.poster %}
-                        <a href="/media/{{ event.poster }}"> <img src="/media/{{ event.poster }}" height='130'"></a>
-            {% endif %}
-        </div>
 
         <div class="col-sm-6">
-            <strong>{% trans "Nature de l'évenement" %} :</strong> {{ event.type|default:"" }}<br>
+            <strong>{% trans "Nature" %} :</strong> {{ event.type|default:"" }}<br>
             <strong>{% trans "Lieu" %} :</strong> {{ event.place|default:"" }}<br>
             <strong>{% trans "Date début" %} :</strong> {{event.start_date|default:""}}<br>
             <strong>{% trans "Date fin" %} :</strong> {{event.end_date|default:""}}<br>
 
-            <strong>{% trans "Difusions radio associés" %} :</strong>
+            <strong>{% trans "Diffusion(s) radio" %} :</strong>
             <ul>
                 {% for r in event.relates_to_radio.all %}
                     <li><a href="/{{ r.id }}">{{ r }}</a></li>
                 {% endfor %}
             </ul>
         </div>
+
+        <div class="col-sm-2">
+            {% if event.poster %}
+                        <a href="/media/{{ event.poster }}"> <img src="/media/{{ event.poster }}" height='130'"></a>
+            {% endif %}
+        </div>
     </div>
+
 
     <hr>
 
