@@ -66,3 +66,4 @@ main/migrations/*
 /.settings/
 mozartweb/migrations/
 mozartdb/media
+mozartdb/settings.py

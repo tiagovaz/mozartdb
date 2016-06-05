@@ -139,9 +139,9 @@ class Event(models.Model):
     piece = models.ManyToManyField('Piece', verbose_name="Œuvres interpretées", blank=True)
     start_date = models.DateField(null=True, verbose_name="Début de l'évenement", blank=True)
     end_date = models.DateField(null=True, verbose_name="Fin de l'évenement", blank=True)
-    month_is_estimated = models.BooleanField(default=False, verbose_name="Le mois est estimé")
-    day_is_estimated = models.BooleanField(default=False, verbose_name="Le jour est estimé")
-    relates_to_radio = models.ManyToManyField('Event', verbose_name="Radio difusion", blank=True)
+    month_is_estimated = models.BooleanField(default=False, verbose_name="Ignorer le mois")
+    day_is_estimated = models.BooleanField(default=False, verbose_name="Ignorer le jour")
+    relates_to_radio = models.ManyToManyField('Event', verbose_name="Diffusion radio", blank=True)
 
     class Meta:
         verbose_name = "Événement"

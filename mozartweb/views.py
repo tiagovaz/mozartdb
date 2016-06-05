@@ -72,7 +72,7 @@ class CountryAutocomplete(autocomplete.Select2QuerySetView):
         qs = Country.objects.all()
 
         if self.q:
-            qs = qs.filter(name__istartswith=self.q)
+            qs = qs.filter(name__icontains=self.q)
 
         return qs
 
@@ -85,7 +85,7 @@ class CityAutocomplete(autocomplete.Select2QuerySetView):
         qs = City.objects.all()
 
         if self.q:
-            qs = qs.filter(name__istartswith=self.q)
+            qs = qs.filter(name__icontains=self.q)
 
         return qs
 
@@ -98,7 +98,7 @@ class PerformerAutocomplete(autocomplete.Select2QuerySetView):
         qs = Performer.objects.all()
 
         if self.q:
-            qs = qs.filter(name__istartswith=self.q)
+            qs = qs.filter(name__icontains=self.q)
 
         return qs
 
@@ -111,7 +111,7 @@ class PieceAutocomplete(autocomplete.Select2QuerySetView):
         qs = Piece.objects.all()
 
         if self.q:
-            qs = qs.filter(name__istartswith=self.q)
+            qs = qs.filter(name__icontains=self.q)
 
         return qs
 
@@ -124,7 +124,7 @@ class SpeakerAutocomplete(autocomplete.Select2QuerySetView):
         qs = Speaker.objects.all()
 
         if self.q:
-            qs = qs.filter(name__istartswith=self.q)
+            qs = qs.filter(name__icontains=self.q)
 
         return qs
 
@@ -137,7 +137,7 @@ class SpeechAutocomplete(autocomplete.Select2QuerySetView):
         qs = Speech.objects.all()
 
         if self.q:
-            qs = qs.filter(name__istartswith=self.q)
+            qs = qs.filter(name__icontains=self.q)
 
         return qs
 
@@ -150,7 +150,7 @@ class PlaceAutocomplete(autocomplete.Select2QuerySetView):
         qs = Place.objects.all()
 
         if self.q:
-            qs = qs.filter(name__istartswith=self.q)
+            qs = qs.filter(name__icontains=self.q)
 
         return qs
 
@@ -163,7 +163,7 @@ class ReferenceAutocomplete(autocomplete.Select2QuerySetView):
         qs = Reference.objects.all()
 
         if self.q:
-            qs = qs.filter(name__istartswith=self.q)
+            qs = qs.filter(name__icontains=self.q)
 
         return qs
 
@@ -176,7 +176,7 @@ class RadioAutocomplete(autocomplete.Select2QuerySetView):
         qs = Event.objects.all()
 
         if self.q:
-            qs = qs.filter(title__istartswith=self.q)
+            qs = qs.filter(title__icontains=self.q)
 
         return qs
 
@@ -201,3 +201,6 @@ class CommentCreate(generic.CreateView):
             'event_detail',
             kwargs={'pk': self.kwargs['pk']}
         )
+
+class Login(generic.TemplateView):
+    template_name = 'login.html'

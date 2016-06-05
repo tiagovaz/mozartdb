@@ -22,6 +22,13 @@ from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(
+        r'^login$',
+        'django.contrib.auth.views.login',
+        kwargs={'template_name': 'login.html'},
+        name='login'
+    ),
+    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name="logout"),
     url(r'^country-autocomplete/$', CountryAutocomplete.as_view(), name='country-autocomplete',),
     url(r'^city-autocomplete/$', CityAutocomplete.as_view(), name='city-autocomplete',),
     url(r'^piece-autocomplete/$', PieceAutocomplete.as_view(), name='piece-autocomplete',),
