@@ -70,10 +70,11 @@ class Reference(models.Model):
 
 @python_2_unicode_compatible
 class Performer(models.Model):
-    name = models.CharField("Nom de l'interprète", max_length=200)
+    first_name = models.CharField("Prénom", max_length=200)
+    last_name = models.CharField("Nom", max_length=200)
 
     def __str__(self):
-        return self.name
+        return "%s, %s" % (self.last_name, self.first_name)
 
     class Meta:
         verbose_name = "Interprète"
@@ -94,10 +95,11 @@ class Speech(models.Model):
 
 @python_2_unicode_compatible
 class Speaker(models.Model):
-    name = models.CharField("Nome du/de la conférencier/ère", max_length=200)
+    first_name = models.CharField("Prénom", max_length=200)
+    last_name = models.CharField("Nom", max_length=200)
 
     def __str__(self):
-        return self.name
+        return "%s, %s" % (self.last_name, self.first_name)
 
     class Meta:
         verbose_name = "Conférencier/ère"
