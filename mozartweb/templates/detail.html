@@ -52,7 +52,7 @@
                 <div class="panel-body">
                     <ul>
                     {% for piece in event.piece.all %}
-                        <li>{{ piece.name }}</li>
+                        <li>{{ piece }}</li>
                     {% endfor %}
                     </ul>
                 </div>
@@ -65,7 +65,7 @@
                 <div class="panel-body">
                     <ul>
                     {% for p in event.performer.all %}
-                        <li>{{ p.name }}</li>
+                        <li>{{ p }}</li>
                     {% endfor %}
                     </ul>
                 </div>
