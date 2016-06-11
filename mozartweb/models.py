@@ -94,6 +94,17 @@ class Speech(models.Model):
         verbose_name_plural = "Conférences"
 
 @python_2_unicode_compatible
+class RadioStation(models.Model):
+    name = models.CharField("Station radio", max_length=200, default="")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Station radio"
+        verbose_name_plural = "Station radio"
+
+@python_2_unicode_compatible
 class Speaker(models.Model):
     first_name = models.CharField("Prénom", max_length=200)
     last_name = models.CharField("Nom", max_length=200)
@@ -134,6 +145,7 @@ class Event(models.Model):
     title = models.CharField("Titre ou description de l'évènement", max_length=200)
     reference = models.ManyToManyField("Reference", blank=True, verbose_name="Référence")
     place = models.ForeignKey('Place', verbose_name='Lieu', null=True, blank=True)
+    radio_station = models.ForeignKey('RadioStation', verbose_name='Station radio', null=True, blank=True)
     poster = models.ImageField(upload_to = 'posters', null=True, blank=True, verbose_name='Affiche')
     type = models.ForeignKey('Type', verbose_name="Nature de l'évènement", null=True, blank=True)
     performer = models.ManyToManyField('Performer', verbose_name="Interprètes", blank=True)

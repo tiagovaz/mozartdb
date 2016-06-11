@@ -14,6 +14,7 @@ admin.site.register(Place, PlaceAdmin)
 admin.site.register(Performer)
 admin.site.register(Piece)
 admin.site.register(Speaker)
+admin.site.register(RadioStation)
 
 class CommentAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
