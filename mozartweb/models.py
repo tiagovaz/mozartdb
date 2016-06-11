@@ -98,7 +98,7 @@ class Speech(models.Model):
 
     def __str__(self):
         #FIXME: return all speakers from this speech
-        return self.title + " par " + ", ".join(s.name for s in self.speaker.all())
+        return self.title + " par " + ", ".join((s.first_name + " " + s.last_name) for s in self.speaker.all())
 
     class Meta:
         verbose_name = "Conférence"
