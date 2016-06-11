@@ -67,11 +67,22 @@ class Reference(models.Model):
         verbose_name = "Référence"
         verbose_name_plural = "Références"
 
+@python_2_unicode_compatible
+class PerformerType(models.Model):
+    description = models.CharField("Nature de l'interprète", max_length=200)
+
+    def __str__(self):
+        return self.description
+
+    class Meta:
+        verbose_name = "Nature de l'interprète"
+        verbose_name_plural = "Natures de l'interprète"
 
 @python_2_unicode_compatible
 class Performer(models.Model):
-    first_name = models.CharField("Prénom", max_length=200)
+    first_name = models.CharField("Prénom (si est une personne)", max_length=200, null=True, blank=True)
     last_name = models.CharField("Nom", max_length=200)
+    type = models.ForeignKey('PerformerType', verbose_name='Nature')
 
     def __str__(self):
         return "%s, %s" % (self.last_name, self.first_name)
