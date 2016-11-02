@@ -1,5 +1,14 @@
 from django.contrib import admin
-from forms import *
+from mozartweb.forms import SpeechForm, PlaceForm, EventForm
+from mozartweb.models import City, Country, Type, Speech, Reference, Place, Performer, Piece, Speaker, RadioStation, PerformerType, Comment, Event
+
+class EventAdmin(admin.ModelAdmin):
+    #fields = ("title", "reference", "start_date", "end_date", "place", "poster", "type", "performer", "piece", "speech")
+    form = EventForm
+    # inlines = [
+    #     CommentInline,
+    # ]
+admin.site.register(Event, EventAdmin)
 
 admin.site.register(City)
 admin.site.register(Country)
@@ -28,10 +37,3 @@ class CommentInline(admin.TabularInline):
     fields = ('content', 'user')
     extra = 0
 
-class EventAdmin(admin.ModelAdmin):
-    #fields = ("title", "reference", "start_date", "end_date", "place", "poster", "type", "performer", "piece", "speech")
-    form = EventForm
-    # inlines = [
-    #     CommentInline,
-    # ]
-admin.site.register(Event, EventAdmin)

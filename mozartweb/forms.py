@@ -1,7 +1,7 @@
 from crispy_forms.helper import FormHelper
-from dal import autocomplete
 from django import forms
-from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, HTML, Field, Div
+from crispy_forms.layout import Layout, Submit, Div
+from dal import autocomplete
 
 from models import *
 
@@ -37,32 +37,32 @@ class PlaceForm(forms.ModelForm):
     class Meta:
         model = Place
         fields = ('__all__')
-        widgets = {
-            'country': autocomplete.ModelSelect2('country-autocomplete'),
-            'city': autocomplete.ModelSelect2('city-autocomplete'),
-        }
-
+#        widgets = {
+#            'country': autocomplete.ModelSelect2('country-autocomplete'),
+#            'city': autocomplete.ModelSelect2('city-autocomplete'),
+#        }
+#
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = ('__all__')
-        widgets = {
-            'performer': autocomplete.ModelSelect2Multiple('performer-autocomplete'),
-            'piece': autocomplete.ModelSelect2Multiple('piece-autocomplete'),
-            'speech': autocomplete.ModelSelect2Multiple('speech-autocomplete'),
-            'place': autocomplete.ModelSelect2('place-autocomplete'),
-            'reference': autocomplete.ModelSelect2Multiple('reference-autocomplete'),
-            'relates_to_radio': autocomplete.ModelSelect2Multiple('radio-autocomplete'),
-        }
-
+#        widgets = {
+#            'performer': autocomplete.ModelSelect2Multiple('performer-autocomplete'),
+#            'piece': autocomplete.ModelSelect2Multiple('piece-autocomplete'),
+#            'speech': autocomplete.ModelSelect2Multiple('speech-autocomplete'),
+#            'place': autocomplete.ModelSelect2('place-autocomplete'),
+#            'reference': autocomplete.ModelSelect2Multiple('reference-autocomplete'),
+#            'relates_to_radio': autocomplete.ModelSelect2Multiple('radio-autocomplete'),
+#        }
+#
 class SpeechForm(forms.ModelForm):
     class Meta:
         model = Speech
         fields = ('__all__')
-        widgets = {
-            'speaker': autocomplete.ModelSelect2Multiple('speaker-autocomplete')
-        }
-
+#        widgets = {
+#            'speaker': autocomplete.ModelSelect2Multiple('speaker-autocomplete')
+#        }
+#
 class CommentForm(forms.ModelForm):
 
     class Meta:
@@ -71,10 +71,10 @@ class CommentForm(forms.ModelForm):
             'content'
         ]
 
-        widgets = {
-            'content': forms.Textarea(
-                attrs={
-                    'placeholder': "Votre commentaire ici."
-                }
-            ),
-        }
+#        widgets = {
+#            'content': forms.Textarea(
+#                attrs={
+#                    'placeholder': "Votre commentaire ici."
+#                }
+#            ),
+#        }

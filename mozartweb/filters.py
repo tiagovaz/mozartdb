@@ -7,8 +7,9 @@ from models import *
 
 class EventFilter(django_filters.FilterSet):
     speech__speaker = django_filters.CharFilter(label="Conférencier-ère", lookup_expr='icontains')
-    title = django_filters.CharFilter(label="Titre de l'évenement", lookup_expr='icontains')
-    performer__name = django_filters.CharFilter(label='Interprète', lookup_expr='icontains')
+    title = django_filters.CharFilter(label="Titre de l'événement", lookup_expr='icontains')
+    performer__last_name = django_filters.CharFilter(label='Interprète / ensemble', lookup_expr='icontains')
+    performer__type = django_filters.ModelChoiceFilter(label='Type interprète', queryset=PerformerType.objects.all())
     piece__name = django_filters.CharFilter(label='Œuvre', lookup_expr='icontains')
     reference__article_title = django_filters.CharFilter(label="Titre de l'article", lookup_expr='icontains')
     reference__journal_title = django_filters.CharFilter(label="Titre du journal", lookup_expr='icontains')
@@ -19,6 +20,7 @@ class EventFilter(django_filters.FilterSet):
     #year = django_filters.MethodFilter(label='Année', action='year_range')
     year = django_filters.NumberFilter(label='Année', name='start_date', lookup_expr='year')
     month = django_filters.NumberFilter(label='Mois', name='start_date', lookup_expr='month')
+    comment__content = django_filters.CharFilter(label="Commentaires", lookup_expr='icontains')
 
  #   def year_range(self, queryset, value):
  #       return queryset.filter()
@@ -29,7 +31,8 @@ class EventFilter(django_filters.FilterSet):
             'title',
             'type',
             'piece__name',
-            'performer__name',
+            'performer__last_name',
+            'performer__type',
             'speech__title',
             'speech__speaker',
             'reference__article_title',
@@ -38,5 +41,6 @@ class EventFilter(django_filters.FilterSet):
             'place__city',
             'place__country',
             'month',
-            'year'
+            'year',
+            'comment__content',
         ]

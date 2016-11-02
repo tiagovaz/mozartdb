@@ -139,21 +139,9 @@ class Piece(models.Model):
         verbose_name_plural = "Œuvre"
 
 @python_2_unicode_compatible
-class Comment(models.Model):
-    comment = models.CharField("Nom de la ville", max_length=150)
-    date = models.DateField(null=True, blank=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = "Ville"
-        verbose_name_plural = "Ville"
-
-@python_2_unicode_compatible
 class Event(models.Model):
     """The main class for all 'Mozart' events."""
-    title = models.CharField("Titre ou description de l'évènement", max_length=200)
+    title = models.CharField("Titre ou description de l'évènement", max_length=201)
     reference = models.ManyToManyField("Reference", blank=True, verbose_name="Référence")
     place = models.ForeignKey('Place', verbose_name='Lieu', null=True, blank=True)
     radio_station = models.ForeignKey('RadioStation', verbose_name='Station radio', null=True, blank=True)
@@ -162,13 +150,20 @@ class Event(models.Model):
     performer = models.ManyToManyField('Performer', verbose_name="Interprètes", blank=True)
     speech = models.ManyToManyField('Speech', verbose_name="Conférence", blank=True)
     piece = models.ManyToManyField('Piece', verbose_name="Œuvres interpretées", blank=True)
-    start_date = models.DateField(null=True, verbose_name="Date début de l'évenement", blank=True)
-    start_time = models.TimeField(null=True, verbose_name="Heure début de l'évenement", blank=True)
-    end_date = models.DateField(null=True, verbose_name="Date fin de l'évenement", blank=True)
-    end_time = models.TimeField(null=True, verbose_name="Heura fin de l'évenement", blank=True)
+    start_date = models.DateField(null=True, verbose_name="Date début de l'événement", blank=True)
+    start_time = models.TimeField(null=True, verbose_name="Heure début de l'événement", blank=True)
+    end_date = models.DateField(null=True, verbose_name="Date fin de l'événement", blank=True)
+    end_time = models.TimeField(null=True, verbose_name="Heure fin de l'événement", blank=True)
     month_is_estimated = models.BooleanField(default=False, verbose_name="Ignorer le mois")
     day_is_estimated = models.BooleanField(default=False, verbose_name="Ignorer le jour")
     relates_to_radio = models.ManyToManyField('Event', verbose_name="Diffusion radio", blank=True)
+
+    def comments(self):
+    	c = Comment.objects.filter(event=self)
+
+    def diffused_events(self):
+        de = Event.objects.filter(relates_to_radio=self)
+        return de
 
     class Meta:
         verbose_name = "Événement"

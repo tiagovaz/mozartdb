@@ -9,7 +9,10 @@
             <h1 class="page-header">
                 <em>{{ event.title }}</em>
                 <a class="btn btn-xs btn-warning" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.id }}/change/?_popup=1');">
-                    <i class="fa fa-pencil"></i> {% trans "Modifier" %}
+                    <i class="fa fa-pencil"></i>
+                </a>
+                <a class="btn btn-xs btn-danger" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.id }}/delete/?_popup=1');">
+                    <i class="fa fa-times"></i>
                 </a>
             </h1>
         </div>
@@ -25,12 +28,23 @@
             <strong>{% trans "Date début" %} :</strong> {{event.start_date|default:""}}<br>
             <strong>{% trans "Date fin" %} :</strong> {{event.end_date|default:""}}<br>
 
-            <strong>{% trans "Diffusion(s) radio" %} :</strong>
-            <ul>
-                {% for r in event.relates_to_radio.all %}
-                    <li><a href="/{{ r.id }}">{{ r }}</a></li>
-                {% endfor %}
-            </ul>
+            {% if event.relates_to_radio.all  %}
+                <strong>{% trans "Diffusion(s) radio associé(s)" %} :</strong>
+                <ul>
+                    {% for r in event.relates_to_radio.all %}
+                        <li><a href="/{{ r.id }}">{{ r }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if event.diffused_events.all  %}
+                <strong>{% trans "Événement(s) diffusé(s)" %} :</strong>
+                <ul>
+                    {% for de in event.diffused_events.all %}
+                        <li><a href="/{{ de.id }}">{{ de }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
 
         <div class="col-sm-2">

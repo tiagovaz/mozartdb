@@ -5,6 +5,7 @@ from dal import autocomplete
 from django.utils.decorators import method_decorator
 from django.views import generic
 from django.views.generic import View
+from django.views.generic.edit import DeleteView
 
 from models import *
 from mozartweb.filters import EventFilter
