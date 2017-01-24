@@ -158,6 +158,11 @@ class Event(models.Model):
     day_is_estimated = models.BooleanField(default=False, verbose_name="Ignorer le jour")
     relates_to_radio = models.ManyToManyField('Event', verbose_name="Diffusion radio", blank=True)
 
+    created_by = models.ForeignKey(User, related_name='created_by', null=True, blank=True)
+    created_on = models.DateTimeField(auto_now_add = True, null=True, blank=True)
+    edited_by  = models.ForeignKey(User, related_name='edited_by', null=True, blank=True)
+    edited_on  = models.DateTimeField(auto_now = True, null=True, blank=True)
+
     def comments(self):
     	c = Comment.objects.filter(event=self)
 

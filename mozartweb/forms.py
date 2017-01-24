@@ -1,7 +1,7 @@
 from crispy_forms.helper import FormHelper
+from dal import autocomplete
 from django import forms
 from crispy_forms.layout import Layout, Submit, Div
-from dal import autocomplete
 
 from models import *
 
@@ -71,10 +71,10 @@ class CommentForm(forms.ModelForm):
             'content'
         ]
 
-#        widgets = {
-#            'content': forms.Textarea(
-#                attrs={
-#                    'placeholder': "Votre commentaire ici."
-#                }
-#            ),
-#        }
+        widgets = {
+            'content': forms.Textarea(
+                attrs={
+                    'placeholder': "Votre commentaire ici."
+                }
+            ),
+        }

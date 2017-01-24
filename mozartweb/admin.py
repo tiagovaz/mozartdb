@@ -1,14 +1,10 @@
 from django.contrib import admin
-from mozartweb.forms import SpeechForm, PlaceForm, EventForm
-from mozartweb.models import City, Country, Type, Speech, Reference, Place, Performer, Piece, Speaker, RadioStation, PerformerType, Comment, Event
+#from mozartweb.forms import SpeechForm, PlaceForm, EventForm
+#from mozartweb.models import City, Country, Type, Speech, Reference, Place, Performer, Piece, Speaker, RadioStation, PerformerType, Comment, Event
 
-class EventAdmin(admin.ModelAdmin):
-    #fields = ("title", "reference", "start_date", "end_date", "place", "poster", "type", "performer", "piece", "speech")
-    form = EventForm
-    # inlines = [
-    #     CommentInline,
-    # ]
-admin.site.register(Event, EventAdmin)
+from forms import *
+
+
 
 admin.site.register(City)
 admin.site.register(Country)
@@ -37,3 +33,35 @@ class CommentInline(admin.TabularInline):
     fields = ('content', 'user')
     extra = 0
 
+class EventAdmin(admin.ModelAdmin):
+    form = EventForm
+    def save_model(self, request, obj, form, change): 
+        instance = form.save(commit=False)
+        if not hasattr(instance,'created_by'):
+            instance.created_by = request.user
+        instance.edited_by = request.user
+        instance.save()
+        form.save_m2m()
+        return instance
+
+    def save_formset(self, request, form, formset, change): 
+
+        def set_user(instance):
+            if not instance.created_by:
+                instance.created_by = request.user
+            instance.edited_by = request.user
+            instance.save()
+
+        if formset.model == Article:
+            instances = formset.save(commit=False)
+            map(set_user, instances)
+            formset.save_m2m()
+            return instances
+        else:
+            return formset.save()
+
+    #fields = ("title", "reference", "start_date", "end_date", "place", "poster", "type", "performer", "piece", "speech")
+    # inlines = [
+    #     CommentInline,
+    # ]
+admin.site.register(Event, EventAdmin)

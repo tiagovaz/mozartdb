@@ -137,7 +137,7 @@
                     {% for comment in event.comment.all %}
                     <tr>
                         <td>
-                            "{{comment.content}}", par {{comment.user}} en {{comment.created_date}}<br>
+                            "{{comment.content}}", par <i>{{comment.user}}</i> en {{comment.created_date}}<br>
 
                         </td>
                     </tr>
@@ -146,6 +146,15 @@
             </div>
         </div>
     </div>
+
+       {% if event.created_by  %}
+            <div class="text-right">Enregistré en {{event.created_on|default:"2016"}} par <i>{{event.created_by}}.</i></div>
+       {% endif %}
+       {% if event.edited_by  %}
+            <div class="text-right">Dernière modification en {{event.edited_on}} par <i>{{event.edited_by}}</i></div>
+       {% endif %}
+    </div>
+    <br>
 
     <!-----------
     --- MODAL ---

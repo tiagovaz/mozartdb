@@ -79,8 +79,8 @@
                                     </td>
                                     <td>{{ event.place|default:"" }}</td>
                                     <td>{{ event.type|default:"" }}</td>
-                                    <td>{{ event.start_date|default:""  }}</td>
-                                    <td>{{ event.end_date|default:"" }}</td>
+                                    <td>{{ event.start_date|date:"Y-m-d"  }}</td>
+                                    <td>{{ event.end_date|date:"Y-m-d" }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
