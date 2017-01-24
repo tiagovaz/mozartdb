@@ -24,10 +24,14 @@
                     <form class="form" action="" method="get">
                         <form method="post">
                             {% csrf_token %}
+                            {% buttons %}
+                                <button type="submit" class="btn btn-primary btn-sm pull-right">Filtrer</button>
+                                <a class="btn btn-danger btn-sm" href="/">Réinitialiser</a>
+                            {% endbuttons %}
                             {% bootstrap_form form %}
                             {% buttons %}
-                                <button type="submit" class="btn btn-primary pull-right">Filtrer</button>
-                                <a class="btn btn-danger" href="/">Réinitialiser</a>
+                                <button type="submit" class="btn btn-primary btn-sm pull-right">Filtrer</button>
+                                <a class="btn btn-danger btn-sm" href="/">Réinitialiser</a>
                             {% endbuttons %}
                         </form>
                     </form>

@@ -79,7 +79,7 @@
                 <div class="panel-body">
                     <ul>
                     {% for p in event.performer.all %}
-                        <li>{{ p }}</li>
+                        <li><i>{{ p }}</i> - {{ p.type }}</li>
                     {% endfor %}
                     </ul>
                 </div>
