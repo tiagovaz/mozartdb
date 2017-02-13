@@ -181,8 +181,7 @@ class Event(models.Model):
 class Comment(models.Model):
 
     content = models.TextField(
-        verbose_name="Commentaire",
-        max_length=500
+        verbose_name="Commentaire"
     )
 
     created_date = models.DateTimeField(

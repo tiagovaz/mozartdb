@@ -9,7 +9,7 @@ from django.views.generic.edit import DeleteView
 
 from models import *
 from mozartweb.filters import EventFilter
-from mozartweb.forms import Search, CommentForm
+from mozartweb.forms import Search, CommentForm, EventForm
 
 
 class EventList(generic.ListView):
@@ -64,122 +64,142 @@ class SearchForm(View):
         pass
 
 
-class CountryAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        # Don't forget to filter out results depending on the visitor !
-        if not self.request.user.is_authenticated():
-            return Country.objects.none()
+#class CountryAutocomplete(autocomplete.Select2QuerySetView):
+#    def get_queryset(self):
+#        # Don't forget to filter out results depending on the visitor !
+#        if not self.request.user.is_authenticated():
+#            return Country.objects.none()
+#
+#        qs = Country.objects.all()
+#
+#        if self.q:
+#            qs = qs.filter(name__icontains=self.q)
+#
+#        return qs
+#
+#class CityAutocomplete(autocomplete.Select2QuerySetView):
+#    def get_queryset(self):
+#        # Don't forget to filter out results depending on the visitor !
+#        if not self.request.user.is_authenticated():
+#            return City.objects.none()
+#
+#        qs = City.objects.all()
+#
+#        if self.q:
+#            qs = qs.filter(name__icontains=self.q)
+#
+#        return qs
+#
+#class PerformerAutocomplete(autocomplete.Select2QuerySetView):
+#    def get_queryset(self):
+#        # Don't forget to filter out results depending on the visitor !
+#        if not self.request.user.is_authenticated():
+#            return Performer.objects.none()
+#
+#        qs = Performer.objects.all()
+#
+#        if self.q:
+#            qs = qs.filter(name__icontains=self.q)
+#
+#        return qs
+#
+#class PieceAutocomplete(autocomplete.Select2QuerySetView):
+#    def get_queryset(self):
+#        # Don't forget to filter out results depending on the visitor !
+#        if not self.request.user.is_authenticated():
+#            return Piece.objects.none()
+#
+#        qs = Piece.objects.all()
+#
+#        if self.q:
+#            qs = qs.filter(name__icontains=self.q)
+#
+#        return qs
+#
+#class SpeakerAutocomplete(autocomplete.Select2QuerySetView):
+#    def get_queryset(self):
+#        # Don't forget to filter out results depending on the visitor !
+#        if not self.request.user.is_authenticated():
+#            return Speaker.objects.none()
+#
+#        qs = Speaker.objects.all()
+#
+#        if self.q:
+#            qs = qs.filter(name__icontains=self.q)
+#
+#        return qs
+#
+#class SpeechAutocomplete(autocomplete.Select2QuerySetView):
+#    def get_queryset(self):
+#        # Don't forget to filter out results depending on the visitor !
+#        if not self.request.user.is_authenticated():
+#            return Speech.objects.none()
+#
+#        qs = Speech.objects.all()
+#
+#        if self.q:
+#            qs = qs.filter(name__icontains=self.q)
+#
+#        return qs
+#
+#class PlaceAutocomplete(autocomplete.Select2QuerySetView):
+#    def get_queryset(self):
+#        # Don't forget to filter out results depending on the visitor !
+#        if not self.request.user.is_authenticated():
+#            return Place.objects.none()
+#
+#        qs = Place.objects.all()
+#
+#        if self.q:
+#            qs = qs.filter(name__icontains=self.q)
+#
+#        return qs
+#
+#class ReferenceAutocomplete(autocomplete.Select2QuerySetView):
+#    def get_queryset(self):
+#        # Don't forget to filter out results depending on the visitor !
+#        if not self.request.user.is_authenticated():
+#            return Reference.objects.none()
+#
+#        qs = Reference.objects.all()
+#
+#        if self.q:
+#            qs = qs.filter(name__icontains=self.q)
+#
+#        return qs
+#
+#class RadioAutocomplete(autocomplete.Select2QuerySetView):
+#    def get_queryset(self):
+#        # Don't forget to filter out results depending on the visitor !
+#        if not self.request.user.is_authenticated():
+#            return Event.objects.none()
+#
+#        qs = Event.objects.all()
+#
+#        if self.q:
+#            qs = qs.filter(title__icontains=self.q)
+#
+#        return qs
+#
+class EventCreate(generic.CreateView):
+    model = Event
+    template_name = 'create_event.html'
+    form = EventForm
 
-        qs = Country.objects.all()
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(EventCreate, self).dispatch(*args, **kwargs)
 
-        if self.q:
-            qs = qs.filter(name__icontains=self.q)
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.event = Event.objects.get(id=self.kwargs['pk'])
+        return super(EventCreate, self).form_valid(form)
 
-        return qs
-
-class CityAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        # Don't forget to filter out results depending on the visitor !
-        if not self.request.user.is_authenticated():
-            return City.objects.none()
-
-        qs = City.objects.all()
-
-        if self.q:
-            qs = qs.filter(name__icontains=self.q)
-
-        return qs
-
-class PerformerAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        # Don't forget to filter out results depending on the visitor !
-        if not self.request.user.is_authenticated():
-            return Performer.objects.none()
-
-        qs = Performer.objects.all()
-
-        if self.q:
-            qs = qs.filter(name__icontains=self.q)
-
-        return qs
-
-class PieceAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        # Don't forget to filter out results depending on the visitor !
-        if not self.request.user.is_authenticated():
-            return Piece.objects.none()
-
-        qs = Piece.objects.all()
-
-        if self.q:
-            qs = qs.filter(name__icontains=self.q)
-
-        return qs
-
-class SpeakerAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        # Don't forget to filter out results depending on the visitor !
-        if not self.request.user.is_authenticated():
-            return Speaker.objects.none()
-
-        qs = Speaker.objects.all()
-
-        if self.q:
-            qs = qs.filter(name__icontains=self.q)
-
-        return qs
-
-class SpeechAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        # Don't forget to filter out results depending on the visitor !
-        if not self.request.user.is_authenticated():
-            return Speech.objects.none()
-
-        qs = Speech.objects.all()
-
-        if self.q:
-            qs = qs.filter(name__icontains=self.q)
-
-        return qs
-
-class PlaceAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        # Don't forget to filter out results depending on the visitor !
-        if not self.request.user.is_authenticated():
-            return Place.objects.none()
-
-        qs = Place.objects.all()
-
-        if self.q:
-            qs = qs.filter(name__icontains=self.q)
-
-        return qs
-
-class ReferenceAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        # Don't forget to filter out results depending on the visitor !
-        if not self.request.user.is_authenticated():
-            return Reference.objects.none()
-
-        qs = Reference.objects.all()
-
-        if self.q:
-            qs = qs.filter(name__icontains=self.q)
-
-        return qs
-
-class RadioAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        # Don't forget to filter out results depending on the visitor !
-        if not self.request.user.is_authenticated():
-            return Event.objects.none()
-
-        qs = Event.objects.all()
-
-        if self.q:
-            qs = qs.filter(title__icontains=self.q)
-
-        return qs
+    def get_success_url(self):
+        return reverse_lazy(
+            'event_detail',
+            kwargs={'pk': self.kwargs['pk']}
+        )
 
 class CommentCreate(generic.CreateView):
     model = Comment

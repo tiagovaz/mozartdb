@@ -1,5 +1,5 @@
 from crispy_forms.helper import FormHelper
-from dal import autocomplete
+#from dal import autocomplete
 from django import forms
 from crispy_forms.layout import Layout, Submit, Div
 
@@ -42,6 +42,12 @@ class PlaceForm(forms.ModelForm):
 #            'city': autocomplete.ModelSelect2('city-autocomplete'),
 #        }
 #
+
+class RadioDiffusionForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        exclude = ('relates_to_radio',)
+
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
