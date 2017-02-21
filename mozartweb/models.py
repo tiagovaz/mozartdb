@@ -16,6 +16,7 @@ class City(models.Model):
     class Meta:
         verbose_name = "Ville"
         verbose_name_plural = "Ville"
+        ordering = ('name',)
 
 @python_2_unicode_compatible
 class Country(models.Model):
@@ -27,6 +28,7 @@ class Country(models.Model):
     class Meta:
         verbose_name = "Pays"
         verbose_name_plural = "Pays"
+        ordering = ('name',)
 
 @python_2_unicode_compatible
 class Place(models.Model):
@@ -40,6 +42,7 @@ class Place(models.Model):
     class Meta:
         verbose_name = "Lieu"
         verbose_name_plural = "Lieu"
+        ordering = ('venue',)
 
 @python_2_unicode_compatible
 class Type(models.Model):
@@ -51,6 +54,7 @@ class Type(models.Model):
     class Meta:
         verbose_name = "Nature de l'événement"
         verbose_name_plural = "Nature de l'événement"
+        ordering = ('type',)
 
 @python_2_unicode_compatible
 class Reference(models.Model):
@@ -66,6 +70,7 @@ class Reference(models.Model):
     class Meta:
         verbose_name = "Référence"
         verbose_name_plural = "Références"
+	ordering = ('article_title',)
 
 @python_2_unicode_compatible
 class PerformerType(models.Model):
@@ -77,6 +82,7 @@ class PerformerType(models.Model):
     class Meta:
         verbose_name = "Nature de l'interprète"
         verbose_name_plural = "Natures de l'interprète"
+        ordering = ('description',)
 
 @python_2_unicode_compatible
 class Performer(models.Model):
@@ -90,6 +96,7 @@ class Performer(models.Model):
     class Meta:
         verbose_name = "Interprète"
         verbose_name_plural = "Interprètes"
+        ordering = ('last_name',)
 
 @python_2_unicode_compatible
 class Speech(models.Model):
@@ -103,6 +110,7 @@ class Speech(models.Model):
     class Meta:
         verbose_name = "Conférence"
         verbose_name_plural = "Conférences"
+        ordering = ('title',)
 
 @python_2_unicode_compatible
 class RadioStation(models.Model):
@@ -114,6 +122,7 @@ class RadioStation(models.Model):
     class Meta:
         verbose_name = "Station radio"
         verbose_name_plural = "Station radio"
+        ordering = ('name',)
 
 @python_2_unicode_compatible
 class Speaker(models.Model):
@@ -126,6 +135,7 @@ class Speaker(models.Model):
     class Meta:
         verbose_name = "Conférencier/ère"
         verbose_name_plural = "Conférenciers/ères"
+        ordering = ('last_name',)
 
 @python_2_unicode_compatible
 class Piece(models.Model):
@@ -137,6 +147,7 @@ class Piece(models.Model):
     class Meta:
         verbose_name = "Œuvre"
         verbose_name_plural = "Œuvre"
+        ordering = ('name',)
 
 @python_2_unicode_compatible
 class Event(models.Model):
@@ -173,6 +184,7 @@ class Event(models.Model):
     class Meta:
         verbose_name = "Événement"
         verbose_name_plural = "Événement"
+        ordering = ('title',)
 
     def __str__(self):
         return self.title

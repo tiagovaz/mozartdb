@@ -11,22 +11,22 @@ class Search(forms.ModelForm, Layout):
     helper.form_action = '/result/'
     helper.add_input(Submit('submit', 'Chercher'))
 
-    helper.layout = Layout (
-                Div(
-                    Div( 'title', css_class='col-sm-12'),
-                    Div( 'reference', css_class='col-sm-12'),
-                    Div( 'place', css_class='col-sm-12'),
-                    Div( 'place', css_class='col-sm-12'),
-                    Div( 'place', css_class='col-sm-12'),
-                    Div( 'type', css_class='col-sm-12'),
-                    Div( 'performer', css_class='col-sm-12'),
-                    Div( 'speech', css_class='col-sm-12'),
-                    Div( 'speaker', css_class='col-sm-12'),
-                    Div( 'start_date', css_class='col-sm-12'),
-                    Div( 'end_date', css_class='col-sm-12'),
-                    css_class='row'
-            ),
-    )
+#    helper.layout = Layout (
+#                Div(
+#                    Div( 'title', css_class='col-sm-12'),
+#                    Div( 'reference', css_class='col-sm-12'),
+#                    Div( 'place', css_class='col-sm-12'),
+#                    Div( 'place', css_class='col-sm-12'),
+#                    Div( 'place', css_class='col-sm-12'),
+#                    Div( 'type', css_class='col-sm-12'),
+#                    Div( 'performer', css_class='col-sm-12'),
+#                    Div( 'speech', css_class='col-sm-12'),
+#                    Div( 'speaker', css_class='col-sm-12'),
+#                    Div( 'start_date', css_class='col-sm-12'),
+#                    Div( 'end_date', css_class='col-sm-12'),
+#                    css_class='row'
+#            ),
+#    )
 
     class Meta:
         model = Event
