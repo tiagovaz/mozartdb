@@ -21,6 +21,7 @@ class EventFilter(django_filters.FilterSet):
     year = django_filters.NumberFilter(label='Année', name='start_date', lookup_expr='year')
     month = django_filters.NumberFilter(label='Mois', name='start_date', lookup_expr='month')
     comment__content = django_filters.CharFilter(label="Commentaires", lookup_expr='icontains')
+    created_by__username = django_filters.ModelChoiceFilter(label="Utilisateur", queryset=User.objects.all())
 
  #   def year_range(self, queryset, value):
  #       return queryset.filter()
@@ -43,4 +44,5 @@ class EventFilter(django_filters.FilterSet):
             'month',
             'year',
             'comment__content',
+            'created_by__username',
         ]
