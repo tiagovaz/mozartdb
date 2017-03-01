@@ -96,7 +96,7 @@ class PerformerType(models.Model):
 
     class Meta:
         verbose_name = "Nature de l'interprète"
-        verbose_name_plural = "Natures de l'interprète"
+        verbose_name_plural = "Nature de l'interprète"
         ordering = ('description',)
 
 @python_2_unicode_compatible

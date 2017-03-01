@@ -28,11 +28,12 @@
             <strong>{% trans "Date début" %} :</strong> {{event.start_date|default:""}}<br>
             <strong>{% trans "Date fin" %} :</strong> {{event.end_date|default:""}}<br>
 
-            {% if event.relates_to_radio.all  %}
+            {% if event.relates_to_broadcasting.all  %}
                 <strong>{% trans "Diffusion(s) radio associé(s)" %} :</strong>
                 <ul>
-                    {% for r in event.relates_to_radio.all %}
-                        <li><a href="/{{ r.id }}">{{ r }}</a></li>
+                    {% for r in event.relates_to_broadcasting.all %}
+                        <!-- <li><a href="/{{ r.id }}">{{ r }}</a></li> -->
+                        <li>{{ r }}</li>
                     {% endfor %}
                 </ul>
             {% endif %}

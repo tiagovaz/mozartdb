@@ -5,9 +5,8 @@ from mozartweb.models import City, Country, Type, TypeBroadcasting, Speech, Refe
 
 #from forms import *
 
-EventForm = select2_modelform(Event, attrs={'width': '380px'})
-BroadcastingForm = select2_modelform(Broadcasting, attrs={'width': '380px'})
-RadioDiffusionForm = select2_modelform(Event, attrs={'width': '380px'})
+EventForm = select2_modelform(Event, attrs={'width': '480px'})
+BroadcastingForm = select2_modelform(Broadcasting, attrs={'width': '480px'})
 PlaceForm = select2_modelform(Place)
 RadioStationForm = select2_modelform(RadioStation)
 SpeechForm = select2_modelform(Speech)
