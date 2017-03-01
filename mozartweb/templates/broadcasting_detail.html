@@ -7,11 +7,11 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-                <em>{{ event.title }}</em>
-                <a class="btn btn-xs btn-warning" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.id }}/change/?_popup=1');">
+                <em>{{ broadcasting.title }}</em>
+                <a class="btn btn-xs btn-warning" href="JavaScript:newPopup('/admin/mozartweb/broadcasting/{{ broadcasting.id }}/change/?_popup=1');">
                     <i class="fa fa-pencil"></i>
                 </a>
-                <a class="btn btn-xs btn-danger" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.id }}/delete/?_popup=1');">
+                <a class="btn btn-xs btn-danger" href="JavaScript:newPopup('/admin/mozartweb/broadcasting/{{ broadcasting.id }}/delete/?_popup=1');">
                     <i class="fa fa-times"></i>
                 </a>
             </h1>
@@ -23,35 +23,20 @@
 
 
         <div class="col-sm-6">
-            <strong>{% trans "Nature" %} :</strong> {{ event.type|default:"" }}<br>
-            <strong>{% trans "Lieu" %} :</strong> {{ event.place|default:"" }}<br>
-            <strong>{% trans "Date début" %} :</strong> {{event.start_date|default:""}}<br>
-            <strong>{% trans "Date fin" %} :</strong> {{event.end_date|default:""}}<br>
+            <strong>{% trans "Nature" %} :</strong> {{ broadcasting.type|default:"" }}<br>
+            <strong>{% trans "Date début" %} :</strong> {{broadcasting.start_date|default:""}}<br>
+            <strong>{% trans "Date fin" %} :</strong> {{broadcasting.end_date|default:""}}<br>
 
-            {% if event.relates_to_broadcasting.all  %}
-                <strong>{% trans "Diffusion(s) radio associée(s)" %} :</strong>
-                <ul>
-                    {% for r in event.relates_to_broadcasting.all %}
-                        <li><a href="/b/{{ r.id }}">{{ r }}</a></li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-
-            {% if event.diffused_events.all  %}
+            {% if broadcasting.get_related_events.all  %}
                 <strong>{% trans "Événement(s) diffusé(s)" %} :</strong>
                 <ul>
-                    {% for de in event.diffused_events.all %}
+                    {% for de in broadcasting.get_related_events.all %}
                         <li><a href="/{{ de.id }}">{{ de }}</a></li>
                     {% endfor %}
                 </ul>
             {% endif %}
         </div>
 
-        <div class="col-sm-2">
-            {% if event.poster %}
-                        <a href="/media/{{ event.poster }}"> <img src="/media/{{ event.poster }}" height='130'"></a>
-            {% endif %}
-        </div>
     </div>
 
 
@@ -65,7 +50,7 @@
                 </div>
                 <div class="panel-body">
                     <ul>
-                    {% for piece in event.piece.all %}
+                    {% for piece in broadcasting.piece.all %}
                         <li>{{ piece }}</li>
                     {% endfor %}
                     </ul>
@@ -78,7 +63,7 @@
                 </div>
                 <div class="panel-body">
                     <ul>
-                    {% for p in event.performer.all %}
+                    {% for p in broadcasting.performer.all %}
                         <li><i>{{ p }}</i> - {{ p.type }}</li>
                     {% endfor %}
                     </ul>
@@ -94,7 +79,7 @@
                 </div>
                 <div class="panel-body">
                     <ul>
-                    {% for r in event.reference.all %}
+                    {% for r in broadcasting.reference.all %}
                         {% if r.article_file %}
                             <li><a href="/media/{{ r.article_file }}">{{ r }}</a></li>
                         {% else %}
@@ -112,7 +97,7 @@
                 </div>
                 <div class="panel-body">
                     <ul>
-                    {% for s in event.speech.all %}
+                    {% for s in broadcasting.speech.all %}
                         <li>{{ s }}</li>
                     {% endfor %}
                     </ul>
@@ -134,7 +119,7 @@
                 </div>
 
                 <table class="table table-hover table-condensed">
-                    {% for comment in event.comment.all %}
+                    {% for comment in broadcasting.comment.all %}
                     <tr>
                         <td>
                             "{{comment.content}}", par <i>{{comment.user}}</i> en {{comment.created_date}}<br>
@@ -147,11 +132,11 @@
         </div>
     </div>
 
-       {% if event.created_by  %}
-            <div class="text-right">Enregistré en {{event.created_on|default:"2016"}} par <i>{{event.created_by}}.</i></div>
+       {% if broadcasting.created_by  %}
+            <div class="text-right">Enregistré en {{broadcasting.created_on|default:"2016"}} par <i>{{broadcasting.created_by}}.</i></div>
        {% endif %}
-       {% if event.edited_by  %}
-            <div class="text-right">Dernière modification en {{event.edited_on}} par <i>{{event.edited_by}}</i></div>
+       {% if broadcasting.edited_by  %}
+            <div class="text-right">Dernière modification en {{broadcasting.edited_on}} par <i>{{broadcasting.edited_by}}</i></div>
        {% endif %}
     </div>
     <br>
@@ -169,7 +154,7 @@
                     <h4 class="modal-title" id="commentLabel">{% trans "Nouveau commentaire" %}</h4>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="{% url 'comment_create' event.id %}">
+                    <form method="post" action="{% url 'comment_create' broadcasting.id %}">
                         {% csrf_token %}
                         {% bootstrap_form form_comment %}
                         {% buttons %}

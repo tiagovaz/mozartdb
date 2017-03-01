@@ -50,6 +50,23 @@ class EventDetail(generic.DetailView):
         context['form_comment'] = CommentForm()
         return context
 
+class BroadcastingDetail(generic.DetailView):
+    model = Broadcasting
+    context_object_name = 'broadcasting'
+    template_name = 'broadcasting_detail.html'
+
+    def dispatch(self, *args, **kwargs):
+        get_object_or_404(
+            Broadcasting,
+            id=self.kwargs['pk']
+        )
+        return super(BroadcastingDetail, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(BroadcastingDetail, self).get_context_data(**kwargs)
+        context['form_comment'] = CommentForm()
+        return context
+
 class SearchForm(View):
     def get(self, request):
         search_form = Search()

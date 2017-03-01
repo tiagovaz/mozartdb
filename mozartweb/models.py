@@ -236,7 +236,7 @@ class Broadcasting(models.Model):
     	c = Comment.objects.filter(event=self)
 
     def get_related_events(self):
-        events_list = Event.objects.filter(relates_to_radio=self)
+        events_list = Event.objects.filter(relates_to_broadcasting=self)
         return events_list
 
     class Meta:
