@@ -1,17 +1,17 @@
 from django.contrib import admin
 from easy_select2 import select2_modelform
 #from mozartweb.forms import RadioDiffusionForm
-from mozartweb.models import City, Country, Type, Speech, Reference, Place, Performer, Piece, Speaker, RadioStation, PerformerType, Comment, Event
+from mozartweb.models import City, Country, Type, TypeBroadcasting, Speech, Reference, Place, Performer, Piece, Speaker, RadioStation, PerformerType, Comment, Event, Broadcasting
 
 #from forms import *
 
 EventForm = select2_modelform(Event, attrs={'width': '380px'})
+BroadcastingForm = select2_modelform(Broadcasting, attrs={'width': '380px'})
 RadioDiffusionForm = select2_modelform(Event, attrs={'width': '380px'})
 PlaceForm = select2_modelform(Place)
 RadioStationForm = select2_modelform(RadioStation)
 SpeechForm = select2_modelform(Speech)
 PerformerForm = select2_modelform(Performer)
-
 
 class PlaceAdmin(admin.ModelAdmin):
     form = PlaceForm
@@ -25,9 +25,11 @@ class SpeechAdmin(admin.ModelAdmin):
 class PerformerAdmin(admin.ModelAdmin):
     form = PerformerForm
 
+
 admin.site.register(City)
 admin.site.register(Country)
 admin.site.register(Type)
+admin.site.register(TypeBroadcasting)
 admin.site.register(Speech, SpeechAdmin)
 admin.site.register(Reference)
 admin.site.register(Place, PlaceAdmin)
@@ -84,8 +86,33 @@ class EventAdmin(admin.ModelAdmin):
         else:
             return formset.save()
 
-    #fields = ("title", "reference", "start_date", "end_date", "place", "poster", "type", "performer", "piece", "speech")
-    # inlines = [
-    #     CommentInline,
-    # ]
+class BroadcastingAdmin(admin.ModelAdmin):
+    form = BroadcastingForm
+
+    def save_model(self, request, obj, form, change): 
+        instance = form.save(commit=False)
+        if not hasattr(instance,'created_by'):
+            instance.created_by = request.user
+        instance.edited_by = request.user
+        instance.save()
+        form.save_m2m()
+        return instance
+
+    def save_formset(self, request, form, formset, change): 
+
+        def set_user(instance):
+            if not instance.created_by:
+                instance.created_by = request.user
+            instance.edited_by = request.user
+            instance.save()
+
+        if formset.model == Article:
+            instances = formset.save(commit=False)
+            map(set_user, instances)
+            formset.save_m2m()
+            return instances
+        else:
+            return formset.save()
+
 admin.site.register(Event, EventAdmin)
+admin.site.register(Broadcasting, BroadcastingAdmin)
