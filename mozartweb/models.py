@@ -58,7 +58,7 @@ class Type(models.Model):
         ordering = ('type',)
 
 @python_2_unicode_compatible
-class TypeRadio(models.Model):
+class TypeBroadcasting(models.Model):
     type = models.CharField("Nature de la diffusion", max_length=200)
 
     def __str__(self):
@@ -187,7 +187,8 @@ class Event(models.Model):
     end_time = models.TimeField(null=True, verbose_name="Heure fin de l'événement", blank=True)
     month_is_estimated = models.BooleanField(default=False, verbose_name="Ignorer le mois")
     day_is_estimated = models.BooleanField(default=False, verbose_name="Ignorer le jour")
-    relates_to_radio = models.ManyToManyField('Event', verbose_name="Diffusion radio", blank=True)
+    relates_to_radio = models.ManyToManyField('Event', verbose_name="Diffusion radio (ancienne)", blank=True)
+    relates_to_broadcasting = models.ManyToManyField('Broadcasting', verbose_name="Diffusion radio", blank=True)
 
     created_by = models.ForeignKey(User, related_name='created_by', null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add = True, null=True, blank=True)
@@ -195,7 +196,7 @@ class Event(models.Model):
     edited_on  = models.DateTimeField(auto_now = True, null=True, blank=True)
 
     def comments(self):
-    	c = Comment.objects.filter(event=self)
+    	c = Comment.objects.filter(broadcasting=self)
 
     def diffused_events(self):
         de = Event.objects.filter(relates_to_radio=self)
@@ -215,7 +216,7 @@ class Broadcasting(models.Model):
     title = models.CharField("Titre ou description de la radiodiffusion", max_length=201)
     reference = models.ManyToManyField("Reference", blank=True, verbose_name="Référence")
     radio_station = models.ForeignKey('RadioStation', verbose_name='Station radio', null=True, blank=True)
-    type = models.ForeignKey('TypeRadio', verbose_name="Nature", null=True, blank=True)
+    type = models.ForeignKey('TypeBroadcasting', verbose_name="Nature", null=True, blank=True)
     performer = models.ManyToManyField('Performer', verbose_name="Interprètes", blank=True)
     speech = models.ManyToManyField('Speech', verbose_name="Conférence", blank=True)
     piece = models.ManyToManyField('Piece', verbose_name="Œuvres interpretées", blank=True)
@@ -226,9 +227,9 @@ class Broadcasting(models.Model):
     month_is_estimated = models.BooleanField(default=False, verbose_name="Ignorer le mois")
     day_is_estimated = models.BooleanField(default=False, verbose_name="Ignorer le jour")
 
-    created_by = models.ForeignKey(User, related_name='created_by', null=True, blank=True)
+    created_by = models.ForeignKey(User, related_name='rd_created_by', null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add = True, null=True, blank=True)
-    edited_by  = models.ForeignKey(User, related_name='edited_by', null=True, blank=True)
+    edited_by  = models.ForeignKey(User, related_name='rd_edited_by', null=True, blank=True)
     edited_on  = models.DateTimeField(auto_now = True, null=True, blank=True)
 
     def comments(self):
@@ -268,6 +269,12 @@ class Comment(models.Model):
         'Event',
         verbose_name="Événement",
         related_name="comment"
+    )
+
+    broadcasting = models.ForeignKey(
+        'Broadcasting',
+        verbose_name="Radiodiffusion",
+        related_name="comment", null=True, blank=True
     )
 
     class Meta:
