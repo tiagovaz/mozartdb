@@ -8,7 +8,7 @@ from django.utils.encoding import python_2_unicode_compatible
 
 @python_2_unicode_compatible
 class City(models.Model):
-    name = models.CharField("Nom de la ville", max_length=150)
+    name = models.CharField("Nom de la ville", max_length=150, unique=True)
 
     def __str__(self):
         return self.name
@@ -43,6 +43,7 @@ class Place(models.Model):
         verbose_name = "Lieu"
         verbose_name_plural = "Lieu"
         ordering = ('venue',)
+        unique_together = (("city", "country", "venue"),)
 
 @python_2_unicode_compatible
 class Type(models.Model):
@@ -55,6 +56,19 @@ class Type(models.Model):
         verbose_name = "Nature de l'événement"
         verbose_name_plural = "Nature de l'événement"
         ordering = ('type',)
+
+@python_2_unicode_compatible
+class TypeRadio(models.Model):
+    type = models.CharField("Nature de la diffusion", max_length=200)
+
+    def __str__(self):
+        return self.type
+
+    class Meta:
+        verbose_name = "Nature de la diffusion"
+        verbose_name_plural = "Nature de la diffusion"
+        ordering = ('type',)
+
 
 @python_2_unicode_compatible
 class Reference(models.Model):
@@ -71,6 +85,7 @@ class Reference(models.Model):
         verbose_name = "Référence"
         verbose_name_plural = "Références"
 	ordering = ('article_title',)
+        unique_together = (("article_title", "journal_title", "page", "date"),)
 
 @python_2_unicode_compatible
 class PerformerType(models.Model):
@@ -97,11 +112,12 @@ class Performer(models.Model):
         verbose_name = "Interprète"
         verbose_name_plural = "Interprètes"
         ordering = ('last_name',)
+        unique_together = (("first_name", "last_name", "type"),)
 
 @python_2_unicode_compatible
 class Speech(models.Model):
     title = models.CharField("Titre de la conférence", max_length=200, default="Conférence sans titre")
-    speaker = models.ManyToManyField('Speaker', verbose_name='Nome du/de la conférencier/ère', blank=True)
+    speaker = models.ManyToManyField('Speaker', verbose_name='Nom du/de la conférencier/ère', blank=True)
 
     def __str__(self):
         #FIXME: return all speakers from this speech
@@ -132,14 +148,18 @@ class Speaker(models.Model):
     def __str__(self):
         return "%s, %s" % (self.last_name, self.first_name)
 
+    def get_fullname(self):
+        return "%s %s" % (self.first_name, self.last_name)
+
     class Meta:
         verbose_name = "Conférencier/ère"
         verbose_name_plural = "Conférenciers/ères"
         ordering = ('last_name',)
+#        unique_together = ("first_name", "last_name")
 
 @python_2_unicode_compatible
 class Piece(models.Model):
-    name = models.CharField("Titre de l'œuvre interpretée", max_length=200)
+    name = models.CharField("Titre de l'œuvre interpretée", max_length=200, unique=True)
 
     def __str__(self):
         return self.name
@@ -184,6 +204,43 @@ class Event(models.Model):
     class Meta:
         verbose_name = "Événement"
         verbose_name_plural = "Événement"
+        ordering = ('title',)
+
+    def __str__(self):
+        return self.title
+
+@python_2_unicode_compatible
+class Broadcasting(models.Model):
+    """The class for 'radiodiffusion'"""
+    title = models.CharField("Titre ou description de la radiodiffusion", max_length=201)
+    reference = models.ManyToManyField("Reference", blank=True, verbose_name="Référence")
+    radio_station = models.ForeignKey('RadioStation', verbose_name='Station radio', null=True, blank=True)
+    type = models.ForeignKey('TypeRadio', verbose_name="Nature", null=True, blank=True)
+    performer = models.ManyToManyField('Performer', verbose_name="Interprètes", blank=True)
+    speech = models.ManyToManyField('Speech', verbose_name="Conférence", blank=True)
+    piece = models.ManyToManyField('Piece', verbose_name="Œuvres interpretées", blank=True)
+    start_date = models.DateField(null=True, verbose_name="Date début de la radiodiffusion", blank=True)
+    start_time = models.TimeField(null=True, verbose_name="Heure début de la radiodiffusion", blank=True)
+    end_date = models.DateField(null=True, verbose_name="Date fin de la radiodiffusion", blank=True)
+    end_time = models.TimeField(null=True, verbose_name="Heure fin de la radiodiffusion", blank=True)
+    month_is_estimated = models.BooleanField(default=False, verbose_name="Ignorer le mois")
+    day_is_estimated = models.BooleanField(default=False, verbose_name="Ignorer le jour")
+
+    created_by = models.ForeignKey(User, related_name='created_by', null=True, blank=True)
+    created_on = models.DateTimeField(auto_now_add = True, null=True, blank=True)
+    edited_by  = models.ForeignKey(User, related_name='edited_by', null=True, blank=True)
+    edited_on  = models.DateTimeField(auto_now = True, null=True, blank=True)
+
+    def comments(self):
+    	c = Comment.objects.filter(event=self)
+
+    def get_related_events(self):
+        events_list = Event.objects.filter(relates_to_radio=self)
+        return events_list
+
+    class Meta:
+        verbose_name = "Radiodiffusion"
+        verbose_name_plural = "Radiodiffusion"
         ordering = ('title',)
 
     def __str__(self):

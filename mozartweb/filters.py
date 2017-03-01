@@ -6,7 +6,6 @@ from models import *
 
 
 class EventFilter(django_filters.FilterSet):
-    speech__speaker = django_filters.CharFilter(label="Conférencier-ère", lookup_expr='icontains')
     title = django_filters.CharFilter(label="Titre de l'événement", lookup_expr='icontains')
     performer__last_name = django_filters.CharFilter(label='Interprète / ensemble', lookup_expr='icontains')
     performer__type = django_filters.ModelChoiceFilter(label='Type interprète', queryset=PerformerType.objects.all())
@@ -17,6 +16,7 @@ class EventFilter(django_filters.FilterSet):
     place__country = django_filters.ModelChoiceFilter(label="Pays", queryset=Country.objects.all())
     place__venue = django_filters.CharFilter(label="Lieu", lookup_expr='icontains')
     speech__title = django_filters.CharFilter(label="Titre de la conférence", lookup_expr='icontains')
+    speech__speaker__last_name = django_filters.CharFilter(label="Conférencier-ère", lookup_expr='icontains')
     #year = django_filters.MethodFilter(label='Année', action='year_range')
     year = django_filters.NumberFilter(label='Année', name='start_date', lookup_expr='year')
     month = django_filters.NumberFilter(label='Mois', name='start_date', lookup_expr='month')
@@ -35,7 +35,7 @@ class EventFilter(django_filters.FilterSet):
             'performer__last_name',
             'performer__type',
             'speech__title',
-            'speech__speaker',
+            'speech__speaker__last_name',
             'reference__article_title',
             'reference__journal_title',
             'place__venue',
