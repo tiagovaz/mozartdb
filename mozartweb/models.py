@@ -187,7 +187,6 @@ class Event(models.Model):
     end_time = models.TimeField(null=True, verbose_name="Heure fin de l'événement", blank=True)
     month_is_estimated = models.BooleanField(default=False, verbose_name="Ignorer le mois")
     day_is_estimated = models.BooleanField(default=False, verbose_name="Ignorer le jour")
-    relates_to_radio = models.ManyToManyField('Event', verbose_name="Diffusion radio (ancienne)", blank=True)
     relates_to_broadcasting = models.ManyToManyField('Broadcasting', verbose_name="Diffusion radio", blank=True)
 
     created_by = models.ForeignKey(User, related_name='created_by', null=True, blank=True)
@@ -268,7 +267,7 @@ class Comment(models.Model):
     event = models.ForeignKey(
         'Event',
         verbose_name="Événement",
-        related_name="comment"
+        related_name="comment", null=True, blank=True
     )
 
     broadcasting = models.ForeignKey(

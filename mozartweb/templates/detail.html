@@ -36,15 +36,6 @@
                     {% endfor %}
                 </ul>
             {% endif %}
-
-            {% if event.diffused_events.all  %}
-                <strong>{% trans "Événement(s) diffusé(s)" %} :</strong>
-                <ul>
-                    {% for de in event.diffused_events.all %}
-                        <li><a href="/{{ de.id }}">{{ de }}</a></li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
         </div>
 
         <div class="col-sm-2">
