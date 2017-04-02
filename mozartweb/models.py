@@ -4,7 +4,8 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
-
+from django.db.models.signals import m2m_changed, post_save
+from django.dispatch import receiver
 
 @python_2_unicode_compatible
 class City(models.Model):
@@ -194,6 +195,8 @@ class Event(models.Model):
     edited_by  = models.ForeignKey(User, related_name='edited_by', null=True, blank=True)
     edited_on  = models.DateTimeField(auto_now = True, null=True, blank=True)
 
+    bc_key = models.ForeignKey('Broadcasting', related_name='bc_key', verbose_name='BC KEY (ne pas changer!)', null=True, blank=True)
+
     def comments(self):
     	c = Comment.objects.filter(broadcasting=self)
 
@@ -246,6 +249,40 @@ class Broadcasting(models.Model):
     def __str__(self):
         return self.title
 
+def save_broadcasting(sender, instance, **kwargs):
+    event = Event.objects.filter(bc_key=instance)
+    if not event:
+        my_event = Event.objects.create(title = instance.title)
+        my_event.bc_key = instance
+    else:
+        my_event = Event.objects.get(bc_key=instance)
+
+    if instance.radio_station:
+        radio = RadioStation.objects.get(name=instance.radio_station)
+        my_event.radio_station = radio
+    else:
+        my_event.radio_station = None
+ 
+    if instance.type:
+        t = Type.objects.get(type=instance.type)
+        my_event.type = t
+    else:
+        my_event.type = None
+    my_event.start_date = instance.start_date
+    my_event.start_time = instance.start_time
+    my_event.end_date = instance.end_date
+    my_event.end_time = instance.end_time
+    my_event.month_is_estimated = instance.month_is_estimated
+    my_event.day_is_estimated = instance.day_is_estimated
+    my_event.created_by = instance.created_by
+    my_event.created_on = instance.created_on
+    my_event.edited_by  = instance.edited_by
+    my_event.edited_on  = instance.edited_on
+ 
+    my_event.save()
+
+post_save.connect(save_broadcasting, sender=Broadcasting)
+
 @python_2_unicode_compatible
 class Comment(models.Model):
 
@@ -282,3 +319,39 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.content
+
+@receiver(m2m_changed, sender = Broadcasting.reference.through)
+def m2m(sender, **kwargs):
+    instance = kwargs.pop('instance', None)
+    my_event = Event.objects.get(bc_key=instance)
+    my_event.reference = instance.reference.all()
+    my_event.save()
+
+m2m_changed.connect(m2m, sender = Broadcasting.reference.through, dispatch_uid = 'foo', weak = False)
+
+@receiver(m2m_changed, sender = Broadcasting.performer.through)
+def m2m(sender, **kwargs):
+    instance = kwargs.pop('instance', None)
+    my_event = Event.objects.get(bc_key=instance)
+    my_event.performer = instance.performer.all()
+    my_event.save()
+
+m2m_changed.connect(m2m, sender = Broadcasting.performer.through, dispatch_uid = 'foo', weak = False)
+
+@receiver(m2m_changed, sender = Broadcasting.speech.through)
+def m2m(sender, **kwargs):
+    instance = kwargs.pop('instance', None)
+    my_event = Event.objects.get(bc_key=instance)
+    my_event.speech = instance.speech.all()
+    my_event.save()
+
+m2m_changed.connect(m2m, sender = Broadcasting.speech.through, dispatch_uid = 'foo', weak = False)
+
+@receiver(m2m_changed, sender = Broadcasting.piece.through)
+def m2m(sender, **kwargs):
+    instance = kwargs.pop('instance', None)
+    my_event = Event.objects.get(bc_key=instance)
+    my_event.piece = instance.piece.all()
+    my_event.save()
+
+m2m_changed.connect(m2m, sender = Broadcasting.piece.through, dispatch_uid = 'foo', weak = False)

@@ -4,8 +4,8 @@ import django_filters
 
 from models import *
 
-
 class EventFilter(django_filters.FilterSet):
+#    title = django_filters.MethodFilter(label="Titre de l'événement", action='filter_title')
     title = django_filters.CharFilter(label="Titre de l'événement", lookup_expr='icontains')
     performer__last_name = django_filters.CharFilter(label='Interprète / ensemble', lookup_expr='icontains')
     performer__type = django_filters.ModelChoiceFilter(label='Type interprète', queryset=PerformerType.objects.all())
@@ -46,3 +46,6 @@ class EventFilter(django_filters.FilterSet):
             'comment__content',
             'created_by__username',
         ]
+
+    def filter_title(self, queryset, value):
+        return queryset.filter(relates_to_broadcasting__title__icontains=value) | queryset.filter(title__icontains=value)
