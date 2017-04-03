@@ -57,6 +57,7 @@ class CommentInline(admin.TabularInline):
 #
 class EventAdmin(admin.ModelAdmin):
 #    exclude = ('relates_to_radio',)
+    exclude = ('bc_key', 'radio_station', 'created_by', 'edited_by')
     form = EventForm
 #    inlines = (RadioDiffusionInline, )
 
@@ -86,6 +87,7 @@ class EventAdmin(admin.ModelAdmin):
             return formset.save()
 
 class BroadcastingAdmin(admin.ModelAdmin):
+    exclude = ('created_by', 'edited_by')
     form = BroadcastingForm
 
     def save_model(self, request, obj, form, change): 

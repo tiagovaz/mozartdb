@@ -200,10 +200,6 @@ class Event(models.Model):
     def comments(self):
     	c = Comment.objects.filter(broadcasting=self)
 
-    def diffused_events(self):
-        de = Event.objects.filter(relates_to_radio=self)
-        return de
-
     class Meta:
         verbose_name = "Événement"
         verbose_name_plural = "Événement"
@@ -233,6 +229,10 @@ class Broadcasting(models.Model):
     created_on = models.DateTimeField(auto_now_add = True, null=True, blank=True)
     edited_by  = models.ForeignKey(User, related_name='rd_edited_by', null=True, blank=True)
     edited_on  = models.DateTimeField(auto_now = True, null=True, blank=True)
+
+    def ev_clone(self):
+        ev = Event.objects.get(bc_key=self)
+        return ev
 
     def comments(self):
     	c = Comment.objects.filter(event=self)
