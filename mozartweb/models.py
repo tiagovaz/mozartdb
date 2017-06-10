@@ -242,6 +242,7 @@ class Broadcasting(models.Model):
     end_time = models.TimeField(null=True, verbose_name="Heure fin de la radiodiffusion", blank=True)
     month_is_estimated = models.BooleanField(default=False, verbose_name="Ignorer le mois")
     day_is_estimated = models.BooleanField(default=False, verbose_name="Ignorer le jour")
+    pdf_checked = models.BooleanField(default=False, verbose_name="PDF vérifié")
 
     created_by = models.ForeignKey(User, related_name='rd_created_by', null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add = True, null=True, blank=True)
@@ -287,6 +288,7 @@ def save_broadcasting(sender, instance, **kwargs):
     else:
         my_event.type = None
     my_event.title = instance.title
+    my_event.pdf_checked = instance.pdf_checked
     my_event.start_date = instance.start_date
     my_event.start_time = instance.start_time
     my_event.end_date = instance.end_date
