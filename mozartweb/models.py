@@ -204,6 +204,7 @@ class Event(models.Model):
     end_date = models.DateField(null=True, verbose_name="Date fin de l'événement", blank=True)
     end_time = models.TimeField(null=True, verbose_name="Heure fin de l'événement", blank=True)
     month_is_estimated = models.BooleanField(default=False, verbose_name="Ignorer le mois")
+    pdf_checked = models.BooleanField(default=False, verbose_name="PDF vérifié")
     day_is_estimated = models.BooleanField(default=False, verbose_name="Ignorer le jour")
     relates_to_broadcasting = models.ManyToManyField('Broadcasting', verbose_name="Diffusion radio", blank=True)
 
@@ -285,6 +286,7 @@ def save_broadcasting(sender, instance, **kwargs):
         my_event.type = t
     else:
         my_event.type = None
+    my_event.title = instance.title
     my_event.start_date = instance.start_date
     my_event.start_time = instance.start_time
     my_event.end_date = instance.end_date

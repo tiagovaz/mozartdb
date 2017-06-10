@@ -43,6 +43,7 @@ class EventFilter(django_filters.FilterSet):
             'place__country',
             'month',
             'year',
+            'pdf_checked',
             'comment__content',
             'created_by__username',
         ]
