@@ -75,6 +75,7 @@ class TypeBroadcasting(models.Model):
 class Reference(models.Model):
     article_title = models.CharField("Titre de l'article", max_length=150, blank=True)
     journal_title = models.CharField("Titre du journal", max_length=150, blank=True)
+    author = models.ManyToManyField('Author', verbose_name='Auteur(s)', blank=True, null=True)
     page = models.CharField("Page(s)", max_length=150, blank=True)
     date = models.DateField(null=True, verbose_name="Date", blank=True)
     article_file = models.FileField(upload_to='articles', null=True, blank=True, verbose_name='Article en PDF')
@@ -157,6 +158,22 @@ class Speaker(models.Model):
         verbose_name_plural = "Conférenciers/ères"
         ordering = ('last_name',)
 #        unique_together = ("first_name", "last_name")
+
+@python_2_unicode_compatible
+class Author(models.Model):
+    first_name = models.CharField("Prénom", max_length=200)
+    last_name = models.CharField("Nom", max_length=200)
+
+    def __str__(self):
+        return "%s, %s" % (self.last_name, self.first_name)
+
+    def get_fullname(self):
+        return "%s %s" % (self.first_name, self.last_name)
+
+    class Meta:
+        verbose_name = "Auteur"
+        verbose_name_plural = "Auteurs"
+        ordering = ('last_name',)
 
 @python_2_unicode_compatible
 class Piece(models.Model):

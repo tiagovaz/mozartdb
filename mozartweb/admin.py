@@ -1,7 +1,7 @@
 from django.contrib import admin
 from easy_select2 import select2_modelform
 #from mozartweb.forms import RadioDiffusionForm
-from mozartweb.models import City, Country, Type, TypeBroadcasting, Speech, Reference, Place, Performer, Piece, Speaker, RadioStation, PerformerType, Comment, Event, Broadcasting
+from mozartweb.models import City, Country, Type, TypeBroadcasting, Speech, Reference, Place, Performer, Piece, Speaker, RadioStation, PerformerType, Comment, Event, Broadcasting, Author
 
 #from forms import *
 
@@ -11,6 +11,7 @@ PlaceForm = select2_modelform(Place)
 RadioStationForm = select2_modelform(RadioStation)
 SpeechForm = select2_modelform(Speech)
 PerformerForm = select2_modelform(Performer)
+ReferenceForm = select2_modelform(Reference)
 
 class PlaceAdmin(admin.ModelAdmin):
     form = PlaceForm
@@ -24,17 +25,21 @@ class SpeechAdmin(admin.ModelAdmin):
 class PerformerAdmin(admin.ModelAdmin):
     form = PerformerForm
 
+class ReferenceAdmin(admin.ModelAdmin):
+    form = ReferenceForm
+
 
 admin.site.register(City)
 admin.site.register(Country)
 admin.site.register(Type)
 admin.site.register(TypeBroadcasting)
 admin.site.register(Speech, SpeechAdmin)
-admin.site.register(Reference)
+admin.site.register(Reference, ReferenceAdmin)
 admin.site.register(Place, PlaceAdmin)
 admin.site.register(Performer, PerformerAdmin)
 admin.site.register(Piece)
 admin.site.register(Speaker)
+admin.site.register(Author)
 admin.site.register(RadioStation)
 admin.site.register(PerformerType)
 
