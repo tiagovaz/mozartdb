@@ -1,12 +1,18 @@
 from django.contrib import admin
-from easy_select2 import select2_modelform
+from django.forms import TextInput, Textarea
+from easy_select2 import select2_modelform, select2_modelform_meta
 #from mozartweb.forms import RadioDiffusionForm
 from mozartweb.models import City, Country, Type, TypeBroadcasting, Speech, Reference, Place, Performer, Piece, Speaker, RadioStation, PerformerType, Comment, Event, Broadcasting, Author
+from django import forms
 
 #from forms import *
 
-EventForm = select2_modelform(Event, attrs={'width': '480px'})
-BroadcastingForm = select2_modelform(Broadcasting, attrs={'width': '480px'})
+#EventForm = select2_modelform(Event, attrs={'width': '640px'})
+# Another way to set easy_select2:
+class EventForm(forms.ModelForm):
+    Meta = select2_modelform_meta(Event, attrs={'width': '530px'})
+
+BroadcastingForm = select2_modelform(Broadcasting, attrs={'width': '530px'})
 PlaceForm = select2_modelform(Place)
 RadioStationForm = select2_modelform(RadioStation)
 SpeechForm = select2_modelform(Speech)
@@ -64,6 +70,13 @@ class EventAdmin(admin.ModelAdmin):
 #    exclude = ('relates_to_radio',)
     exclude = ('bc_key', 'radio_station', 'created_by', 'edited_by')
     form = EventForm
+
+    # the only way I found to increase width using suit+easy_select2
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(EventAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['title'].widget.attrs['style'] = 'width: 520px;'
+        return form
+
 #    inlines = (RadioDiffusionInline, )
 
     def save_model(self, request, obj, form, change): 
