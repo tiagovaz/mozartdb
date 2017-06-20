@@ -73,7 +73,7 @@
                     <a class="btn btn-xs btn-warning" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.id }}/change/?_popup=1');">
                     <i class="fa fa-pencil"></i>
                 </a>
-                <a class="btn btn-xs btn-danger" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.event.id }}/delete/?_popup=1');">
+                <a class="btn btn-xs btn-danger" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.id }}/delete/?_popup=1');">
                     <i class="fa fa-times"></i>
                 </a>
                 {% endif %}
@@ -100,7 +100,7 @@
                                     <td>{{ event.type|default:"" }}</td>
                                     <td>{{ event.start_date|date:"Y-m-d"  }}</td>
                                     <td>{{ event.end_date|date:"Y-m-d" }}</td>
-                                    <td>{{ event.created_on|date:"Y-m-d" }}</td>
+                                    <td>{{ event.created_on|date:"Y-m-d" }} par {{ event.created_by }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

@@ -68,7 +68,7 @@ class CommentInline(admin.TabularInline):
 #
 class EventAdmin(admin.ModelAdmin):
 #    exclude = ('relates_to_radio',)
-    exclude = ('bc_key', 'radio_station', 'edited_by')
+    exclude = ('bc_key', 'radio_station')
     form = EventForm
 
     # the only way I found to increase width using suit+easy_select2
@@ -77,7 +77,7 @@ class EventAdmin(admin.ModelAdmin):
         form.base_fields['title'].widget.attrs['style'] = 'width: 520px;'
         return form
 
-#    inlines = (RadioDiffusionInline, )
+#    inlines = (CommentInline, )
 
     def save_model(self, request, obj, form, change): 
         instance = form.save(commit=False)
@@ -105,7 +105,7 @@ class EventAdmin(admin.ModelAdmin):
             return formset.save()
 
 class BroadcastingAdmin(admin.ModelAdmin):
-    exclude = ('created_by', 'edited_by')
+#    exclude = ('edited_by')
     form = BroadcastingForm
 
     def save_model(self, request, obj, form, change): 
@@ -118,7 +118,6 @@ class BroadcastingAdmin(admin.ModelAdmin):
         return instance
 
     def save_formset(self, request, form, formset, change): 
-
         def set_user(instance):
             if not instance.created_by:
                 instance.created_by = request.user

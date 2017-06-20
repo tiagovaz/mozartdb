@@ -20,7 +20,7 @@
                     <a class="btn btn-xs btn-warning" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.id }}/change/?_popup=1');">
                     <i class="fa fa-pencil"></i>
                 </a>
-                <a class="btn btn-xs btn-danger" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.event.id }}/delete/?_popup=1');">
+                <a class="btn btn-xs btn-danger" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.id }}/delete/?_popup=1');">
                     <i class="fa fa-times"></i>
                 </a>
 		{% endif %}
@@ -153,8 +153,15 @@
                     {% for comment in event.comment.all %}
                     <tr>
                         <td>
-                            "{{comment.content}}", par <i>{{comment.user}}</i> en {{comment.created_date}}<br>
-
+                            "{{comment.content|safe}}"
+			<div class="text-right"> <i>Commenté par {{comment.user.first_name}} {{comment.user.last_name}} le {{comment.created_date}}</i>
+	                    <a class="btn btn-xs btn-warning" href="JavaScript:newPopup('/admin/mozartweb/comment/{{ comment.id }}/change/?_popup=1');">
+	                    <i class="fa fa-pencil"></i>
+       		            </a>
+                	    <a class="btn btn-xs btn-danger" href="JavaScript:newPopup('/admin/mozartweb/comment/{{ comment.id }}/delete/?_popup=1');">
+	                    <i class="fa fa-times"></i>
+        	            </a>
+			</div>
                         </td>
                     </tr>
                     {% endfor %}

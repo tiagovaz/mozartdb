@@ -268,6 +268,7 @@ class Broadcasting(models.Model):
     def __str__(self):
         return self.title
 
+# duplicate radiodiffusion to an event object
 def save_broadcasting(sender, instance, **kwargs):
     event = Event.objects.filter(bc_key=instance)
     if not event:
@@ -328,11 +329,6 @@ class Comment(models.Model):
         related_name="comment", null=True, blank=True
     )
 
-    broadcasting = models.ForeignKey(
-        'Broadcasting',
-        verbose_name="Radiodiffusion",
-        related_name="comment", null=True, blank=True
-    )
 
     class Meta:
         verbose_name = "Commentaire"
@@ -341,6 +337,7 @@ class Comment(models.Model):
     def __str__(self):
         return self.content
 
+# Needs receivers to duplicate manytomany fields
 @receiver(m2m_changed, sender = Broadcasting.reference.through)
 def m2m(sender, **kwargs):
     instance = kwargs.pop('instance', None)

@@ -3,7 +3,8 @@
                "language": {
                    "lengthMenu": "Afficher _MENU_",
                    "zeroRecords": "Aucun résultat",
-                   "info": "Page _PAGE_ de _PAGES_",
+                   "info": "_START_ à _END_ d'un total de <b>_TOTAL_</b> resultáts trouvés",
+                   "infoFiltered":   "(filtrés de _MAX_ registres)",
                    "search":         "Rechercher :",
                    "infoEmpty": "No records available",
                    "infoFiltered": "(filtered from _MAX_ total records)",
