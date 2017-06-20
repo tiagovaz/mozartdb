@@ -68,7 +68,7 @@ class CommentInline(admin.TabularInline):
 #
 class EventAdmin(admin.ModelAdmin):
 #    exclude = ('relates_to_radio',)
-    exclude = ('bc_key', 'radio_station', 'created_by', 'edited_by')
+    exclude = ('bc_key', 'radio_station', 'edited_by')
     form = EventForm
 
     # the only way I found to increase width using suit+easy_select2
