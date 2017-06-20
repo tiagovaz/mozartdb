@@ -18,8 +18,11 @@ class EventFilter(django_filters.FilterSet):
     speech__title = django_filters.CharFilter(label="Titre de la conférence", lookup_expr='icontains')
     speech__speaker__last_name = django_filters.CharFilter(label="Conférencier-ère", lookup_expr='icontains')
     #year = django_filters.MethodFilter(label='Année', action='year_range')
-    year = django_filters.NumberFilter(label='Année', name='start_date', lookup_expr='year')
-    month = django_filters.NumberFilter(label='Mois', name='start_date', lookup_expr='month')
+    start_date = django_filters.DateFromToRangeFilter(label="Date de l'événement (début - fin jj/mm/aaaa)")
+    #year = django_filters.NumberFilter(label='Année', name='start_date', lookup_expr='year')
+    #month = django_filters.NumberFilter(label='Mois', name='start_date', lookup_expr='month')
+    year_insertion = django_filters.NumberFilter(label="Année d'insertion", name='created_on', lookup_expr='year')
+    created_on = django_filters.DateFromToRangeFilter(label="Date d'insertion (début - fin jj/mm/aaaa)")
     comment__content = django_filters.CharFilter(label="Commentaires", lookup_expr='icontains')
     created_by__username = django_filters.ModelChoiceFilter(label="Utilisateur", queryset=User.objects.all())
 
@@ -41,11 +44,12 @@ class EventFilter(django_filters.FilterSet):
             'place__venue',
             'place__city',
             'place__country',
-            'month',
-            'year',
+            'start_date',
             'pdf_checked',
             'comment__content',
             'created_by__username',
+            'year_insertion',
+            'created_on',
         ]
 
     def filter_title(self, queryset, value):
