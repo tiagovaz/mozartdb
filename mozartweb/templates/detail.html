@@ -33,6 +33,8 @@
 
 
         <div class="col-sm-6">
+
+            <strong>{% trans "ID" %} :</strong> {{ event.id }}<br>
             <strong>{% trans "Nature" %} :</strong> {{ event.type|default:"" }}<br>
 	    {% if event.bc_key == None %}
                 <strong>{% trans "Lieu" %} :</strong> {{ event.place|default:"" }}<br>
