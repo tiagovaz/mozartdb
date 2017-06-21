@@ -156,7 +156,7 @@
                     <tr>
                         <td>
                             "{{comment.content|safe}}"
-			<div class="text-right"> <i>Commenté par {{comment.user.first_name}} {{comment.user.last_name}} le {{comment.created_date}}</i>
+			<div class="text-right"> <i>Commenté par {{comment.user.first_name}} {{comment.user.last_name|default:""}} le {{comment.created_date}}</i>
 	                    <a class="btn btn-xs btn-warning" href="JavaScript:newPopup('/admin/mozartweb/comment/{{ comment.id }}/change/?_popup=1');">
 	                    <i class="fa fa-pencil"></i>
        		            </a>
@@ -173,10 +173,10 @@
     </div>
 
        {% if event.created_by  %}
-            <div class="text-right">Enregistré en {{event.created_on|default:"2016"}} par <i>{{event.created_by}}.</i></div>
+            <div class="text-right">Enregistré en {{event.created_on|default:"2016"}} par {{event.created_by.first_name}} {{event.created_by.last_name|default:""}}.</div>
        {% endif %}
        {% if event.edited_by  %}
-            <div class="text-right">Dernière modification en {{event.edited_on}} par <i>{{event.edited_by}}</i></div>
+            <div class="text-right">Dernière modification en {{event.edited_on}} par {{event.edited_by.first_name}} {{event.edited_by.last_name|default:""}}.</div>
        {% endif %}
     </div>
     <br>

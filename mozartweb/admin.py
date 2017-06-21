@@ -81,7 +81,8 @@ class EventAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change): 
         instance = form.save(commit=False)
-        if not hasattr(instance,'created_by'):
+        if instance.created_by is None:
+#        if not hasattr(instance,'created_by'):
             instance.created_by = request.user
         instance.edited_by = request.user
         instance.save()
@@ -110,7 +111,7 @@ class BroadcastingAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change): 
         instance = form.save(commit=False)
-        if not hasattr(instance,'created_by'):
+        if instance.created_by is None:
             instance.created_by = request.user
         instance.edited_by = request.user
         instance.save()
