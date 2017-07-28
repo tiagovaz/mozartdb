@@ -101,6 +101,8 @@ class PerformerType(models.Model):
         verbose_name_plural = "Nature de l'interprète"
         ordering = ('description',)
 
+from django.core.exceptions import ObjectDoesNotExist
+
 @python_2_unicode_compatible
 class Performer(models.Model):
     first_name = models.CharField("Prénom (si est une personne)", max_length=200, null=True, blank=True)
@@ -108,7 +110,10 @@ class Performer(models.Model):
     type = models.ForeignKey('PerformerType', verbose_name='Nature')
 
     def __str__(self):
-        return "%s, %s" % (self.last_name, self.first_name)
+        try:
+            return "%s, %s [%s]" % (self.last_name, self.first_name, self.type.description)
+        except ObjectDoesNotExist:
+            return " "
 
     class Meta:
         verbose_name = "Interprète"
