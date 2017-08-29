@@ -113,7 +113,7 @@ class Performer(models.Model):
         try:
             return "%s, %s [%s]" % (self.last_name, self.first_name, self.type.description)
         except ObjectDoesNotExist:
-            return " "
+            return "%s, %s" % (self.last_name, self.first_name)
 
     class Meta:
         verbose_name = "Interprète"
