@@ -39,9 +39,9 @@
 	    {% if event.bc_key == None %}
                 <strong>{% trans "Lieu" %} :</strong> {{ event.place|default:"" }}<br>
             {% endif %}
-            <strong>{% trans "Date début" %} :</strong> {{event.start_date|default:""}} 
+            <strong>{% trans "Date début" %} :</strong> {{event.format_start_date|default:""}} 
 		{% if event.start_time %} à {{event.start_time|default:""}}{% endif %}<br>
-            <strong>{% trans "Date fin" %} :</strong> {{event.end_date|default:""}}
+            <strong>{% trans "Date fin" %} :</strong> {{event.format_end_date|default:""}}
 		{% if event.end_time %} à {{event.end_time|default:""}}{% endif %}<br>
 	    {% if event.radio_station %}
                 <strong>{% trans "Station radio" %} :</strong> {{ event.radio_station|default:"" }}<br>

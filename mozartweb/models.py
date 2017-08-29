@@ -6,6 +6,8 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
+import locale
+locale.setlocale(locale.LC_TIME, "fr_FR.UTF-8") 
 
 @python_2_unicode_compatible
 class City(models.Model):
@@ -208,7 +210,7 @@ class Event(models.Model):
     start_time = models.TimeField(null=True, verbose_name="Heure début de l'événement", blank=True)
     end_date = models.DateField(null=True, verbose_name="Date fin de l'événement", blank=True)
     end_time = models.TimeField(null=True, verbose_name="Heure fin de l'événement", blank=True)
-    month_is_estimated = models.BooleanField(default=False, verbose_name="Ignorer le mois")
+    month_is_estimated = models.BooleanField(default=False, verbose_name="Ignorer le mois et le jour")
     pdf_checked = models.BooleanField(default=False, verbose_name="PDF vérifié")
     day_is_estimated = models.BooleanField(default=False, verbose_name="Ignorer le jour")
     relates_to_broadcasting = models.ManyToManyField('Broadcasting', verbose_name="Diffusion radio", blank=True)
@@ -222,6 +224,20 @@ class Event(models.Model):
 
     def comments(self):
     	c = Comment.objects.filter(broadcasting=self)
+
+    def _format_date(self, date):
+        if self.month_is_estimated:
+            return date.strftime("%Y")
+        if self.day_is_estimated:
+            return date.strftime("%B %Y")
+        else:
+            return date
+
+    def format_start_date(self):
+        return self._format_date(self.start_date)
+
+    def format_end_date(self):
+        return self._format_date(self.end_date)
 
     class Meta:
         verbose_name = "Événement"
