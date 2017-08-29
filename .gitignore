@@ -64,6 +64,5 @@ main/migrations/*
 .project
 /.pydevproject
 /.settings/
-mozartweb/migrations/
 mozartdb/media
 mozartdb/settings.py
