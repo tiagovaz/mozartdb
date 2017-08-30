@@ -5,10 +5,8 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
 
         <title>
             {% block title %}
@@ -28,6 +26,9 @@
         <!-- Custom CSS -->
         <link href="{% static 'sbadmin2/dist/css/sb-admin-2.css' %}" rel="stylesheet">
 
+        <!-- Custom CSS collapse sidebar -->
+        <link href="{% static 'custom/style.css' %}" rel="stylesheet">
+
         <!-- Morris Charts CSS -->
         <link href="{% static 'sbadmin2/bower_components/morrisjs/morris.css' %}" rel="stylesheet">
 
@@ -42,17 +43,27 @@
 
         {% block extrahead %}
         {% endblock %}
+
+
     </head>
-
     <body>
-        <div id="wrapper">
-            <!-- Navigation -->
-            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href='/'>Banque de données - Mozart</a>
-                </div>
-                <!-- /.navbar-header -->
 
+
+        <div class="wrapper">
+        {% block sidebar %}{% endblock %}
+
+        <!-- Page Content Holder -->
+        <div id="content">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                      <h2><button type="button" id="sidebarCollapse" class="btn btn-default" >
+                          <i class="glyphicon glyphicon-menu-hamburger"></i>
+                      </button>
+                        &nbsp; Banque de données - Mozart</h2>
+                        </div>
+
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-top-links navbar-right">
                     {% if user.is_authenticated %}
                 <a class="btn btn-xs btn-primary" href="JavaScript:newPopup('/admin/mozartweb/event/add/?_popup=1');"><i class="fa fa-plus"></i> événement</a>
@@ -91,91 +102,25 @@
                 </ul>
                 <!-- /.navbar-top-links -->
 
-                <div class="navbar-default sidebar" role="navigation">
-                    <div class="sidebar-nav navbar-collapse">
+                        </div>
                     </div>
-                    <!-- /.sidebar-collapse -->
-                </div>
-                <!-- /.navbar-static-side -->
-            </nav>
-
-            <div id="page-wrapper" style="padding-top:1px;">
-                {% if messages %}
-                    {% for message in messages %}
-                        {% if message.tags == 'error' %}
-                            <div class="alert alert-danger alert-dismissible">
-                        {% elif message.tags == 'success'%}
-                            <div class="alert alert-success alert-dismissible">
-                        {% elif message.tags == 'info'%}
-                            <div class="alert alert-info alert-dismissible">
-                        {% elif message.tags == 'warning'%}
-                            <div class="alert alert-warning alert-dismissible">
-                        {% else %}
-                            <div class="alert alert-info alert-dismissible">
-                        {% endif %}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        {{ message }}
-                    {% endfor %}
-                    </div>
-                {% endif %}
+                </nav>
 
                 {% block content %}{% endblock %}
 
-                <div id="fullCalModal" class="modal fade">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
-                                <h4 id="modalTitle" class="modal-title"></h4>
-                            </div>
-                            <div id="modalBody" class="modal-body"></div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button class="btn btn-primary"><a id="eventUrl" target="_blank">Event Page</a></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-            <!-- /#page-wrapper -->
         </div>
-        <!-- /#wrapper -->
 
-        <!-- jQuery -->
-        <script src="{% static 'sbadmin2/bower_components/jquery/dist/jquery.min.js' %}"></script>
 
-        <!-- Bootstrap Core JavaScript -->
-        <script src="{% static 'sbadmin2/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
-
-        <!-- Metis Menu Plugin JavaScript -->
-        <script src="{% static 'sbadmin2/bower_components/metisMenu/dist/metisMenu.min.js' %}"></script>
-
-        <!-- Custom Theme JavaScript -->
-        <script src="{% static 'sbadmin2/dist/js/sb-admin-2.js' %}"></script>
-
-                <!-- DataTables JavaScript -->
-        <script src="{% static 'sbadmin2/bower_components/datatables/media/js/jquery.dataTables.min.js' %}"></script>
-        <script src="{% static 'sbadmin2/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js' %}"></script>
-        <script type="text/javascript">
-            
-        </script>
+        <!-- jQuery CDN -->
+         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+         <!-- Bootstrap Js CDN -->
+         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
         <script src="{% static 'sbadmin2/test.js' %}"></script>
 
-        <!-- Morris Charts JavaScript -->
-        <script src="{% static 'sbadmin2/bower_components/raphael/raphael-min.js' %}"></script>
-        <script src="{% static 'sbadmin2/bower_components/morrisjs/morris.min.js' %}"></script>
-        <script src="{% static 'sbadmin2/js/morris-data.js' %}"></script>
-
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
+        <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
 
         <script type="text/javascript">
             // Popup window code
@@ -185,5 +130,14 @@
             }
         </script>
         {% block extrascript %}{% endblock %}
+
+         <script type="text/javascript">
+             $(document).ready(function () {
+                 $('#sidebarCollapse').on('click', function () {
+                     $('#sidebar').toggleClass('active');
+                 });
+             });
+         </script>
     </body>
 </html>
+

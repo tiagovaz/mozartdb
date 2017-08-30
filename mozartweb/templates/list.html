@@ -3,20 +3,10 @@
 {% load i18n %}
 {% load bootstrap3 %}
 
-{% block content %}
-    <div class="row">
-        <div class="col-lg-12">
-		&nbsp;
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
 
-    <div class="row">
-        <div class="col-sm-2">
-           <div class="panel panel-default">
-                <div class="panel-heading">
-                    Filtres
-                </div>
+{% block sidebar %}
+            <nav id="sidebar">
+                    <p></p>
                 <div class="panel-body">
                     <form class="form" action="" method="get">
                         <form method="post">
@@ -32,10 +22,21 @@
                             {% endbuttons %}
                         </form>
                     </form>
-                </div>
-            </div>
+                 </div>
+            </nav>
+
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+		&nbsp;
         </div>
-        <div class="col-sm-10">
+        <!-- /.col-lg-12 -->
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
             <div class="panel panel-default">
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -49,7 +50,7 @@
                                     <th>Œuvres</th>
                                     <th>Interprètes</th>
                                     <th>Lieu</th>
-                                    <th>Nature</th>
+                                    <th>Nature&nbsp;</th>
                                     <th>Date d'insertion</th>
                                 </tr>
                             </thead>
@@ -61,6 +62,7 @@
                                         <a href="{% url "event_detail" event.id %}">
                                             {{ event.title|safe }}
                                         </a>
+               {% if user.is_authenticated %}
 				<hr>
                 {% if event.bc_key %}
                     <a class="btn btn-xs btn-warning" href="JavaScript:newPopup('/admin/mozartweb/broadcasting/{{ event.bc_key.id }}/change/?_popup=1');">
@@ -77,12 +79,13 @@
                     <i class="fa fa-times"></i>
                 </a>
                 {% endif %}
+              {% endif %}
 
                                     </td>
-                                    <td>{{ event.start_date|date:"Y-m-d" }}
+                                    <td><nobr>{{ event.start_date|date:"Y-m-d" }}</nobr>
                                         {% if event.end_date %}
                                             {% if event.end_date != event.start_date %}
-                                               <br>à<br>{{ event.end_date|date:"Y-m-d" }}
+                                               <br>à<br><nobr>{{ event.end_date|date:"Y-m-d" }}</nobr>
                                             {% endif %}
                                         {% endif %}
                                     </td>
