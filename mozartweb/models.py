@@ -233,6 +233,20 @@ class Event(models.Model):
         else:
             return date
 
+    def get_previews(self):
+        event = Event.objects.filter(id__lt=self.id).order_by('-id').first()
+        if self == Event.objects.all().order_by('id').first():
+            return self
+        else:
+            return event
+
+    def get_next(self):
+        event = Event.objects.filter(id__gt=self.id).order_by('id').first()
+        if self == Event.objects.all().order_by('id').last():
+            return self
+        else:
+            return event
+    
     def format_start_date(self):
         return self._format_date(self.start_date)
 
@@ -290,6 +304,8 @@ class Broadcasting(models.Model):
         return self.title
 
 # duplicate radiodiffusion to an event object
+# this workaround is done to allow us keep using a single django_filter search
+# for all events
 def save_broadcasting(sender, instance, **kwargs):
     event = Event.objects.filter(bc_key=instance)
     if not event:
