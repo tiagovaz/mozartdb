@@ -22,12 +22,15 @@ class EventList(generic.ListView):
         return super(EventList, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
-        return EventFilter(self.request.GET, queryset=Event.objects.all())
+        if not dict(self.request.GET.lists()):
+            return EventFilter(self.request.GET, queryset=Event.objects.all().order_by('-id')[:25])
+        else:
+            return EventFilter(self.request.GET, queryset=Event.objects.all().distinct())
 
     def get_context_data(self, **kwargs):
         context = super(EventList, self).get_context_data(**kwargs)
 
-        all_events = EventFilter(self.request.GET, queryset=Event.objects.all())
+        all_events = EventFilter(self.request.GET, queryset=Event.objects.all().distinct())
         context['view'] = "events"
         context['form'] = all_events.form
 

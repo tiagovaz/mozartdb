@@ -13,12 +13,12 @@
                             {% csrf_token %}
                             {% buttons %}
                                 <button type="submit" class="btn btn-primary btn-sm pull-right">Filtrer</button>
-                                <a class="btn btn-danger btn-sm" href="/">Réinitialiser</a>
+                                <a class="btn btn-danger btn-sm" href="/?q=*">Tout afficher</a>
                             {% endbuttons %}
                             {% bootstrap_form form %}
                             {% buttons %}
                                 <button type="submit" class="btn btn-primary btn-sm pull-right">Filtrer</button>
-                                <a class="btn btn-danger btn-sm" href="/">Réinitialiser</a>
+                                <a class="btn btn-danger btn-sm" href="/?q=*">Tout afficher</a>
                             {% endbuttons %}
                         </form>
                     </form>
