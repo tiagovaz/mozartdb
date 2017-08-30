@@ -17,6 +17,11 @@
                },
                "lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "Tous"]],
                 responsive: true,
-                stateSave: true
+                stateSave: true,
+               "columnDefs": [
+                       { "width": "4%", "targets": 0 },
+                       { "width": "8%", "targets": 6 }
+                ],
+                "autoWidth": false,
         });
     });
