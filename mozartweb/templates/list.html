@@ -108,7 +108,7 @@
                                     </td>
                                     <td>{{ event.place|default:"" }}</td>
                                     <td>{{ event.type|default:"" }}</td>
-                                    <td>{{ event.created_on|date:"Y-m-d" }} par {{ event.created_by }}</td>
+                                    <td>{{ event.created_on|date:"Y-m-d" }} par {{ event.created_by.first_name }} {{event.created_by.last_name|default:""}}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
