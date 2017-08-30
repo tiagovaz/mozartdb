@@ -226,9 +226,9 @@ class Event(models.Model):
     	c = Comment.objects.filter(broadcasting=self)
 
     def _format_date(self, date):
-        if self.month_is_estimated:
+        if date and self.month_is_estimated:
             return date.strftime("%Y")
-        if self.day_is_estimated:
+        if date and self.day_is_estimated:
             return date.strftime("%B %Y")
         else:
             return date
