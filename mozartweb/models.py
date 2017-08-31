@@ -426,8 +426,8 @@ class Comment(models.Model):
 
 
     class Meta:
-        verbose_name = "Commentaire"
-        verbose_name_plural = "Commentaires"
+        verbose_name = "Commentaire interne"
+        verbose_name_plural = "Commentaires internes"
 
     def __str__(self):
         return self.content
