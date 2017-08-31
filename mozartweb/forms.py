@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
+
 from crispy_forms.helper import FormHelper
-#from dal import autocomplete
 from django import forms
 from crispy_forms.layout import Layout, Submit, Div
 
@@ -37,7 +38,6 @@ class SpeechForm(forms.ModelForm):
         fields = ('__all__')
 
 class CommentForm(forms.ModelForm):
-
     class Meta:
         model = Comment
         fields = [
@@ -48,6 +48,21 @@ class CommentForm(forms.ModelForm):
             'content': forms.Textarea(
                 attrs={
                     'placeholder': "Votre commentaire ici."
+                }
+            ),
+        }
+
+class InfoForm(forms.ModelForm):
+    class Meta:
+        model = AdditionalInfo
+        fields = [
+            'content'
+        ]
+
+        widgets = {
+            'content': forms.Textarea(
+                attrs={
+                    'placeholder': "Informations complémentaires"
                 }
             ),
         }

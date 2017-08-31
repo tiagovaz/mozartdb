@@ -54,14 +54,14 @@ urlpatterns = [
             name='event_detail'
         ),
     url(
-            r'^b/(?P<pk>\d+)$',
-            BroadcastingDetail.as_view(),
-            name='broadadcasting_detail'
-        ),
-    url(
             r'^(?P<pk>\d+)/new_comment$',
             CommentCreate.as_view(),
             name='comment_create'
+        ),
+    url(
+            r'^(?P<pk>\d+)/new_info$',
+            InfoCreate.as_view(),
+            name='info_create'
         ),
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

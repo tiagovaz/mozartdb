@@ -3,3 +3,4 @@ django-suit
 django-autocomplete-light
 django-bootstrap3-datepicker
 django-filter==0.13.0
+django-crequest

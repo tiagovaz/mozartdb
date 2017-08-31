@@ -150,6 +150,38 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <span class="pull-right">
+                        <a data-toggle="modal" data-target="#InfoModal" class="btn btn-xs btn-success">
+                            {% trans "Ajouter Information" %}
+                        </a>
+                    </span>
+                    <i class="fa fa-info-circle fa-fw"></i><b> Informations complémentaires</b>
+                </div>
+                    {% for info in event.info.all %}
+                    <tr>
+                        <td>
+                            "{{info.content|safe}}"
+			<div class="text-right"> <i>Ajoutée par {{info.created_by.first_name}} {{info.created_by.last_name|default:""}} le {{info.created_on}}</i>
+	                    <a class="btn btn-xs btn-warning" href="JavaScript:newPopup('/admin/mozartweb/additionalinfo/{{ info.id }}/change/?_popup=1');">
+	                    <i class="fa fa-pencil"></i>
+       		            </a>
+                	    <a class="btn btn-xs btn-danger" href="JavaScript:newPopup('/admin/mozartweb/additionalinfo/{{ info.id }}/delete/?_popup=1');">
+	                    <i class="fa fa-times"></i>
+        	            </a>
+			</div>
+                        {% for log in info.log.all %}
+                           {{ log }}
+                        {% endfor %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="pull-right">
                         <a data-toggle="modal" data-target="#CommentModal" class="btn btn-xs btn-success">
                             {% trans "Ajouter commentaire" %}
                         </a>
@@ -163,9 +195,6 @@
                         <td>
                             "{{comment.content|safe}}"
 			<div class="text-right"> <i>Commenté par {{comment.user.first_name}} {{comment.user.last_name|default:""}} le {{comment.created_date}}</i>
-	                    <a class="btn btn-xs btn-warning" href="JavaScript:newPopup('/admin/mozartweb/comment/{{ comment.id }}/change/?_popup=1');">
-	                    <i class="fa fa-pencil"></i>
-       		            </a>
                 	    <a class="btn btn-xs btn-danger" href="JavaScript:newPopup('/admin/mozartweb/comment/{{ comment.id }}/delete/?_popup=1');">
 	                    <i class="fa fa-times"></i>
         	            </a>
@@ -190,6 +219,26 @@
     <!-----------
     --- MODAL ---
     ------------>
+    <!-- Info modal -->
+    <div class="modal fade" id="InfoModal" tabindex="-1" role="dialog" aria-labelledby="infoLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn btn-xs btn-danger pull-right" data-dismiss="modal">x</button>
+                    <h4 class="modal-title" id="infoLabel">{% trans "Information complémentaire" %}</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{% url 'info_create' event.id %}">
+                        {% csrf_token %}
+                        {% bootstrap_form form_info %}
+                        {% buttons %}
+                            <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+                        {% endbuttons %}
+                    </form>
+                </div>
+            </div>
+        </div>
+     </div>
 
     <!-- Comment modal -->
     <div class="modal fade" id="CommentModal" tabindex="-1" role="dialog" aria-labelledby="commentLabel">
@@ -210,5 +259,6 @@
                 </div>
             </div>
         </div>
+     </div>
 
 {% endblock %}

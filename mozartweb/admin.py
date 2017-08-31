@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.forms import TextInput, Textarea
 from easy_select2 import select2_modelform, select2_modelform_meta
 #from mozartweb.forms import RadioDiffusionForm
-from mozartweb.models import City, Country, Type, TypeBroadcasting, Speech, Reference, Place, Performer, Piece, Speaker, RadioStation, PerformerType, Comment, Event, Broadcasting, Author
+from mozartweb.models import City, AdditionalInfo, Country, Type, TypeBroadcasting, Speech, Reference, Place, Performer, Piece, Speaker, RadioStation, PerformerType, Comment, Event, Broadcasting, Author, AdditionalInfo, AdditionalInfoLog
 from django import forms
 
 #from forms import *
@@ -34,7 +34,6 @@ class PerformerAdmin(admin.ModelAdmin):
 class ReferenceAdmin(admin.ModelAdmin):
     form = ReferenceForm
 
-
 admin.site.register(City)
 admin.site.register(Country)
 admin.site.register(Type)
@@ -48,6 +47,13 @@ admin.site.register(Speaker)
 admin.site.register(Author)
 admin.site.register(RadioStation)
 admin.site.register(PerformerType)
+admin.site.register(AdditionalInfoLog)
+
+class AdditionalInfoAdmin(admin.ModelAdmin):
+    def save_model(self, request, obj, form, change):
+        obj.created_by = request.user
+        obj.save()
+admin.site.register(AdditionalInfo, AdditionalInfoAdmin)
 
 class CommentAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
@@ -82,7 +88,6 @@ class EventAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change): 
         instance = form.save(commit=False)
         if instance.created_by is None:
-#        if not hasattr(instance,'created_by'):
             instance.created_by = request.user
         instance.edited_by = request.user
         instance.save()

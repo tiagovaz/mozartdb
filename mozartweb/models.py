@@ -7,7 +7,9 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
 import locale
+from mozartweb import signals
 locale.setlocale(locale.LC_TIME, "fr_FR.UTF-8") 
+
 
 @python_2_unicode_compatible
 class City(models.Model):
@@ -195,6 +197,59 @@ class Piece(models.Model):
         ordering = ('name',)
 
 @python_2_unicode_compatible
+class AdditionalInfo(models.Model):
+    content = models.TextField("Informations complémentaires", null=True, blank=True)
+
+    created_on = models.DateTimeField(
+        verbose_name="Date d'insertion",
+        auto_now_add=True
+    )
+
+    created_by = models.ForeignKey(
+        User,
+        verbose_name="Auteur",
+        related_name="info",
+    )
+
+    event = models.ForeignKey(
+        'Event',
+        verbose_name="Événement",
+        related_name="info", null=True, blank=True
+    )
+
+    class Meta:
+        verbose_name = "Informations complémentaires"
+        verbose_name_plural = "Informations complémentaires"
+
+    def __str__(self):
+        return self.content
+
+class AdditionalInfoLog(models.Model):
+    changed_on = models.DateTimeField(
+        verbose_name="Date de modification",
+        auto_now_add=True
+    )
+
+    changed_by = models.ForeignKey(
+        User,
+        verbose_name="Auteur",
+    )
+
+    info = models.ForeignKey(
+        'AdditionalInfo',
+        verbose_name="Informations",
+        related_name="log"
+    )
+
+    class Meta:
+        verbose_name = "Informations complémentaires LOG"
+        verbose_name_plural = "Informations complémentaires LOG"
+
+    def __str__(self):
+        ret = str(self.info.id) + " at " + str(self.changed_on) + " by " + self.changed_by.first_name
+        return ret
+
+@python_2_unicode_compatible
 class Event(models.Model):
     """The main class for all 'Mozart' events."""
     title = models.CharField("Titre ou description de l'évènement", max_length=201)
@@ -222,6 +277,7 @@ class Event(models.Model):
 
     bc_key = models.ForeignKey('Broadcasting', related_name='bc_key', verbose_name='BC KEY (ne pas changer!)', null=True, blank=True)
 
+    # FIXME: ???
     def comments(self):
     	c = Comment.objects.filter(broadcasting=self)
 
@@ -306,6 +362,7 @@ class Broadcasting(models.Model):
 # duplicate radiodiffusion to an event object
 # this workaround is done to allow us keep using a single django_filter search
 # for all events
+# every change in the event model should be considered here
 def save_broadcasting(sender, instance, **kwargs):
     event = Event.objects.filter(bc_key=instance)
     if not event:
@@ -325,6 +382,7 @@ def save_broadcasting(sender, instance, **kwargs):
         my_event.type = t
     else:
         my_event.type = None
+
     my_event.title = instance.title
     my_event.pdf_checked = instance.pdf_checked
     my_event.start_date = instance.start_date
@@ -410,3 +468,9 @@ def m2m(sender, **kwargs):
     my_event.save()
 
 m2m_changed.connect(m2m, sender = Broadcasting.piece.through, dispatch_uid = 'foo', weak = False)
+
+models.signals.post_save.connect(
+    signals.add_info_log,
+    sender=AdditionalInfo
+)
+
