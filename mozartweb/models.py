@@ -10,7 +10,6 @@ import locale
 from mozartweb import signals
 locale.setlocale(locale.LC_TIME, "fr_FR.UTF-8") 
 
-
 @python_2_unicode_compatible
 class City(models.Model):
     name = models.CharField("Nom de la ville", max_length=150, unique=True)
