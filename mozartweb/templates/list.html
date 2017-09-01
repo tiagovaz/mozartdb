@@ -16,8 +16,7 @@
             <nav id="sidebar">
                     <p></p>
                 <div class="panel-body">
-                    <form class="form" action="" method="get">
-                        <form method="post">
+                    <form class="form" method="get">
                             {% csrf_token %}
                             {% buttons %}
                                 <button type="submit" class="btn btn-primary btn-sm pull-right">Filtrer</button>
@@ -28,7 +27,6 @@
                                 <button type="submit" class="btn btn-primary btn-sm pull-right">Filtrer</button>
                                 <a class="btn btn-danger btn-sm" href="/?q=*">Tout afficher</a>
                             {% endbuttons %}
-                        </form>
                     </form>
                  </div>
             </nav>
