@@ -1,11 +1,75 @@
+# -*- coding: utf-8 -*-
+
 from django.contrib import admin
 from django.forms import TextInput, Textarea
 from easy_select2 import select2_modelform, select2_modelform_meta
 #from mozartweb.forms import RadioDiffusionForm
 from mozartweb.models import City, AdditionalInfo, Country, Type, TypeBroadcasting, Speech, Reference, Place, Performer, Piece, Speaker, RadioStation, PerformerType, Comment, Event, Broadcasting, Author, AdditionalInfo, AdditionalInfoLog
 from django import forms
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
+from import_export.widgets import ManyToManyWidget
+from import_export import fields
 
-#from forms import *
+class EventResource(resources.ModelResource):
+    def dehydrate_performer(self, event):
+        performers = []
+        for p in event.performer.all():
+            performers.append(p)
+        return str(performers).decode('utf-8')
+
+    def dehydrate_reference(self, event):
+        references = []
+        for p in event.reference.all():
+            references.append(p)
+        return str(references).decode('utf-8')
+
+    def dehydrate_speech(self, event):
+        speechs = []
+        for p in event.speech.all():
+            speechs.append(p)
+        return str(speechs).decode('utf-8')
+
+    def dehydrate_piece(self, event):
+        pieces = []
+        for p in event.piece.all():
+            pieces.append(p)
+        return str(pieces).decode('utf-8')
+
+    def dehydrate_relates_to_broadcasting(self, event):
+        bs = []
+        for p in event.relates_to_broadcasting.all():
+            bs.append(p)
+        return str(bs).decode('utf-8')
+
+    class Meta:
+        performer = fields.Field(widget=ManyToManyWidget(Performer))
+        fields = ('id',
+#                  'title',
+                  'reference', #
+#                  'place__venue',
+#                  'place__city__name', 
+#                  'place__country__name',
+#                  'radio_station__name', 
+#                  'type__type', 
+                  'performer',  #
+                  'speech',  #
+                  'piece', #
+#                  'start_date', 
+#                  'start_time', 
+#                  'end_date', 
+#                  'end_time', 
+#                  'month_is_estimated', 
+#                  'day_is_estimated', 
+#                  'pdf_checked', 
+                  'relates_to_broadcasting', #
+#                  'created_by', 
+#                  'created_on', 
+#                  'edited_by', 
+#                  'comments', #
+#                  'info', #
+                 )
+        model = Event
 
 #EventForm = select2_modelform(Event, attrs={'width': '640px'})
 # Another way to set easy_select2:
@@ -72,10 +136,11 @@ class CommentInline(admin.TabularInline):
 #    exclude = ('relates_to_radio',)
 #    fk_name = 'from_event'
 #
-class EventAdmin(admin.ModelAdmin):
+class EventAdmin(ImportExportModelAdmin):
 #    exclude = ('relates_to_radio',)
     exclude = ('bc_key', 'radio_station')
     form = EventForm
+    resource_class = EventResource
 
     # the only way I found to increase width using suit+easy_select2
     def get_form(self, request, obj=None, **kwargs):
