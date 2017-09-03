@@ -74,14 +74,14 @@
                     &nbsp;<i class="fa fa-pencil"></i>
                 </a>
                 <a class="text-muted" href="JavaScript:newPopup('/admin/mozartweb/broadcasting/{{ event.bc_key.id }}/delete/?_popup=1');">
-                    <i class="fa fa-times"></i>
+                    <i class="fa fa-remove"></i>
                 </a></nobr>
                 {% else %}
                     <nobr><a class="text-muted" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.id }}/change/?_popup=1');">
                     &nbsp;<i class="fa fa-pencil"></i>
                 </a>
                 <a class="text-muted" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.id }}/delete/?_popup=1');">
-                    <i class="fa fa-times"></i>
+                    <i class="fa fa-remove"></i>
                 </a></nobr>
                 {% endif %}
               {% endif %}
@@ -96,12 +96,12 @@
                                     </td>
                                     <td>
                                         {% for piece in event.piece.all %}
-                                            - {{ piece|default:"" }}<br>
+                                            <i class="fa fa-caret-right"></i> {{ piece|default:"" }}<br>
                                         {% endfor %}
                                     </td>
                                     <td>
                                         {% for performer in event.performer.all %}
-                                            - {{ performer|default:"" }}<br>
+                                            <i class="fa fa-caret-right"></i> {{ performer|default:"" }}<br>
                                         {% endfor %}
                                     </td>
                                     <td>{{ event.place|default:"" }}</td>

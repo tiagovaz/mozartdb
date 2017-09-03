@@ -8,16 +8,16 @@ django.setup()
 
 from mozartweb.models import *
 
-comments = Comment.objects.all()
+#comments = Comment.objects.all()
 #info =  AdditionalInfo.objects.all()
-#
-#for i in info:
-#    i.delete()
-#
-for c in comments:
-    if c.event is None:
-        print "NO EVENT AT " + c.content
-    if c.user is None:
-        print "NO USER AT " + c.content
-    else:
-        AdditionalInfo.objects.create(content = c.content, created_on = c.created_date, created_by = c.user, event = c.event)
+
+#for c in comments:
+#    c.delete()
+
+#for c in comments:
+#    if c.event is None:
+#        print "NO EVENT AT " + c.content
+#    if c.user is None:
+#        print "NO USER AT " + c.content
+#    else:
+#        AdditionalInfo.objects.create(content = c.content, created_on = c.created_date, created_by = c.user, event = c.event)
