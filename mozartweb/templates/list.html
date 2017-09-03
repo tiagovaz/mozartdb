@@ -6,7 +6,7 @@
 
 {% block toggle_button %}
                       <button type="button" id="sidebarCollapse" class="btn btn-default" > 
-                          <i class="glyphicon glyphicon-menu-hamburger"></i> 
+                          <i class="fa fa-bars"></i> 
                       </button>&nbsp;
 
 {% endblock %}
@@ -69,21 +69,20 @@
                                             {{ event.title|safe }}
                                         </a>
                {% if user.is_authenticated %}
-				<hr>
                 {% if event.bc_key %}
-                    <a class="btn btn-xs btn-warning" href="JavaScript:newPopup('/admin/mozartweb/broadcasting/{{ event.bc_key.id }}/change/?_popup=1');">
-                    <i class="fa fa-pencil"></i>
+                    <nobr><a class="text-muted" href="JavaScript:newPopup('/admin/mozartweb/broadcasting/{{ event.bc_key.id }}/change/?_popup=1');">
+                    &nbsp;<i class="fa fa-pencil"></i>
                 </a>
-                <a class="btn btn-xs btn-danger" href="JavaScript:newPopup('/admin/mozartweb/broadcasting/{{ event.bc_key.id }}/delete/?_popup=1');">
+                <a class="text-muted" href="JavaScript:newPopup('/admin/mozartweb/broadcasting/{{ event.bc_key.id }}/delete/?_popup=1');">
                     <i class="fa fa-times"></i>
-                </a>
+                </a></nobr>
                 {% else %}
-                    <a class="btn btn-xs btn-warning" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.id }}/change/?_popup=1');">
-                    <i class="fa fa-pencil"></i>
+                    <nobr><a class="text-muted" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.id }}/change/?_popup=1');">
+                    &nbsp;<i class="fa fa-pencil"></i>
                 </a>
-                <a class="btn btn-xs btn-danger" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.id }}/delete/?_popup=1');">
+                <a class="text-muted" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.id }}/delete/?_popup=1');">
                     <i class="fa fa-times"></i>
-                </a>
+                </a></nobr>
                 {% endif %}
               {% endif %}
 

@@ -114,9 +114,20 @@ admin.site.register(PerformerType)
 admin.site.register(AdditionalInfoLog)
 
 class AdditionalInfoAdmin(admin.ModelAdmin):
-    def save_model(self, request, obj, form, change):
-        obj.created_by = request.user
-        obj.save()
+    def save_model(self, request, obj, form, change): 
+        instance = form.save(commit=False)
+        if instance.created_by is None:
+            instance.created_by = request.user
+        instance.save()
+        form.save_m2m()
+        return instance
+
+    def save_formset(self, request, form, formset, change): 
+        def set_user(instance):
+            if not instance.created_by:
+                instance.created_by = request.user
+            instance.save()
+
 admin.site.register(AdditionalInfo, AdditionalInfoAdmin)
 
 class CommentAdmin(admin.ModelAdmin):

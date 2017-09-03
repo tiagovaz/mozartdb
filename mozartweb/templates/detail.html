@@ -13,33 +13,30 @@
         <div class="col-lg-12">
             <h2 class="page-header">
                 {{ event.title|safe }}
-
 		{% if event.bc_key %}
-                    <a class="btn btn-xs btn-warning" href="JavaScript:newPopup('/admin/mozartweb/broadcasting/{{ event.bc_key.id }}/change/?_popup=1');">
+                    <small>
+                    <a class="text-muted" href="JavaScript:newPopup('/admin/mozartweb/broadcasting/{{ event.bc_key.id }}/change/?_popup=1');">
                     <i class="fa fa-pencil"></i>
                 </a>
-                <a class="btn btn-xs btn-danger" href="JavaScript:newPopup('/admin/mozartweb/broadcasting/{{ event.bc_key.id }}/delete/?_popup=1');">
+                <a class="text-muted" href="JavaScript:newPopup('/admin/mozartweb/broadcasting/{{ event.bc_key.id }}/delete/?_popup=1');">
                     <i class="fa fa-times"></i>
-                </a>
+                </a></small>
                 {% else %}
-                    <a class="btn btn-xs btn-warning" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.id }}/change/?_popup=1');">
+		    <small><a class="text-muted" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.id }}/change/?_popup=1');">
                     <i class="fa fa-pencil"></i>
                 </a>
-                <a class="btn btn-xs btn-danger" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.id }}/delete/?_popup=1');">
+                <a class="text-muted" href="JavaScript:newPopup('/admin/mozartweb/event/{{ event.id }}/delete/?_popup=1');">
                     <i class="fa fa-times"></i>
-                </a>
+                </a></small>
 		{% endif %}
-            </h1>
+            </h2>
         <span class="pull-right"><a href=/{{ event.get_previews.id }}>Précédente</a> | <a href=/{{ event.get_next.id }}>Suivante</a></span>
         </div>
         <!-- /.col-lg-12 -->
     </div>
 
     <div class="row">
-
-
         <div class="col-sm-6">
-
             <strong>{% trans "ID" %} :</strong> {{ event.id }}<br>
             <strong>{% trans "Nature" %} :</strong> {{ event.type|default:"" }}<br>
 	    {% if event.bc_key == None %}
@@ -77,9 +74,50 @@
             {% endif %}
         </div>
     </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    {% if user.is_authenticated %}
+                    <span class="pull-right">
+                        <a data-toggle="modal" data-target="#InfoModal" class="btn btn-xs btn-success">
+                            {% trans "Ajouter Information" %}
+                        </a>
+                    </span>
+                    {% endif %}
+                    <i class="fa fa-info-circle fa-fw"></i><b> Informations complémentaires</b>
+                </div>
+                <div class="panel-body">
+                    {% for info in event.info.all %}
+			{{info.content|safe}}
+                        {% if user.is_authenticated %}
+                        <div class="pull-right">
+	                    <a class="text-muted" href="JavaScript:newPopup('/admin/mozartweb/additionalinfo/{{ info.id }}/change/?_popup=1');">
+	                    <i class="fa fa-pencil"></i>
+       		            </a>
+                	    <a class="text-muted" href="JavaScript:newPopup('/admin/mozartweb/additionalinfo/{{ info.id }}/delete/?_popup=1');">
+	                    <i class="fa fa-times"></i>
+        	            </a>
+                        </div>
+                                <br>
+                                <small class="pull-right text-muted">
+                                    Ajouté par {{info.created_by.first_name}} {{info.created_by.last_name|default:""}} le {{info.created_on}}
+                                </small>
+                        {% for log in info.log.all %}
+                                <br>
+                                <small class="pull-right text-muted">
+                                    Modifié par {{log.changed_by.first_name}} {{log.changed_by.last_name|default:""}} le {{log.changed_on}}
+                                </small>
+                        {% endfor %}
+                        <hr>
+                        {% endif %}
+                    {% endfor %}
+            </div>
+            </div>
+        </div>
+    </div>
 
-
-    <hr>
 
     <div class="row">
         <div class="col-sm-6">
@@ -145,40 +183,9 @@
          </div>
      </div>
 
+    {% if user.is_authenticated %}
     <div class="row">
         <div class="col-sm-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <span class="pull-right">
-                        <a data-toggle="modal" data-target="#InfoModal" class="btn btn-xs btn-success">
-                            {% trans "Ajouter Information" %}
-                        </a>
-                    </span>
-                    <i class="fa fa-info-circle fa-fw"></i><b> Informations complémentaires</b>
-                </div>
-                    {% for info in event.info.all %}
-                    <tr>
-                        <td>
-                            "{{info.content|safe}}"
-			<div class="text-right"> <i>Ajoutée par {{info.created_by.first_name}} {{info.created_by.last_name|default:""}} le {{info.created_on}}</i>
-	                    <a class="btn btn-xs btn-warning" href="JavaScript:newPopup('/admin/mozartweb/additionalinfo/{{ info.id }}/change/?_popup=1');">
-	                    <i class="fa fa-pencil"></i>
-       		            </a>
-                	    <a class="btn btn-xs btn-danger" href="JavaScript:newPopup('/admin/mozartweb/additionalinfo/{{ info.id }}/delete/?_popup=1');">
-	                    <i class="fa fa-times"></i>
-        	            </a>
-			</div>
-                        {% for log in info.log.all %}
-                           {{ log }}
-                        {% endfor %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <span class="pull-right">
@@ -205,9 +212,7 @@
                                                         <i class="fa fa-clock-o fa-fw"></i> {{comment.created_date}}
                                                     </small>
                                                 </div>
-                                                <p>
-                                                    {{ comment.content }}
-                                                </p>
+                                                    {{ comment.content|safe }}
                                             </div>
                                         </li>
                                 {% endfor %}
@@ -217,6 +222,7 @@
             </div>
         </div>
     </div>
+{% endif %}
 
        {% if event.created_by  %}
             <div class="text-right">Enregistré en {{event.created_on|default:"2016"}} par {{event.created_by.first_name}} {{event.created_by.last_name|default:""}}.</div>
