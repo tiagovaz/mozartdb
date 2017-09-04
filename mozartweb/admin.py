@@ -12,62 +12,125 @@ from import_export.widgets import ManyToManyWidget
 from import_export import fields
 
 class EventResource(resources.ModelResource):
+    def dehydrate_start_date(self, event):
+        return event.format_start_date()
+
+    def dehydrate_end_date(self, event):
+        return event.format_end_date()
+
+    def dehydrate_created_by(self, event):
+        return event.created_by.__str__()
+
+    def dehydrate_edited_by(self, event):
+        return event.edited_by.__str__()
+
     def dehydrate_performer(self, event):
         performers = []
         for p in event.performer.all():
-            performers.append(p)
-        return str(performers).decode('utf-8')
+            performers.append(p.__str__())
+        return "; ".join(performers)
 
     def dehydrate_reference(self, event):
         references = []
         for p in event.reference.all():
-            references.append(p)
-        return str(references).decode('utf-8')
+            references.append(p.__str__())
+        return "; ".join(references)
 
     def dehydrate_speech(self, event):
         speechs = []
         for p in event.speech.all():
-            speechs.append(p)
-        return str(speechs).decode('utf-8')
+            speechs.append(p.__str__())
+        return "; ".join(speechs)
 
     def dehydrate_piece(self, event):
         pieces = []
         for p in event.piece.all():
-            pieces.append(p)
-        return str(pieces).decode('utf-8')
+            pieces.append(p.__str__())
+        return "; ".join(pieces)
 
     def dehydrate_relates_to_broadcasting(self, event):
         bs = []
         for p in event.relates_to_broadcasting.all():
-            bs.append(p)
-        return str(bs).decode('utf-8')
+            bs.append(p.__str__())
+        return "; ".join(bs)
+
+    def dehydrate_info(self, event):
+        info_list = []
+        for i in event.get_info():
+            info_list.append(i.__str__())
+        return "; ".join(info_list)
+
+    def dehydrate_comments(self, event):
+        c_list = []
+        for c in event.get_comments():
+            c_list.append(c.__str__())
+        return "; ".join(c_list)
+
+    info = fields.Field(column_name='Informations_complémentaires')
+    comments = fields.Field(column_name='Commentaires')
+#    title = fields.Field(column_name='Titre')
+#    type__type = fields.Field(column_name='Nature')
+#    place__venue = fields.Field(column_name='Venue')
+#    place__city__name = fields.Field(column_name='Ville')
+#    place__country__name = fields.Field(column_name='Pays')
+#    radio_station__name = fields.Field(column_name='Station_radio')
+#    piece = fields.Field(column_name='Pièce')
+#    performer = fields.Field(column_name='Interprète')
+#    speech = fields.Field(column_name='Conférence')
+#    reference = fields.Field(column_name='Références')
+#    relates_to_broadcasting = fields.Field(column_name='Diffusion_radio')
+#    created_by = fields.Field(column_name="Date_insertion ")
+#    created_on = fields.Field(column_name='Ajouté_par')
+#    edited_by = fields.Field(column_name='Date_dernière_modification')
+#    edited_on = fields.Field(column_name='Dernière_modification_par')
+#    pdf_checked = fields.Field(column_name='PDF_vérifié')
 
     class Meta:
-        performer = fields.Field(widget=ManyToManyWidget(Performer))
-        fields = ('id',
-#                  'title',
+
+        export_order = ('id',
+                  'title',
+                  'type__type', 
+                  'info', #
+                  'start_date', 
+                  'end_date', 
+                  'place__venue',
+                  'place__city__name', 
+                  'place__country__name',
+                  'radio_station__name', 
+                  'piece', #
+                  'performer',  #
+                  'speech',  #
                   'reference', #
-#                  'place__venue',
-#                  'place__city__name', 
-#                  'place__country__name',
-#                  'radio_station__name', 
-#                  'type__type', 
+                  'relates_to_broadcasting', #
+                  'created_by', 
+                  'created_on', 
+                  'edited_by', 
+                  'edited_on', 
+                  'pdf_checked', 
+                  'comments', #
+                 )
+
+        fields = ('id',
+                  'title',
+                  'reference', #
+                  'place__venue',
+                  'place__city__name', 
+                  'place__country__name',
+                  'radio_station__name', 
+                  'type__type', 
                   'performer',  #
                   'speech',  #
                   'piece', #
-#                  'start_date', 
-#                  'start_time', 
-#                  'end_date', 
-#                  'end_time', 
-#                  'month_is_estimated', 
-#                  'day_is_estimated', 
-#                  'pdf_checked', 
+                  'start_date', 
+                  'end_date', 
+                  'pdf_checked', 
                   'relates_to_broadcasting', #
-#                  'created_by', 
-#                  'created_on', 
-#                  'edited_by', 
-#                  'comments', #
-#                  'info', #
+                  'created_by', 
+                  'created_on', 
+                  'edited_by', 
+                  'edited_on', 
+                  'comments', #
+                  'info', #
                  )
         model = Event
 

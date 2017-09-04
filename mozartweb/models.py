@@ -221,7 +221,8 @@ class AdditionalInfo(models.Model):
         verbose_name_plural = "Informations complémentaires"
 
     def __str__(self):
-        return self.content
+        ret = self.content + " -- par " + self.created_by.first_name +  " " + self.created_by.last_name + " le " + str(self.created_on)
+        return ret
 
 class AdditionalInfoLog(models.Model):
     changed_on = models.DateTimeField(
@@ -276,17 +277,32 @@ class Event(models.Model):
 
     bc_key = models.ForeignKey('Broadcasting', related_name='bc_key', verbose_name='BC KEY (ne pas changer!)', null=True, blank=True)
 
+    def get_info(self):
+        info_list = []
+        for i in AdditionalInfo.objects.filter(event=self).all():
+            info_list.append(i)
+        return info_list
+
+    def get_comments(self):
+        c_list = []
+        for c in Comment.objects.filter(event=self).all():
+            c_list.append(c)
+        return c_list
+
     # FIXME: ???
     def comments(self):
     	c = Comment.objects.filter(broadcasting=self)
 
     def _format_date(self, date):
-        if date and self.month_is_estimated:
-            return date.strftime("%Y")
-        if date and self.day_is_estimated:
-            return date.strftime("%B %Y")
+        if date is not None:
+            if self.month_is_estimated:
+                return date.strftime("%Y")
+            elif self.day_is_estimated:
+                return date.strftime("%B %Y")
+            else:
+                return date.strftime("%d %B %Y")
         else:
-            return date
+            return None
 
     def get_previews(self):
         event = Event.objects.filter(id__lt=self.id).order_by('-id').first()
@@ -429,7 +445,8 @@ class Comment(models.Model):
         verbose_name_plural = "Commentaires internes"
 
     def __str__(self):
-        return self.content
+        ret = self.content + " -- par " + self.user.first_name +  " " + self.user.last_name + " le " + str(self.created_date)
+        return ret
 
 # Needs receivers to duplicate manytomany fields
 @receiver(m2m_changed, sender = Broadcasting.reference.through)
