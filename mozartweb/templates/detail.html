@@ -228,7 +228,7 @@
             <div class="text-right">Enregistré en {{event.created_on|default:"2016"}} par {{event.created_by.first_name}} {{event.created_by.last_name|default:""}}.</div>
        {% endif %}
        {% if event.edited_by  %}
-            <div class="text-right">Dernière modification de {{event.edited_on}} par {{event.edited_by.first_name}} {{event.edited_by.last_name|default:""}}.</div>
+            <div class="text-right">Dernière modification le {{event.edited_on}} par {{event.edited_by.first_name}} {{event.edited_by.last_name|default:""}}.</div>
        {% endif %}
     </div>
     <br>
