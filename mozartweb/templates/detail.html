@@ -75,49 +75,6 @@
         </div>
     </div>
     <br>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    {% if user.is_authenticated %}
-                    <span class="pull-right">
-                        <a data-toggle="modal" data-target="#InfoModal" class="btn btn-xs btn-success">
-                            {% trans "Ajouter Information" %}
-                        </a>
-                    </span>
-                    {% endif %}
-                    <i class="fa fa-info-circle fa-fw"></i><b> Informations complémentaires</b>
-                </div>
-                <div class="panel-body">
-                    {% for info in event.info.all %}
-			{{info.content|safe}}
-                        {% if user.is_authenticated %}
-                        <div class="pull-right">
-	                    <a class="text-muted" href="JavaScript:newPopup('/admin/mozartweb/additionalinfo/{{ info.id }}/change/?_popup=1');">
-	                    <i class="fa fa-pencil"></i>
-       		            </a>
-                	    <a class="text-muted" href="JavaScript:newPopup('/admin/mozartweb/additionalinfo/{{ info.id }}/delete/?_popup=1');">
-	                    <i class="fa fa-times"></i>
-        	            </a>
-                        </div>
-                                <br>
-                                <small class="pull-right text-muted">
-                                    Ajouté par {{info.created_by.first_name}} {{info.created_by.last_name|default:""}} le {{info.created_on}}
-                                </small>
-                        {% for log in info.log.all %}
-                                <br>
-                                <small class="pull-right text-muted">
-                                    Modifié par {{log.changed_by.first_name}} {{log.changed_by.last_name|default:""}} le {{log.changed_on}}
-                                </small>
-                        {% endfor %}
-                        {% endif %}
-                        <hr>
-                    {% endfor %}
-            </div>
-            </div>
-        </div>
-    </div>
-
 
     <div class="row">
         <div class="col-sm-6">
@@ -182,6 +139,49 @@
             </div>
          </div>
      </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    {% if user.is_authenticated %}
+                    <span class="pull-right">
+                        <a data-toggle="modal" data-target="#InfoModal" class="btn btn-xs btn-success">
+                            {% trans "Ajouter Information" %}
+                        </a>
+                    </span>
+                    {% endif %}
+                    <i class="fa fa-info-circle fa-fw"></i><b> Informations complémentaires</b>
+                </div>
+                <div class="panel-body">
+                    {% for info in event.info.all %}
+			{{info.content|safe}}
+                        {% if user.is_authenticated %}
+                        <div class="pull-right">
+	                    <a class="text-muted" href="JavaScript:newPopup('/admin/mozartweb/additionalinfo/{{ info.id }}/change/?_popup=1');">
+	                    <i class="fa fa-pencil"></i>
+       		            </a>
+                	    <a class="text-muted" href="JavaScript:newPopup('/admin/mozartweb/additionalinfo/{{ info.id }}/delete/?_popup=1');">
+	                    <i class="fa fa-times"></i>
+        	            </a>
+                        </div>
+                                <br>
+                                <small class="pull-right text-muted">
+                                    Ajouté par {{info.created_by.first_name}} {{info.created_by.last_name|default:""}} le {{info.created_on}}
+                                </small>
+                        {% for log in info.log.all %}
+                                <br>
+                                <small class="pull-right text-muted">
+                                    Modifié par {{log.changed_by.first_name}} {{log.changed_by.last_name|default:""}} le {{log.changed_on}}
+                                </small>
+                        {% endfor %}
+                        {% endif %}
+                        <hr>
+                    {% endfor %}
+            </div>
+            </div>
+        </div>
+    </div>
+
 
     {% if user.is_authenticated %}
     <div class="row">

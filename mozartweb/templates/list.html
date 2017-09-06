@@ -33,6 +33,21 @@
 {% endblock %}
 
 {% block content %}
+
+{% if events == None %}
+
+<br>
+    <!-- Main jumbotron for a primary message -->
+    <div class="jumbotron">
+      <div class="container">
+        <h2>Bienvenue dans la banque de données des événements Mozart en Autriche annexée (1938-1945) !</h2>
+        <p>Pour faire une recherche dans cette banque de données, utilisez les filtres ci-contre. Pour voir toutes les entrées, cliquez sur le bouton « Tout afficher » et sélectionnez ensuite le nombre de fiches à afficher sur un même écran (« Afficher » 25, 50, 100 ou Tous).</p>
+<p>Bonne navigation !</p>
+      </div>
+    </div>
+
+{% else %}
+
     <div class="row">
         <div class="col-lg-12">
 		&nbsp;
@@ -115,5 +130,6 @@
             </div>
         </div>
     </div>
+{% endif %}
 
 {% endblock %}

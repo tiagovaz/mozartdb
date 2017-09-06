@@ -23,7 +23,8 @@ class EventList(generic.ListView):
 
     def get_queryset(self):
         if not dict(self.request.GET.lists()):
-            return EventFilter(self.request.GET, queryset=Event.objects.all().order_by('-id')[:25])
+            #return EventFilter(self.request.GET, queryset=Event.objects.all().order_by('-id')[:25])
+            return None
         else:
             return EventFilter(self.request.GET, queryset=Event.objects.all().distinct())
 
