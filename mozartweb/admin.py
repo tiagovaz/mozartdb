@@ -156,6 +156,7 @@ class SpeechAdmin(admin.ModelAdmin):
     form = SpeechForm
 
 class PerformerAdmin(admin.ModelAdmin):
+    list_max_show_all = 10000
     form = PerformerForm
 
 class ReferenceAdmin(admin.ModelAdmin):
