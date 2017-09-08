@@ -304,7 +304,18 @@ class Event(models.Model):
         else:
             return None
 
-    def get_previews(self):
+    def _format_date_sortable(self, date):
+        if date is not None:
+            if self.month_is_estimated:
+                return date.strftime("%Y")
+            elif self.day_is_estimated:
+                return date.strftime("%Y-%m")
+            else:
+                return date.strftime("%Y-%m-%d")
+        else:
+            return None
+
+    def get_previous(self):
         event = Event.objects.filter(id__lt=self.id).order_by('-id').first()
         if self == Event.objects.all().order_by('id').first():
             return self
@@ -321,8 +332,14 @@ class Event(models.Model):
     def format_start_date(self):
         return self._format_date(self.start_date)
 
+    def format_start_date_sortable(self):
+        return self._format_date_sortable(self.start_date)
+
     def format_end_date(self):
         return self._format_date(self.end_date)
+
+    def format_end_date_sortable(self):
+        return self._format_date_sortable(self.end_date)
 
     class Meta:
         verbose_name = "Événement"

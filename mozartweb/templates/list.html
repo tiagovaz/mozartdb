@@ -101,10 +101,10 @@
               {% endif %}
 
                                     </td>
-                                    <td><nobr>{{ event.start_date|date:"Y-m-d" }}</nobr>
+                                    <td><nobr>{{ event.format_start_date_sortable }}</nobr>
                                         {% if event.end_date %}
                                             {% if event.end_date != event.start_date %}
-                                               <br>à<br><nobr>{{ event.end_date|date:"Y-m-d" }}</nobr>
+                                               <br>à<br><nobr>{{ event.format_end_date_sortable }}</nobr>
                                             {% endif %}
                                         {% endif %}
                                     </td>
