@@ -162,6 +162,7 @@ class PerformerAdmin(admin.ModelAdmin):
     form = PerformerForm
 
 class ReferenceAdmin(admin.ModelAdmin):
+    list_max_show_all = 10000
     form = ReferenceForm
 
 admin.site.register(City)

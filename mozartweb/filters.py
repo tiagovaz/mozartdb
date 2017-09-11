@@ -24,6 +24,7 @@ class EventFilter(django_filters.FilterSet):
     year_insertion = django_filters.NumberFilter(label="Année d'insertion", name='created_on', lookup_expr='year')
     created_on = django_filters.DateFromToRangeFilter(label="Date d'insertion (début - fin jj/mm/aaaa)")
     comment__content = django_filters.CharFilter(label="Commentaires", lookup_expr='icontains')
+    info__content = django_filters.CharFilter(label="Informations complémentaires", lookup_expr='icontains')
     created_by__username = django_filters.ModelChoiceFilter(label="Utilisateur", queryset=User.objects.all())
 
  #   def year_range(self, queryset, value):
@@ -47,6 +48,7 @@ class EventFilter(django_filters.FilterSet):
             'start_date',
             'pdf_checked',
             'comment__content',
+            'info__content',
             'created_by__username',
             'year_insertion',
             'created_on',

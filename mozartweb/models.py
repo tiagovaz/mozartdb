@@ -9,6 +9,9 @@ from django.dispatch import receiver
 import locale
 from mozartweb import signals
 locale.setlocale(locale.LC_TIME, "fr_FR.UTF-8") 
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 @python_2_unicode_compatible
 class City(models.Model):
@@ -84,13 +87,22 @@ class Reference(models.Model):
     article_file = models.FileField(upload_to='articles', null=True, blank=True, verbose_name='Article en PDF')
 
     def __str__(self):
-        return "« %s », %s, p. %s, %s" % (self.article_title, self.journal_title, self.page, self.date)
+        li = []
+        authors = self.author.all()
+        for a in authors:
+            if a is not None:
+                li.append(a.__str__())
+        author = "; ".join(li)
+        if author is "":
+            return "« %s », %s, p. %s, %s (aucun auteur associé)" % (self.article_title, self.journal_title, self.page, self.date)
+        else:
+            return "« %s », %s, p. %s, %s (%s)" % (self.article_title, self.journal_title, self.page, self.date, author)
 
     class Meta:
         verbose_name = "Référence"
         verbose_name_plural = "Références"
 	ordering = ('article_title',)
-        unique_together = (("article_title", "journal_title", "page", "date"),)
+        #unique_together = (("article_title", "journal_title", "page", "date", "author"),)
 
 @python_2_unicode_compatible
 class PerformerType(models.Model):
