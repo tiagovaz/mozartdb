@@ -118,7 +118,11 @@
                                             <i class="fa fa-caret-right"></i> {{ performer|default:"" }}<br>
                                         {% endfor %}
                                     </td>
-                                    <td>{{ event.place|default:"" }}</td>
+                                    <td>
+                                        {% for place in event.places.all %}
+                                            <i class="fa fa-caret-right"></i> {{ place|default:"" }}<br>
+                                        {% endfor %}
+                                    </td>
                                     <td>{{ event.type|default:"" }}</td>
                                     <td>{{ event.created_on|date:"Y-m-d" }} par {{ event.created_by.first_name }} {{event.created_by.last_name|default:""}}</td>
                                 </tr>

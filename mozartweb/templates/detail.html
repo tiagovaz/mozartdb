@@ -40,7 +40,12 @@
             <strong>{% trans "ID" %} :</strong> {{ event.id }}<br>
             <strong>{% trans "Nature" %} :</strong> {{ event.type|default:"" }}<br>
 	    {% if event.bc_key == None %}
-                <strong>{% trans "Lieu" %} :</strong> {{ event.place|default:"" }}<br>
+                <strong>{% trans "Lieu" %} :</strong>
+                <ul>
+                    {% for p in event.places.all %}
+                        <li>{{ p }}</a></li>
+                    {% endfor %}
+                </ul>
             {% endif %}
             <strong>{% trans "Date début" %} :</strong> {{event.format_start_date|default:""}} 
 		{% if event.start_time %} à {{event.start_time|default:""}}{% endif %}<br>
