@@ -254,7 +254,7 @@ class Event(models.Model):
     """The main class for all 'Mozart' events."""
     title = models.CharField("Titre ou description de l'évènement", max_length=201)
     reference = models.ManyToManyField("Reference", blank=True, verbose_name="Référence")
-    place = models.ForeignKey('Place', verbose_name='Lieu', null=True, blank=True)
+    places = models.ManyToManyField('Place', verbose_name='Lieu', related_name='places')
     radio_station = models.ForeignKey('RadioStation', verbose_name='Station radio', null=True, blank=True)
     poster = models.ImageField(upload_to = 'posters', null=True, blank=True, verbose_name='Affiche')
     type = models.ForeignKey('Type', verbose_name="Nature de l'évènement", null=True, blank=True)
@@ -356,6 +356,7 @@ class Broadcasting(models.Model):
     reference = models.ManyToManyField("Reference", blank=True, verbose_name="Référence")
     radio_station = models.ForeignKey('RadioStation', verbose_name='Station radio', null=True, blank=True)
     type = models.ForeignKey('TypeBroadcasting', verbose_name="Nature", null=True, blank=True)
+    places = models.ManyToManyField('Place', verbose_name='Lieu', related_name='bc_places')
     performer = models.ManyToManyField('Performer', verbose_name="Interprètes", blank=True)
     speech = models.ManyToManyField('Speech', verbose_name="Conférence", blank=True)
     piece = models.ManyToManyField('Piece', verbose_name="Œuvres interpretées", blank=True)
@@ -475,6 +476,15 @@ def m2m(sender, **kwargs):
 
 m2m_changed.connect(m2m, sender = Broadcasting.reference.through, dispatch_uid = 'foo', weak = False)
 
+#@receiver(m2m_changed, sender = Broadcasting.places.through)
+#def m2m(sender, **kwargs):
+#    instance = kwargs.pop('instance', None)
+#    my_event = Event.objects.get(bc_key=instance)
+#    my_event.places = instance.places.all()
+#    my_event.save()
+#
+#m2m_changed.connect(m2m, sender = Broadcasting.places.through, dispatch_uid = 'foo', weak = False)
+#
 @receiver(m2m_changed, sender = Broadcasting.performer.through)
 def m2m(sender, **kwargs):
     instance = kwargs.pop('instance', None)

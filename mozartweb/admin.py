@@ -48,6 +48,12 @@ class EventResource(resources.ModelResource):
             pieces.append(p.__str__())
         return "; ".join(pieces)
 
+    def dehydrate_piece(self, event):
+        places = []
+        for p in event.places.all():
+            places.append(p.__str__())
+        return "; ".join(places)
+
     def dehydrate_relates_to_broadcasting(self, event):
         bs = []
         for p in event.relates_to_broadcasting.all():
@@ -93,9 +99,7 @@ class EventResource(resources.ModelResource):
                   'info', #
                   'start_date', 
                   'end_date', 
-                  'place__venue',
-                  'place__city__name', 
-                  'place__country__name',
+                  'places', #
                   'radio_station__name', 
                   'piece', #
                   'performer',  #
@@ -113,9 +117,7 @@ class EventResource(resources.ModelResource):
         fields = ('id',
                   'title',
                   'reference', #
-                  'place__venue',
-                  'place__city__name', 
-                  'place__country__name',
+                  'places',
                   'radio_station__name', 
                   'type__type', 
                   'performer',  #
