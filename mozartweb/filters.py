@@ -12,6 +12,7 @@ class EventFilter(django_filters.FilterSet):
     piece__name = django_filters.CharFilter(label='Œuvre', lookup_expr='icontains')
     reference__article_title = django_filters.CharFilter(label="Titre de l'article", lookup_expr='icontains')
     reference__journal_title = django_filters.CharFilter(label="Titre du journal", lookup_expr='icontains')
+    reference__author = django_filters.ModelChoiceFilter(label="Auteur de l'article", queryset=Author.objects.all())
     places__city = django_filters.ModelChoiceFilter(label="Ville", queryset=City.objects.all())
     places__country = django_filters.ModelChoiceFilter(label="Pays", queryset=Country.objects.all())
     places__venue = django_filters.CharFilter(label="Lieu", lookup_expr='icontains')
@@ -42,6 +43,7 @@ class EventFilter(django_filters.FilterSet):
             'speech__speaker__last_name',
             'reference__article_title',
             'reference__journal_title',
+            'reference__author',
             'places__venue',
             'places__city',
             'places__country',
@@ -53,6 +55,9 @@ class EventFilter(django_filters.FilterSet):
             'year_insertion',
             'created_on',
         ]
-
-    def filter_title(self, queryset, value):
-        return queryset.filter(relates_to_broadcasting__title__icontains=value) | queryset.filter(title__icontains=value)
+#
+#    def filter_title(self, queryset, value):
+#        return queryset.filter(relates_to_broadcasting__title__icontains=value) | queryset.filter(title__icontains=value)
+#
+#    def filter_reference__author(self, queryset, value):
+#        return queryset.filter(reference__author__last_name__icontains=value) | queryset.filter(reference__author__first_name__icontains=value)
