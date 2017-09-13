@@ -92,7 +92,7 @@ class Reference(models.Model):
         for a in authors:
             if a is not None:
                 li.append(a.get_fullname())
-        author_all = "; ".join(li)
+        author_all = " et ".join(li)
         if self.page:
             page = ", p. %s" % (self.page)
         else:
