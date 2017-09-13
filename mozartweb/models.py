@@ -91,12 +91,26 @@ class Reference(models.Model):
         authors = self.author.all()
         for a in authors:
             if a is not None:
-                li.append(a.__str__())
-        author = "; ".join(li)
-        if author is "":
-            return "« %s », %s, p. %s, %s (aucun auteur associé)" % (self.article_title, self.journal_title, self.page, self.date)
+                li.append(a.get_fullname())
+        author_all = "; ".join(li)
+        if self.page:
+            page = ", p. %s" % (self.page)
         else:
-            return "« %s », %s, p. %s, %s (%s)" % (self.article_title, self.journal_title, self.page, self.date, author)
+            page = ""
+        if self.date:
+            date = ", %s" % (self.date)
+        else:
+            date = ""
+        if author_all:
+            author = "%s, " % (author_all)
+        else:
+            author = ""
+        if self.journal_title:
+            journal = ", %s" % (self.journal_title)
+        else:
+            journal = ""
+        article = "« %s »" % (self.article_title)
+        return "%s%s%s%s%s" % (author, article, journal, date, page)
 
     class Meta:
         verbose_name = "Référence"
