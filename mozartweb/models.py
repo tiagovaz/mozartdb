@@ -91,7 +91,6 @@ class Journal(models.Model):
 @python_2_unicode_compatible
 class Reference(models.Model):
     article_title = models.CharField("Titre de l'article", max_length=150, blank=True)
-    journal_title = models.CharField("Titre du journal OLD", max_length=150, blank=True)
     journal = models.ForeignKey("Journal", verbose_name="Titre du journal", blank=True, null=True)
     author = models.ManyToManyField('Author', verbose_name='Auteur(s)', blank=True, null=True)
     page = models.CharField("Page(s)", max_length=150, blank=True)
@@ -117,8 +116,8 @@ class Reference(models.Model):
             author = "%s, " % (author_all)
         else:
             author = ""
-        if self.journal_title:
-            journal = ", %s" % (self.journal_title)
+        if self.journal:
+            journal = ", %s" % (self.journal.title)
         else:
             journal = ""
         article = "« %s »" % (self.article_title)
