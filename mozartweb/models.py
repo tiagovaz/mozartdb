@@ -76,11 +76,23 @@ class TypeBroadcasting(models.Model):
         verbose_name_plural = "Nature de la diffusion"
         ordering = ('type',)
 
+@python_2_unicode_compatible
+class Journal(models.Model):
+    title = models.CharField("Titre du journal", max_length=200)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Titre du journal"
+        verbose_name_plural = "Titre du journal"
+
 
 @python_2_unicode_compatible
 class Reference(models.Model):
     article_title = models.CharField("Titre de l'article", max_length=150, blank=True)
-    journal_title = models.CharField("Titre du journal", max_length=150, blank=True)
+    journal_title = models.CharField("Titre du journal OLD", max_length=150, blank=True)
+    journal = models.ForeignKey("Journal", verbose_name="Titre du journal", blank=True, null=True)
     author = models.ManyToManyField('Author', verbose_name='Auteur(s)', blank=True, null=True)
     page = models.CharField("Page(s)", max_length=150, blank=True)
     date = models.DateField(null=True, verbose_name="Date", blank=True)

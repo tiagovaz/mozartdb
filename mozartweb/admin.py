@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.forms import TextInput, Textarea
 from easy_select2 import select2_modelform, select2_modelform_meta
 #from mozartweb.forms import RadioDiffusionForm
-from mozartweb.models import City, AdditionalInfo, Country, Type, TypeBroadcasting, Speech, Reference, Place, Performer, Piece, Speaker, RadioStation, PerformerType, Comment, Event, Broadcasting, Author, AdditionalInfo, AdditionalInfoLog
+from mozartweb.models import *
 from django import forms
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
@@ -147,19 +147,26 @@ RadioStationForm = select2_modelform(RadioStation)
 SpeechForm = select2_modelform(Speech)
 PerformerForm = select2_modelform(Performer)
 ReferenceForm = select2_modelform(Reference)
+JournalForm = select2_modelform(Journal)
 
 class PlaceAdmin(admin.ModelAdmin):
+    list_max_show_all = 10000
     form = PlaceForm
 
 class RadioStationAdmin(admin.ModelAdmin):
     form = RadioStationForm
 
 class SpeechAdmin(admin.ModelAdmin):
+    list_max_show_all = 10000
     form = SpeechForm
 
 class PerformerAdmin(admin.ModelAdmin):
     list_max_show_all = 10000
     form = PerformerForm
+
+class JournalAdmin(admin.ModelAdmin):
+    list_max_show_all = 10000
+    form = JournalForm
 
 class ReferenceAdmin(admin.ModelAdmin):
     list_max_show_all = 10000
@@ -170,6 +177,7 @@ admin.site.register(Country)
 admin.site.register(Type)
 admin.site.register(TypeBroadcasting)
 admin.site.register(Speech, SpeechAdmin)
+admin.site.register(Journal, JournalAdmin)
 admin.site.register(Reference, ReferenceAdmin)
 admin.site.register(Place, PlaceAdmin)
 admin.site.register(Performer, PerformerAdmin)
@@ -181,6 +189,7 @@ admin.site.register(PerformerType)
 admin.site.register(AdditionalInfoLog)
 
 class AdditionalInfoAdmin(admin.ModelAdmin):
+    list_max_show_all = 10000
     def save_model(self, request, obj, form, change): 
         instance = form.save(commit=False)
         if instance.created_by is None:
@@ -198,6 +207,7 @@ class AdditionalInfoAdmin(admin.ModelAdmin):
 admin.site.register(AdditionalInfo, AdditionalInfoAdmin)
 
 class CommentAdmin(admin.ModelAdmin):
+    list_max_show_all = 10000
     def save_model(self, request, obj, form, change):
         obj.user = request.user
         obj.save()
@@ -216,6 +226,7 @@ class CommentInline(admin.TabularInline):
 #
 class EventAdmin(ImportExportModelAdmin):
 #    exclude = ('relates_to_radio',)
+    list_max_show_all = 10000
     exclude = ('bc_key', 'radio_station')
     form = EventForm
     resource_class = EventResource
