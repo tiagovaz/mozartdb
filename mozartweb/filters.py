@@ -11,7 +11,7 @@ class EventFilter(django_filters.FilterSet):
     performer__type = django_filters.ModelChoiceFilter(label='Type interprète', queryset=PerformerType.objects.all())
     piece__name = django_filters.CharFilter(label='Œuvre', lookup_expr='icontains')
     reference__article_title = django_filters.CharFilter(label="Titre de l'article", lookup_expr='icontains')
-    reference__journal__title = django_filters.ModelChoiceFilter(label="Titre du journal", queryset=Journal.objects.all())
+    reference__journal__title = django_filters.ModelChoiceFilter(label="Journal", queryset=Journal.objects.all())
     reference__author = django_filters.ModelChoiceFilter(label="Auteur de l'article", queryset=Author.objects.all())
     places__city = django_filters.ModelChoiceFilter(label="Ville", queryset=City.objects.all())
     places__country = django_filters.ModelChoiceFilter(label="Pays", queryset=Country.objects.all())
