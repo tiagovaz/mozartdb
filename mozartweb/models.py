@@ -86,7 +86,7 @@ class Journal(models.Model):
     class Meta:
         verbose_name = "Titre du journal"
         verbose_name_plural = "Titre du journal"
-
+        ordering = ('title',)
 
 @python_2_unicode_compatible
 class Reference(models.Model):
