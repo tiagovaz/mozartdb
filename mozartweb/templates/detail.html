@@ -67,7 +67,7 @@
                 <strong>{% trans "Événement(s) associé(s)" %} :</strong>
                 <ul>
                     {% for r in event.bc_key.get_related_events.all %}
-                        <li><a href="/{{ r.id }}">{{ r }}</a></li>
+                        <li><a href="/{{ r.id }}">{{ r|safe }}</a></li>
                     {% endfor %}
                 </ul>
             {% endif %}
