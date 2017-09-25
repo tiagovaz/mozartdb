@@ -59,7 +59,7 @@
                 <strong>{% trans "Diffusion(s) radio associée(s)" %} :</strong>
                 <ul>
                     {% for r in event.relates_to_broadcasting.all %}
-                        <li><a href="/{{ r.ev_clone.id }}">{{ r.ev_clone.title }}</a></li>
+                        <li><a href="/{{ r.ev_clone.id }}">{{ r.ev_clone.title|safe }}</a></li>
                     {% endfor %}
                 </ul>
             {% endif %}
