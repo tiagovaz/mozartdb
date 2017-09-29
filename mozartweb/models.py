@@ -148,6 +148,7 @@ class Performer(models.Model):
     first_name = models.CharField("Prénom (si est une personne)", max_length=200, null=True, blank=True)
     last_name = models.CharField("Nom", max_length=200)
     type = models.ForeignKey('PerformerType', verbose_name='Nature')
+    ptype = models.ManyToManyField('PerformerType', related_name='ptype', verbose_name='Nature')
 
     def __str__(self):
         try:
