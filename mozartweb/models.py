@@ -147,12 +147,18 @@ from django.core.exceptions import ObjectDoesNotExist
 class Performer(models.Model):
     first_name = models.CharField("Prénom (si est une personne)", max_length=200, null=True, blank=True)
     last_name = models.CharField("Nom", max_length=200)
-    type = models.ForeignKey('PerformerType', verbose_name='Nature')
     ptype = models.ManyToManyField('PerformerType', related_name='ptype', verbose_name='Nature')
 
     def __str__(self):
+        li = []
+        ptypes = self.ptype.all()
+        for p in ptypes:
+            if p is not None:
+                li.append(p.description)
+        ptypes_all = ", ".join(li)
+
         try:
-            return "%s, %s [%s]" % (self.last_name, self.first_name, self.type.description)
+            return "%s, %s [%s]" % (self.last_name, self.first_name, ptypes_all)
         except ObjectDoesNotExist:
             return "%s, %s" % (self.last_name, self.first_name)
 
@@ -160,7 +166,7 @@ class Performer(models.Model):
         verbose_name = "Interprète"
         verbose_name_plural = "Interprètes"
         ordering = ('last_name',)
-        unique_together = (("first_name", "last_name", "type"),)
+#        unique_together = (("first_name", "last_name", "ptype"),) #FIXME: ptype is m2m
 
 @python_2_unicode_compatible
 class Speech(models.Model):
