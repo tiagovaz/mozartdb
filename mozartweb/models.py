@@ -298,8 +298,7 @@ class Event(models.Model):
     """The main class for all 'Mozart' events."""
     title = models.CharField("Titre ou description de l'évènement", max_length=201)
     reference = models.ManyToManyField("Reference", blank=True, verbose_name="Référence")
-    #place = models.ForeignKey('Place', verbose_name='Lieu', null=True, blank=True)
-    places = models.ManyToManyField('Place', verbose_name='Lieu', related_name='places')
+    places = models.ManyToManyField('Place', verbose_name='Lieu', related_name='places', blank=True)
     radio_station = models.ForeignKey('RadioStation', verbose_name='Station radio', null=True, blank=True)
     poster = models.ImageField(upload_to = 'posters', null=True, blank=True, verbose_name='Affiche')
     type = models.ForeignKey('Type', verbose_name="Nature de l'évènement", null=True, blank=True)
