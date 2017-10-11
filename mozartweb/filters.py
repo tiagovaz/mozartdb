@@ -55,6 +55,7 @@ class EventFilter(django_filters.FilterSet):
             'year_insertion',
             'created_on',
         ]
+
 #
 #    def filter_title(self, queryset, value):
 #        return queryset.filter(relates_to_broadcasting__title__icontains=value) | queryset.filter(title__icontains=value)
