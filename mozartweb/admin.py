@@ -172,21 +172,30 @@ class ReferenceAdmin(admin.ModelAdmin):
     list_max_show_all = 10000
     form = ReferenceForm
 
+class PieceAdmin(admin.ModelAdmin):
+    list_max_show_all = 10000
+
+class TypeAdmin(admin.ModelAdmin):
+    list_max_show_all = 10000
+
+class AdditionalInfoLogAdmin(admin.ModelAdmin):
+    list_max_show_all = 10000
+
 admin.site.register(City)
 admin.site.register(Country)
-admin.site.register(Type)
+admin.site.register(Type, TypeAdmin)
 admin.site.register(TypeBroadcasting)
 admin.site.register(Speech, SpeechAdmin)
 admin.site.register(Journal, JournalAdmin)
 admin.site.register(Reference, ReferenceAdmin)
 admin.site.register(Place, PlaceAdmin)
 admin.site.register(Performer, PerformerAdmin)
-admin.site.register(Piece)
+admin.site.register(Piece, PieceAdmin)
 admin.site.register(Speaker)
 admin.site.register(Author)
 admin.site.register(RadioStation)
 admin.site.register(PerformerType)
-admin.site.register(AdditionalInfoLog)
+admin.site.register(AdditionalInfoLog, AdditionalInfoLogAdmin)
 
 class AdditionalInfoAdmin(admin.ModelAdmin):
     list_max_show_all = 10000
@@ -265,6 +274,11 @@ class EventAdmin(ImportExportModelAdmin):
             return formset.save()
 
 class BroadcastingAdmin(admin.ModelAdmin):
+    def get_model_perms(self, request):
+        """
+        Return empty perms dict thus hiding the model from admin index.
+        """
+        return {}
 #    exclude = ('edited_by')
     form = BroadcastingForm
 
