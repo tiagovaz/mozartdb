@@ -6,7 +6,8 @@ from models import *
 
 class EventFilter(django_filters.FilterSet):
 #    title = django_filters.MethodFilter(label="Titre de l'événement", action='filter_title')
-    title = django_filters.CharFilter(label="Titre de l'événement", lookup_expr='icontains')
+    title = django_filters.CharFilter(method='my_custom_filter')
+#    title = django_filters.CharFilter(label="Titre de l'événement", lookup_expr='icontains')
     performer__last_name = django_filters.CharFilter(label='Interprète / ensemble', lookup_expr='icontains')
     performer__type = django_filters.ModelChoiceFilter(label='Type interprète', queryset=PerformerType.objects.all())
     piece__name = django_filters.CharFilter(label='Œuvre', lookup_expr='icontains')
@@ -30,6 +31,15 @@ class EventFilter(django_filters.FilterSet):
 
  #   def year_range(self, queryset, value):
  #       return queryset.filter()
+
+
+# With the new version of django-filter we can remove the duplication of
+# broadcasting model, since it's now possible to look for many models in a
+# query:
+    def my_custom_filter(self, queryset, name, value):
+        from django.db.models import Q
+        query = Q(title__icontains=value ) | Q(title__icontains="test" )
+        return queryset.filter(query)
 
     class Meta:
         model = Event
