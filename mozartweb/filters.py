@@ -36,9 +36,17 @@ class EventFilter(django_filters.FilterSet):
 # With the new version of django-filter we can remove the duplication of
 # broadcasting model, since it's now possible to look for many models in a
 # query:
+
+    def multipleReplace(self, text):
+        wordDict = {'ss':'ß', 'oe':'ö', 'ue':'ü', 'ae':'ä'}
+        for key in wordDict:
+            text = text.replace(key, wordDict[key])
+        return text
+
     def my_custom_filter(self, queryset, name, value):
         from django.db.models import Q
-        query = Q(title__icontains=value ) | Q(title__icontains="test" )
+        value_converted = self.multipleReplace(value)
+        query = Q(title__icontains=value ) | Q(title__icontains=value_converted)
         return queryset.filter(query)
 
     class Meta:
