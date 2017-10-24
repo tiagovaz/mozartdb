@@ -35,55 +35,89 @@ class EventFilter(django_filters.FilterSet):
 # broadcasting model, since it's now possible to look for many models in a
 # query:
 
-    def multipleReplace(self, text):
-        wordDict = {'ss':'ß', 'oe':'ö', 'ue':'ü', 'ae':'ä'}
-        for key in wordDict:
-            text = text.replace(key, wordDict[key])
+    wordDict = {'ss':'ß', 'oe':'ö', 'ue':'ü', 'ae':'ä'}
+    iwordDict = {'ß':'ss', 'ö':'oe', 'ü':'ue', 'ä':'ae'}
+    def multipleReplace(self, text, dict_map):
+        for key in dict_map:
+            text = text.replace(key, dict_map[key])
         return text
 
     def custom_title_filter(self, queryset, name, value):
-        value_converted = self.multipleReplace(value)
-        query = Q(title__icontains=value ) | Q(title__icontains=value_converted)
+        value_converted = self.multipleReplace(value, self.wordDict)
+        value_iconverted = self.multipleReplace(value, self.iwordDict)
+        query = (Q(title__icontains=value ) |
+                 Q(title__icontains=value_converted) |
+                 Q(title__icontains=value_iconverted))
         return queryset.filter(query)
 
     def custom_piece_filter(self, queryset, name, value):
-        value_converted = self.multipleReplace(value)
-        query = Q(piece__name__icontains=value ) | Q(piece__name__icontains=value_converted)
+        value_converted = self.multipleReplace(value, self.wordDict)
+        value_iconverted = self.multipleReplace(value, self.iwordDict)
+        query = (Q(piece__name__icontains=value ) |
+                 Q(piece__name__icontains=value_converted) |
+                 Q(piece__name__icontains=value_iconverted))
         return queryset.filter(query)
 
     def custom_performer_filter(self, queryset, name, value):
-        value_converted = self.multipleReplace(value)
-        query = Q(performer__last_name__icontains=value ) | Q(performer__last_name__icontains=value_converted) | Q(performer__first_name__icontains=value) | Q(performer__first_name__icontains=value_converted)
+        value_converted = self.multipleReplace(value, self.wordDict)
+        value_iconverted = self.multipleReplace(value, self.iwordDict)
+	query = (Q(performer__last_name__icontains=value ) |
+                 Q(performer__last_name__icontains=value_converted) |
+                 Q(performer__last_name__icontains=value_iconverted) |
+                 Q(performer__first_name__icontains=value) |
+                 Q(performer__first_name__icontains=value_converted) |
+                 Q(performer__first_name__icontains=value_iconverted))
         return queryset.filter(query)
 
     def custom_speech_filter(self, queryset, name, value):
-        value_converted = self.multipleReplace(value)
-        query = Q(speech__title__icontains=value ) | Q(speech__title__icontains=value_converted)
+        value_converted = self.multipleReplace(value, self.wordDict)
+        value_iconverted = self.multipleReplace(value, self.iwordDict)
+	query = (Q(speech__title__icontains=value ) |
+                 Q(speech__title__icontains=value_converted) |
+                 Q(speech__title__icontains=value_iconverted))
         return queryset.filter(query)
 
     def custom_speaker_filter(self, queryset, name, value):
-        value_converted = self.multipleReplace(value)
-        query = Q(speech__speaker__last_name__icontains=value ) | Q(speech__speaker__last_name__icontains=value_converted) | Q(speech__speaker__first_name__icontains=value) | Q(speech__speaker__first_name__icontains=value_converted)
+        value_converted = self.multipleReplace(value, self.wordDict)
+        value_iconverted = self.multipleReplace(value, self.iwordDict)
+	query = (Q(speech__speaker__last_name__icontains=value ) |
+                 Q(speech__speaker__last_name__icontains=value_converted) |
+                 Q(speech__speaker__last_name__icontains=value_iconverted) |
+                 Q(speech__speaker__first_name__icontains=value) |
+                 Q(speech__speaker__first_name__icontains=value_converted) |
+                 Q(speech__speaker__first_name__icontains=value_iconverted))
         return queryset.filter(query)
 
     def custom_article_filter(self, queryset, name, value):
-        value_converted = self.multipleReplace(value)
-        query = Q(reference__article_title__icontains=value ) | Q(reference__article_title__icontains=value_converted)
+        value_converted = self.multipleReplace(value, self.wordDict)
+        value_iconverted = self.multipleReplace(value, self.iwordDict)
+	query = (Q(reference__article_title__icontains=value ) |
+                 Q(reference__article_title__icontains=value_converted) |
+                 Q(reference__article_title__icontains=value_iconverted))
         return queryset.filter(query)
 
     def custom_venue_filter(self, queryset, name, value):
-        value_converted = self.multipleReplace(value)
-        query = Q(places__venue__icontains=value ) | Q(places__venue__icontains=value_converted)
+        value_converted = self.multipleReplace(value, self.wordDict)
+        value_iconverted = self.multipleReplace(value, self.iwordDict)
+	query = (Q(places__venue__icontains=value ) |
+                 Q(places__venue__icontains=value_converted) |
+                 Q(places__venue__icontains=value_iconverted))
         return queryset.filter(query)
 
     def custom_comments_filter(self, queryset, name, value):
-        value_converted = self.multipleReplace(value)
-        query = Q(comment__content__icontains=value ) | Q(comment__content__icontains=value_converted)
+        value_converted = self.multipleReplace(value, self.wordDict)
+        value_iconverted = self.multipleReplace(value, self.iwordDict)
+	query = (Q(comment__content__icontains=value ) |
+                 Q(comment__content__icontains=value_converted) |
+                 Q(comment__content__icontains=value_iconverted))
         return queryset.filter(query)
 
     def custom_info_filter(self, queryset, name, value):
-        value_converted = self.multipleReplace(value)
-        query = Q(info__content__icontains=value ) | Q(info__content__icontains=value_converted)
+        value_converted = self.multipleReplace(value, self.wordDict)
+        value_iconverted = self.multipleReplace(value, self.iwordDict)
+	query = (Q(info__content__icontains=value ) |
+                 Q(info__content__icontains=value_converted) |
+                 Q(info__content__icontains=value_iconverted))
         return queryset.filter(query)
 
     class Meta:
