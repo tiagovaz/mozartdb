@@ -10,8 +10,26 @@ from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 from import_export.widgets import ManyToManyWidget
 from import_export import fields
+from re import sub
 
+# Export setup class
 class EventResource(resources.ModelResource):
+    title = fields.Field(column_name=Event._meta.get_field_by_name('title')[0].verbose_name)
+    type__type = fields.Field(column_name=Event._meta.get_field_by_name('type')[0].verbose_name)
+    start_date = fields.Field(column_name=Event._meta.get_field_by_name('start_date')[0].verbose_name)
+    end_date = fields.Field(column_name=Event._meta.get_field_by_name('end_date')[0].verbose_name)
+    places = fields.Field(column_name=Event._meta.get_field_by_name('places')[0].verbose_name)
+    piece = fields.Field(column_name=Event._meta.get_field_by_name('piece')[0].verbose_name)
+    performer = fields.Field(column_name=Event._meta.get_field_by_name('performer')[0].verbose_name)
+    speech = fields.Field(column_name=Event._meta.get_field_by_name('speech')[0].verbose_name)
+    relates_to_broadcasting = fields.Field(column_name=Event._meta.get_field_by_name('relates_to_broadcasting')[0].verbose_name)
+    radio_station__name = fields.Field(column_name=Event._meta.get_field_by_name('radio_station')[0].verbose_name)
+    comments = fields.Field(column_name=Comment._meta.get_field_by_name('content')[0].verbose_name)
+    info = fields.Field(column_name=AdditionalInfo._meta.get_field_by_name('content')[0].verbose_name)
+
+    def dehydrate_title(self, event):
+        return sub('<[^<]+?>', '', event.title)
+
     def dehydrate_start_date(self, event):
         return event.format_start_date()
 
@@ -48,7 +66,7 @@ class EventResource(resources.ModelResource):
             pieces.append(p.__str__())
         return "; ".join(pieces)
 
-    def dehydrate_piece(self, event):
+    def dehydrate_places(self, event):
         places = []
         for p in event.places.all():
             places.append(p.__str__())
@@ -58,13 +76,15 @@ class EventResource(resources.ModelResource):
         bs = []
         for p in event.relates_to_broadcasting.all():
             bs.append(p.__str__())
-        return "; ".join(bs)
+        text = "; ".join(bs)
+        return sub('<[^<]+?>', '', text)
 
     def dehydrate_info(self, event):
         info_list = []
         for i in event.get_info():
             info_list.append(i.__str__())
-        return "; ".join(info_list)
+        text = "; ".join(info_list)
+        return sub('<[^<]+?>', '', text)
 
     def dehydrate_comments(self, event):
         c_list = []
@@ -72,51 +92,24 @@ class EventResource(resources.ModelResource):
             c_list.append(c.__str__())
         return "; ".join(c_list)
 
-    info = fields.Field(column_name='Informations_complémentaires')
-    comments = fields.Field(column_name='Commentaires')
-#    title = fields.Field(column_name='Titre')
-#    type__type = fields.Field(column_name='Nature')
-#    place__venue = fields.Field(column_name='Venue')
-#    place__city__name = fields.Field(column_name='Ville')
-#    place__country__name = fields.Field(column_name='Pays')
-#    radio_station__name = fields.Field(column_name='Station_radio')
-#    piece = fields.Field(column_name='Pièce')
-#    performer = fields.Field(column_name='Interprète')
-#    speech = fields.Field(column_name='Conférence')
-#    reference = fields.Field(column_name='Références')
-#    relates_to_broadcasting = fields.Field(column_name='Diffusion_radio')
-#    created_by = fields.Field(column_name="Date_insertion ")
-#    created_on = fields.Field(column_name='Ajouté_par')
-#    edited_by = fields.Field(column_name='Date_dernière_modification')
-#    edited_on = fields.Field(column_name='Dernière_modification_par')
-#    pdf_checked = fields.Field(column_name='PDF_vérifié')
-
     class Meta:
-
         export_order = ('id',
                   'title',
                   'type__type', 
-                  'info', #
                   'start_date', 
                   'end_date', 
                   'places', #
-                  'radio_station__name', 
                   'piece', #
                   'performer',  #
                   'speech',  #
-                  'reference', #
                   'relates_to_broadcasting', #
-                  'created_by', 
-                  'created_on', 
-                  'edited_by', 
-                  'edited_on', 
-                  'pdf_checked', 
+                  'radio_station__name', 
                   'comments', #
+                  'info', #
                  )
 
         fields = ('id',
                   'title',
-                  'reference', #
                   'places',
                   'radio_station__name', 
                   'type__type', 
@@ -125,12 +118,7 @@ class EventResource(resources.ModelResource):
                   'piece', #
                   'start_date', 
                   'end_date', 
-                  'pdf_checked', 
                   'relates_to_broadcasting', #
-                  'created_by', 
-                  'created_on', 
-                  'edited_by', 
-                  'edited_on', 
                   'comments', #
                   'info', #
                  )
