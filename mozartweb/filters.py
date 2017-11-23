@@ -6,8 +6,9 @@ from models import *
 
 class EventFilter(django_filters.FilterSet):
     title = django_filters.CharFilter(method='custom_title_filter')
-    performer__last_name = django_filters.CharFilter(label='Interprète / ensemble', method='custom_performer_filter')
-    performer__type = django_filters.ModelChoiceFilter(label='Type interprète', queryset=PerformerType.objects.all())
+    performer__first_name = django_filters.CharFilter(label='Interprète (prénom)', method='custom_performer_first_name_filter')
+    performer__last_name = django_filters.CharFilter(label='Interprète (nom de famille ou ensemble)', method='custom_performer_last_name_filter')
+    performer__ptype__description = django_filters.ModelChoiceFilter(label='Type interprète', queryset=PerformerType.objects.all())
     piece__name = django_filters.CharFilter(label='Œuvre', method='custom_piece_filter')
     reference__article_title = django_filters.CharFilter(label="Titre de l'article", method='custom_article_filter')
     reference__journal__title = django_filters.ModelChoiceFilter(label="Journal", queryset=Journal.objects.all())
@@ -16,7 +17,8 @@ class EventFilter(django_filters.FilterSet):
     places__country = django_filters.ModelChoiceFilter(label="Pays", queryset=Country.objects.all())
     places__venue = django_filters.CharFilter(label="Lieu", method='custom_venue_filter')
     speech__title = django_filters.CharFilter(label="Titre de la conférence", method='custom_speech_filter')
-    speech__speaker = django_filters.CharFilter(label="Conférencier-ère", method='custom_speaker_filter')
+    speech__speaker__first_name = django_filters.CharFilter(label="Conférencier-ère (prénom)", method='custom_speaker_first_name_filter')
+    speech__speaker__last_name = django_filters.CharFilter(label="Conférencier-ère (nom de famille)", method='custom_speaker_last_name_filter')
     #year = django_filters.MethodFilter(label='Année', action='year_range')
     start_date = django_filters.DateFromToRangeFilter(label="Date de l'événement (début - fin jj/mm/aaaa)")
     #year = django_filters.NumberFilter(label='Année', name='start_date', lookup_expr='year')
@@ -58,15 +60,20 @@ class EventFilter(django_filters.FilterSet):
                  Q(piece__name__icontains=value_iconverted))
         return queryset.filter(query)
 
-    def custom_performer_filter(self, queryset, name, value):
+    def custom_performer_first_name_filter(self, queryset, name, value):
+        value_converted = self.multipleReplace(value, self.wordDict)
+        value_iconverted = self.multipleReplace(value, self.iwordDict)
+	query = (Q(performer__first_name__icontains=value) |
+                 Q(performer__first_name__icontains=value_converted) |
+                 Q(performer__first_name__icontains=value_iconverted))
+        return queryset.filter(query)
+
+    def custom_performer_last_name_filter(self, queryset, name, value):
         value_converted = self.multipleReplace(value, self.wordDict)
         value_iconverted = self.multipleReplace(value, self.iwordDict)
 	query = (Q(performer__last_name__icontains=value ) |
                  Q(performer__last_name__icontains=value_converted) |
-                 Q(performer__last_name__icontains=value_iconverted) |
-                 Q(performer__first_name__icontains=value) |
-                 Q(performer__first_name__icontains=value_converted) |
-                 Q(performer__first_name__icontains=value_iconverted))
+                 Q(performer__last_name__icontains=value_iconverted))
         return queryset.filter(query)
 
     def custom_speech_filter(self, queryset, name, value):
@@ -77,15 +84,20 @@ class EventFilter(django_filters.FilterSet):
                  Q(speech__title__icontains=value_iconverted))
         return queryset.filter(query)
 
-    def custom_speaker_filter(self, queryset, name, value):
+    def custom_speaker_first_name_filter(self, queryset, name, value):
+        value_converted = self.multipleReplace(value, self.wordDict)
+        value_iconverted = self.multipleReplace(value, self.iwordDict)
+	query = (Q(speech__speaker__first_name__icontains=value) |
+                 Q(speech__speaker__first_name__icontains=value_converted) |
+                 Q(speech__speaker__first_name__icontains=value_iconverted))
+        return queryset.filter(query)
+
+    def custom_speaker_last_name_filter(self, queryset, name, value):
         value_converted = self.multipleReplace(value, self.wordDict)
         value_iconverted = self.multipleReplace(value, self.iwordDict)
 	query = (Q(speech__speaker__last_name__icontains=value ) |
                  Q(speech__speaker__last_name__icontains=value_converted) |
-                 Q(speech__speaker__last_name__icontains=value_iconverted) |
-                 Q(speech__speaker__first_name__icontains=value) |
-                 Q(speech__speaker__first_name__icontains=value_converted) |
-                 Q(speech__speaker__first_name__icontains=value_iconverted))
+                 Q(speech__speaker__last_name__icontains=value_iconverted))
         return queryset.filter(query)
 
     def custom_article_filter(self, queryset, name, value):
@@ -126,10 +138,12 @@ class EventFilter(django_filters.FilterSet):
             'title',
             'type',
             'piece__name',
+            'performer__first_name',
             'performer__last_name',
-            'performer__type',
+            'performer__ptype__description',
             'speech__title',
-            'speech__speaker',
+            'speech__speaker__first_name',
+            'speech__speaker__last_name',
             'reference__article_title',
             'reference__journal__title',
             'reference__author',
