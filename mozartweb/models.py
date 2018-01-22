@@ -196,7 +196,7 @@ class RadioStation(models.Model):
 
 @python_2_unicode_compatible
 class Speaker(models.Model):
-    first_name = models.CharField("Prénom", max_length=200)
+    first_name = models.CharField("Prénom", max_length=200, null=True, blank=True)
     last_name = models.CharField("Nom", max_length=200)
 
     def __str__(self):
@@ -213,7 +213,7 @@ class Speaker(models.Model):
 
 @python_2_unicode_compatible
 class Author(models.Model):
-    first_name = models.CharField("Prénom", max_length=200)
+    first_name = models.CharField("Prénom", max_length=200, null=True, blank=True)
     last_name = models.CharField("Nom", max_length=200)
 
     def __str__(self):
