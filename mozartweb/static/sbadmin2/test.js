@@ -1,5 +1,11 @@
     $(document).ready(function() {
         $('#dataTables-example').DataTable({
+        dom: '<"row"<"col-sm-4"l><"col-sm-4"B><"col-sm-4"f>>rtip',
+        buttons: [
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ],
                "language": {
                    "lengthMenu": "Afficher _MENU_",
                    "zeroRecords": "Aucun résultat",

@@ -25,13 +25,11 @@
 
         <!-- Custom Fonts -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.16/b-1.5.1/b-html5-1.5.1/b-print-1.5.1/datatables.min.css"/>
 
-        <!-- DataTables CSS -->
-        <link href="{% static 'sbadmin2/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css' %}" rel="stylesheet">
 
-        <!-- DataTables Responsive CSS -->
-        <link href="{% static 'sbadmin2/bower_components/datatables-responsive/css/dataTables.responsive.css' %}" rel="stylesheet">
-
+        <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet">
+ 
         {% block extrahead %}
         {% endblock %}
 
@@ -108,9 +106,11 @@
         <script src="{% static 'bootstrap/bootstrap.min.js' %}"></script>
 
         <script src="{% static 'sbadmin2/test.js' %}"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.16/b-1.5.1/b-html5-1.5.1/b-print-1.5.1/datatables.min.js"></script>
 
-        <script src="{% static 'custom/jquery.dataTables.min.js' %}"></script>
-        <script src="{% static 'custom/dataTables.bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
 
         <script type="text/javascript">
             // Popup window code
