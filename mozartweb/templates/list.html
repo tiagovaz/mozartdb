@@ -71,6 +71,8 @@
                                     <th>Interprètes</th>
                                     <th>Lieu</th>
                                     <th>Nature</th>
+                                    <th>Références</th>
+                                    <th>Informations complémentaires</th>
                                     <th>Insertion</th>
                                 </tr>
                             </thead>
@@ -124,9 +126,25 @@
                                         {% endfor %}
                                     </td>
                                     <td>{{ event.type|default:"" }}</td>
-                                    <td>{{ event.created_on|date:"Y-m-d" }} par {{ event.created_by.first_name }} {{event.created_by.last_name|default:""}}</td>
-                                </tr>
-                                {% endfor %}
+                                    <td>
+		                    {% for r in event.reference.all %}
+		                            <i class="fa fa-caret-right">{{ r }}</i>
+		                    {% endfor %}
+				    </td>
+				    <td>
+		                       {% for info in event.info.all %}
+                                           {{info.content|safe}}
+                                                   <br>
+                                                       Ajouté par {{info.created_by.first_name}} {{info.created_by.last_name|default:""}} le {{info.created_on}}
+                                           {% for log in info.log.all %}
+                                                   <br>
+                                                       Modifié par {{log.changed_by.first_name}} {{log.changed_by.last_name|default:""}} le {{log.changed_on}}
+                                           {% endfor %}
+                                       {% endfor %}
+               			   </td>
+                                   <td>{{ event.created_on|date:"Y-m-d" }} par {{ event.created_by.first_name }} {{event.created_by.last_name|default:""}}</td>
+                               </tr>
+                              {% endfor %}
                             </tbody>
                         </table>
                     </div>

@@ -4,7 +4,12 @@
         buttons: [
             'excelHtml5',
             'csvHtml5',
-            'pdfHtml5'
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'letter'
+
+            },
         ],
                "language": {
                    "lengthMenu": "Afficher _MENU_",
@@ -24,10 +29,20 @@
                "lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "Tous"]],
                 responsive: true,
                 stateSave: true,
+                "autoWidth": false,
                "columnDefs": [
+            		{
+            		    "targets": [ 7 ],
+            		    "visible": false,
+            		    "searchable": false
+            		},
+            		{
+            		    "targets": [ 8 ],
+            		    "visible": false,
+            		    "searchable": false
+            		},
                        { "width": "4%", "targets": 0 },
                        { "width": "8%", "targets": 6 }
-                ],
-                "autoWidth": false,
+                ]
         });
     });
