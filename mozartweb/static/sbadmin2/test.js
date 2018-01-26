@@ -7,8 +7,12 @@
             {
                 extend: 'pdfHtml5',
                 orientation: 'landscape',
-                pageSize: 'letter'
-
+                pageSize: 'letter',
+            customize: function(doc) {
+						doc.defaultStyle.fontSize = 7;
+						doc.styles.tableHeader.fontSize = 7;
+						doc.content.splice(0,1);
+            },
             },
         ],
                "language": {
