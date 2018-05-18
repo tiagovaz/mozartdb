@@ -9,7 +9,7 @@ class EventFilter(django_filters.FilterSet):
     performer__first_name = django_filters.CharFilter(label='Interprète (prénom)', method='custom_performer_first_name_filter')
     performer__last_name = django_filters.CharFilter(label='Interprète (nom de famille ou ensemble)', method='custom_performer_last_name_filter')
     performer__ptype__description = django_filters.ModelChoiceFilter(label='Type interprète', queryset=PerformerType.objects.all())
-    piece__name = django_filters.CharFilter(label='Œuvre', method='custom_piece_filter')
+    piece__name = django_filters.CharFilter(label='Œuvre (titre)', method='custom_piece_filter')
     piece__kochel = django_filters.CharFilter(label='Köchel', method='custom_kochel_filter')
     reference__article_title = django_filters.CharFilter(label="Titre de l'article", method='custom_article_filter')
     reference__journal__title = django_filters.ModelChoiceFilter(label="Journal", queryset=Journal.objects.all())
