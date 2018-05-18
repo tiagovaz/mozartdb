@@ -230,6 +230,7 @@ class Author(models.Model):
 @python_2_unicode_compatible
 class Piece(models.Model):
     name = models.CharField("Titre de l'œuvre interpretée", max_length=200, unique=True)
+    kochel = models.CharField("Köchel", max_length=20, blank=True, null=True)
 
     def __str__(self):
         return self.name

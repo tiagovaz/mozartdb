@@ -10,6 +10,7 @@ class EventFilter(django_filters.FilterSet):
     performer__last_name = django_filters.CharFilter(label='Interprète (nom de famille ou ensemble)', method='custom_performer_last_name_filter')
     performer__ptype__description = django_filters.ModelChoiceFilter(label='Type interprète', queryset=PerformerType.objects.all())
     piece__name = django_filters.CharFilter(label='Œuvre', method='custom_piece_filter')
+    piece__kochel = django_filters.CharFilter(label='Köchel', method='custom_kochel_filter')
     reference__article_title = django_filters.CharFilter(label="Titre de l'article", method='custom_article_filter')
     reference__journal__title = django_filters.ModelChoiceFilter(label="Journal", queryset=Journal.objects.all())
     reference__author = django_filters.ModelChoiceFilter(label="Auteur de l'article", queryset=Author.objects.all())
@@ -58,6 +59,14 @@ class EventFilter(django_filters.FilterSet):
         query = (Q(piece__name__icontains=value ) |
                  Q(piece__name__icontains=value_converted) |
                  Q(piece__name__icontains=value_iconverted))
+        return queryset.filter(query)
+
+    def custom_kochel_filter(self, queryset, name, value):
+        value_converted = self.multipleReplace(value, self.wordDict)
+        value_iconverted = self.multipleReplace(value, self.iwordDict)
+        query = (Q(piece__kochel__iexact=value ) |
+                 Q(piece__kochel__iexact=value_converted) |
+                 Q(piece__kochel__iexact=value_iconverted))
         return queryset.filter(query)
 
     def custom_performer_first_name_filter(self, queryset, name, value):
@@ -138,6 +147,7 @@ class EventFilter(django_filters.FilterSet):
             'title',
             'type',
             'piece__name',
+            'piece__kochel',
             'performer__first_name',
             'performer__last_name',
             'performer__ptype__description',
