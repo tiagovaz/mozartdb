@@ -202,9 +202,9 @@ en musique (OICRM)</a> pour l’hébergement de cette banque de données.</p>
                                     </td>
                                     <td>{{ event.type|default:"" }}</td>
                                     <td>
-		                    {% for r in event.reference.all %}
-		                            <i class="fa fa-caret-right">{{ r }}</i>
-		                    {% endfor %}
+                                        {% for r in event.reference.all %}
+                                                {{ r|default:"" }}
+                                        {% endfor %}
 				    </td>
 				    <td>
 		                       {% for info in event.info.all %}
