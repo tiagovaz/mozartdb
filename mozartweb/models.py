@@ -7,6 +7,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
 import locale
+import re
 from mozartweb import signals
 locale.setlocale(locale.LC_TIME, "fr_FR.UTF-8") 
 import sys
@@ -233,7 +234,10 @@ class Piece(models.Model):
     kochel = models.CharField("Köchel", max_length=20, blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        o = re.sub(', K. \w+', '', self.name)
+        if self.kochel:
+            o = o + ", K. " + self.kochel
+        return o
 
     class Meta:
         verbose_name = "Œuvre"
