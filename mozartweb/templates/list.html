@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% load i18n %}
 {% load bootstrap3 %}
-
+{% load  noln %}
 
 {% block toggle_button %}
                       <button type="button" id="sidebarCollapse" class="btn btn-default" > 
@@ -43,7 +43,7 @@
         <h3>Bienvenue dans la banque de données des événements Mozart en Autriche annexée (1938-1945) !</h3>
           <br>
           <div class="alert alert-warning">
-            <strong>Note importante : </strong>cette banque de données est encore en construction. Seules les
+            <strong>Note importante&nbsp;: </strong>cette banque de données est encore en construction. Seules les
               pages concernant la Semaine Mozart du Reich allemand (1941) sont complètes; le
               reste ne prétend absolument pas à une quelconque exhaustivité.
           </div>
@@ -52,13 +52,13 @@
 
 <p>Pour alléger le chargement de la page, le contenu de la banque de données ne
 s’affiche pas automatiquement au moment de l’ouverture du site. Pour voir
-toutes les entrées, cliquer sur le bouton « Tout afficher » et sélectionner
-ensuite le nombre de fiches à afficher sur un même écran (« Afficher » 25, 50,
+toutes les entrées, cliquer sur le bouton «&nbsp;Tout afficher&nbsp;» et sélectionner
+ensuite le nombre de fiches à afficher sur un même écran («&nbsp;Afficher&nbsp;» 25, 50,
 100 ou Tous).</p>
 
 <p>Pour faire une recherche dans la banque de données, utiliser les filtres
 ci-contre. Notons que les titres d’œuvres sont entrés dans leur langue
-originale respective (par exemple : <i>Le nozze di Figaro</i> et non <i>Les noces de
+originale respective (par exemple&nbsp;: <i>Le nozze di Figaro</i> et non <i>Les noces de
 Figaro</i>; <i>Die Entführung aus dem Serail</i> et non <i>L’enlèvement au
 sérail</i>). Il est également possible de rechercher une œuvre en utilisant le
 numéro de catalogue Köchel.</p>
@@ -82,7 +82,7 @@ d’archives (en particulier la collection de programmes conservée au Wiener
 Stadt- und Landesarchiv) et sur un dépouillement beaucoup plus vaste de la
 presse quotidienne allemande et autrichienne.</p>
 
-<p>Chaque événement de la Semaine Mozart est documenté individuellement. L’ensemble du programme est cependant rassemblé dans les trois fiches-synthèse suivantes :
+<p>Chaque événement de la Semaine Mozart est documenté individuellement. L’ensemble du programme est cependant rassemblé dans les trois fiches-synthèse suivantes&nbsp;:
 </p>
 <ul>
     <li><a href="/641">Programme du Reich (Reichsprogramm)</a></li>
@@ -90,15 +90,15 @@ presse quotidienne allemande et autrichienne.</p>
     <li><a href="/644">Congrès Mozart</a></li>
 </ul>
 <p>Les informations réunies ici complètent celles présentées dans les tableaux
-et annexes de l’ouvrage suivant : Marie-Hélène Benoit-Otis et Cécile Quesney,
-<i>Mozart 1941 : La Semaine Mozart du Reich allemand et ses invités français</i>,
+et annexes de l’ouvrage suivant&nbsp;: Marie-Hélène Benoit-Otis et Cécile Quesney,
+<i>Mozart 1941&nbsp;: La Semaine Mozart du Reich allemand et ses invités français</i>,
 Rennes, Presses universitaires de Rennes, [à paraître en 2018].</p>
 <br>
 <h4>Équipe</h4>
 <hr>
-<h5>Direction du projet de recherche :</h5>
+<h5>Direction du projet de recherche&nbsp;:</h5>
 <p>Marie-Hélène Benoit-Otis</p>
-<h5>Recherche et entrée de données :</h5>
+<h5>Recherche et entrée de données&nbsp;:</h5>
 <ul class="list-unstyled">
 <li>Béatrice Cadrin</li>
 <li>Babette Chabout-Combaz</li>
@@ -108,10 +108,10 @@ Rennes, Presses universitaires de Rennes, [à paraître en 2018].</p>
 <li>Maude Trottier</li>
 </ul>
 
-<h5>Révision et assurance qualité :</h5>
+<h5>Révision et assurance qualité&nbsp;:</h5>
 <p>Béatrice Cadrin</p>
 
-<h5>Programmation de la banque de données :</h5>
+<h5>Programmation de la banque de données&nbsp;:</h5>
 <p>Tiago Bortoletto Vaz</p>
 
 <hr>
@@ -157,7 +157,7 @@ en musique (OICRM)</a> pour l’hébergement de cette banque de données.</p>
 				    <td>{{event.id}}</td>
                                     <td class="text-center">
                                         <a href="{% url "event_detail" event.id %}">
-                                            {{ event.title|safe }}
+                                            {{ event.title|noln|safe }}
                                         </a>
                {% if user.is_authenticated %}
                 {% if event.bc_key %}
@@ -187,28 +187,28 @@ en musique (OICRM)</a> pour l’hébergement de cette banque de données.</p>
                                     </td>
                                     <td>
                                         {% for piece in event.piece.all %}
-                                            <i class="fa fa-caret-right"></i> {{ piece|default:"" }}<br>
+                                            <i class="fa fa-caret-right"></i> {{ piece|noln|default:"" }}<br>
                                         {% endfor %}
                                     </td>
                                     <td>
                                         {% for performer in event.performer.all %}
-                                            <i class="fa fa-caret-right"></i> {{ performer|default:"" }}<br>
+                                            <i class="fa fa-caret-right"></i> {{ performer|noln|default:"" }}<br>
                                         {% endfor %}
                                     </td>
                                     <td>
                                         {% for place in event.places.all %}
-                                            <i class="fa fa-caret-right"></i> {{ place|default:"" }}<br>
+                                            <i class="fa fa-caret-right"></i> {{ place|noln|default:"" }}<br>
                                         {% endfor %}
                                     </td>
                                     <td>{{ event.type|default:"" }}</td>
                                     <td>
                                         {% for r in event.reference.all %}
-                                                {{ r|default:"" }}
+                                                {{ r|noln|default:"" }}
                                         {% endfor %}
 				    </td>
 				    <td>
 		                       {% for info in event.info.all %}
-                                           {{info.content|safe}}
+                                           {{info.content|noln|safe}}
                                                    <br>
                                                        Ajouté par {{info.created_by.first_name}} {{info.created_by.last_name|default:""}} le {{info.created_on}}
                                            {% for log in info.log.all %}

@@ -2,6 +2,8 @@
 {% load staticfiles %}
 {% load i18n %}
 {% load bootstrap3 %}
+{% load  noln %}
+
 
 {% block sidebar %}
         <div id="wrapper">
@@ -12,7 +14,7 @@
     <div class="row">
         <div class="col-lg-12">
             <h2 class="page-header">
-                {{ event.title|safe }}
+                {{ event.title|noln|safe }}
 		{% if event.bc_key %}
                     <small>
                     <a class="text-muted" href="JavaScript:newPopup('/admin/mozartweb/broadcasting/{{ event.bc_key.id }}/change/?_popup=1');">
@@ -37,37 +39,37 @@
 
     <div class="row">
         <div class="col-sm-6">
-            <strong>{% trans "ID" %} :</strong> {{ event.id }}<br>
-            <strong>{% trans "Nature" %} :</strong> {{ event.type|default:"" }}<br>
+            <strong>{% trans "ID" %}&nbsp;:</strong> {{ event.id }}<br>
+            <strong>{% trans "Nature" %}&nbsp;:</strong> {{ event.type|noln|default:"" }}<br>
 	    {% if event.bc_key == None %}
-                <strong>{% trans "Lieu" %} :</strong>
+                <strong>{% trans "Lieu" %}&nbsp;:</strong>
                 <ul>
                     {% for p in event.places.all %}
-                        <li>{{ p }}</a></li>
+                        <li>{{ p|noln }}</a></li>
                     {% endfor %}
                 </ul>
             {% endif %}
-            <strong>{% trans "Date début" %} :</strong> {{event.format_start_date|default:""}} 
+            <strong>{% trans "Date début" %}&nbsp;:</strong> {{event.format_start_date|default:""}} 
 		{% if event.start_time %} à {{event.start_time|default:""}}{% endif %}<br>
-            <strong>{% trans "Date fin" %} :</strong> {{event.format_end_date|default:""}}
+            <strong>{% trans "Date fin" %}&nbsp;:</strong> {{event.format_end_date|default:""}}
 		{% if event.end_time %} à {{event.end_time|default:""}}{% endif %}<br>
 	    {% if event.radio_station %}
-                <strong>{% trans "Station radio" %} :</strong> {{ event.radio_station|default:"" }}<br>
+                <strong>{% trans "Station radio" %}&nbsp;:</strong> {{ event.radio_station|noln|default:"" }}<br>
             {% endif %}
 
             {% if event.relates_to_broadcasting.all  %}
-                <strong>{% trans "Diffusion(s) radio associée(s)" %} :</strong>
+                <strong>{% trans "Diffusion(s) radio associée(s)" %}&nbsp;:</strong>
                 <ul>
                     {% for r in event.relates_to_broadcasting.all %}
-                        <li><a href="JavaScript:newPopup('/{{ r.ev_clone.id }}');">{{ r.ev_clone.title|safe }}</a></li>
+                        <li><a href="JavaScript:newPopup('/{{ r.ev_clone.id }}');">{{ r.ev_clone.title|noln|safe }}</a></li>
                     {% endfor %}
                 </ul>
             {% endif %}
             {% if event.bc_key.get_related_events.all  %}
-                <strong>{% trans "Événement(s) associé(s)" %} :</strong>
+                <strong>{% trans "Événement(s) associé(s)" %}&nbsp;:</strong>
                 <ul>
                     {% for r in event.bc_key.get_related_events.all %}
-                        <li><a href="JavaScript:newPopup('/{{ r.id }}');">{{ r|safe }}</a></li>
+                        <li><a href="JavaScript:newPopup('/{{ r.id }}');">{{ r|noln|safe }}</a></li>
                     {% endfor %}
                 </ul>
             {% endif %}
@@ -90,7 +92,7 @@
                 <div class="panel-body">
                     <ul>
                     {% for piece in event.piece.all %}
-                        <li>{{ piece }}</li>
+                        <li>{{ piece|noln }}</li>
                     {% endfor %}
                     </ul>
                 </div>
@@ -103,7 +105,7 @@
                 <div class="panel-body">
                     <ul>
                     {% for p in event.performer.all %}
-                        <li>{{ p }}</li>
+                        <li>{{ p|noln }}</li>
                     {% endfor %}
                     </ul>
                 </div>
@@ -120,9 +122,9 @@
                     <ul>
                     {% for r in event.reference.all %}
                         {% if r.article_file %}
-                            <li><a href="JavaScript:newPopup('/media/{{ r.article_file }}');">{{ r }}</a></li>
+                            <li><a href="JavaScript:newPopup('/media/{{ r.article_file }}');">{{ r|noln|safe }}</a></li>
                         {% else %}
-                            <li>{{ r }}</li>
+                            <li>{{ r|noln|safe }}</li>
                         {% endif %}
                     {% endfor %}
                     </ul>

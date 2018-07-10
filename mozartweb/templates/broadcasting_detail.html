@@ -2,12 +2,13 @@
 {% load staticfiles %}
 {% load i18n %}
 {% load bootstrap3 %}
+{% load noln %}
 
 {% block content %}
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-                <em>{{ broadcasting.title }}</em>
+                <em>{{ broadcasting.title|noln }}</em>
                 <a class="btn btn-xs btn-warning" href="JavaScript:newPopup('/admin/mozartweb/broadcasting/{{ broadcasting.id }}/change/?_popup=1');">
                     <i class="fa fa-pencil"></i>
                 </a>
@@ -22,15 +23,15 @@
     <div class="row">
 
         <div class="col-sm-6">
-            <strong>{% trans "Nature" %} :</strong> {{ broadcasting.type|default:"" }}<br>
-            <strong>{% trans "Date début" %} :</strong> {{broadcasting.start_date|default:""}}<br>
-            <strong>{% trans "Date fin" %} :</strong> {{broadcasting.end_date|default:""}}<br>
+            <strong>{% trans "Nature" %}&nbsp;:</strong> {{ broadcasting.type|default:"" }}<br>
+            <strong>{% trans "Date début" %}&nbsp;:</strong> {{broadcasting.start_date|default:""}}<br>
+            <strong>{% trans "Date fin" %}&nbsp;:</strong> {{broadcasting.end_date|default:""}}<br>
 
             {% if broadcasting.get_related_events.all  %}
-                <strong>{% trans "Événement(s) diffusé(s)" %} :</strong>
+                <strong>{% trans "Événement(s) diffusé(s)" %}&nbsp;:</strong>
                 <ul>
                     {% for de in broadcasting.get_related_events.all %}
-                        <li><a href="/{{ de.id }}">{{ de }}</a></li>
+                        <li><a href="/{{ de.id }}">{{ de|noln }}</a></li>
                     {% endfor %}
                 </ul>
             {% endif %}
@@ -50,7 +51,7 @@
                 <div class="panel-body">
                     <ul>
                     {% for piece in broadcasting.piece.all %}
-                        <li>{{ piece }}</li>
+                        <li>{{ piece|noln }}</li>
                     {% endfor %}
                     </ul>
                 </div>
@@ -63,7 +64,7 @@
                 <div class="panel-body">
                     <ul>
                     {% for p in broadcasting.performer.all %}
-                        <li><i>{{ p }}</i> - {{ p.type }}</li>
+                        <li><i>{{ p|noln }}</i> - {{ p.type|noln }}</li>
                     {% endfor %}
                     </ul>
                 </div>
@@ -80,9 +81,9 @@
                     <ul>
                     {% for r in broadcasting.reference.all %}
                         {% if r.article_file %}
-                            <li><a href="/media/{{ r.article_file }}">{{ r }}</a></li>
+                            <li><a href="/media/{{ r.article_file }}">{{ r|noln }}</a></li>
                         {% else %}
-                            <li>{{ r }}</li>
+                            <li>{{ r|noln }}</li>
                         {% endif %}
                     {% endfor %}
                     </ul>
@@ -97,7 +98,7 @@
                 <div class="panel-body">
                     <ul>
                     {% for s in broadcasting.speech.all %}
-                        <li>{{ s }}</li>
+                        <li>{{ s|noln }}</li>
                     {% endfor %}
                     </ul>
                 </div>
@@ -121,7 +122,7 @@
                     {% for comment in broadcasting.comment.all %}
                     <tr>
                         <td>
-                            "{{comment.content}}", par <i>{{comment.user}}</i> en {{comment.created_date}}<br>
+                            "{{comment.content|noln}}", par <i>{{comment.user}}</i> en {{comment.created_date}}<br>
 
                         </td>
                     </tr>
