@@ -12,24 +12,23 @@
 
 {% block sidebar %}
         <div class="wrapper">
-            <nav id="sidebar">
-                    <p></p>
-                <div class="panel-body">
-                    <form class="form" method="get">
+                    <p>&nbsp;</p>
+                <div class="panel-body" style="font-size: x-small;">
+                    <form class="form" method="get" style="font-size: x-small;">
                             {% csrf_token %}
+                            <center>
                             {% buttons %}
-                                <button type="submit" class="btn btn-primary btn-sm pull-right">Filtrer</button>
-                                <a class="btn btn-danger btn-sm" href="/?q=*">Tout afficher</a>
+                                <button type="submit" class="btn btn-primary btn-sm" style="font-size: x-small;"><b>Filtrer</b></button>
+                                <a class="btn btn-danger btn-sm" style="font-size: x-small;" href="/?q=*"><b>Tout afficher</b></a>
                             {% endbuttons %}
-                            {% bootstrap_form form %}
-                            {% buttons %}
-                                <button type="submit" class="btn btn-primary btn-sm pull-right">Filtrer</button>
-                                <a class="btn btn-danger btn-sm" href="/?q=*">Tout afficher</a>
-                            {% endbuttons %}
+                            </center>
+                            <nav id="sidebar">
+                              <div class="panel-body" style="font-size: x-small;">
+                                {% bootstrap_form form size='small' %}
+                              </div>
+                            </nav>
                     </form>
-                 </div>
-            </nav>
-
+                </div>
 {% endblock %}
 
 {% block content %}
