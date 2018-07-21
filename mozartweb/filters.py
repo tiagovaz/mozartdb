@@ -146,6 +146,7 @@ class EventFilter(django_filters.FilterSet):
         fields = [
             'title',
             'type',
+            'start_date',
             'piece__name',
             'piece__kochel',
             'performer__first_name',
@@ -160,7 +161,6 @@ class EventFilter(django_filters.FilterSet):
             'places__venue',
             'places__city',
             'places__country',
-            'start_date',
             'pdf_checked',
             'comment__content',
             'info__content',

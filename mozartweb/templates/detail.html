@@ -61,7 +61,7 @@
                 <strong>{% trans "Diffusion(s) radio associée(s)" %}&nbsp;:</strong>
                 <ul>
                     {% for r in event.relates_to_broadcasting.all %}
-                        <li><a href="JavaScript:newPopup('/{{ r.ev_clone.id }}');">{{ r.ev_clone.title|noln|safe }}</a></li>
+                        <li><a href="/{{ r.ev_clone.id }}" target="_blank">{{ r.ev_clone.title|noln|safe }}</a></li>
                     {% endfor %}
                 </ul>
             {% endif %}
@@ -69,7 +69,7 @@
                 <strong>{% trans "Événement(s) associé(s)" %}&nbsp;:</strong>
                 <ul>
                     {% for r in event.bc_key.get_related_events.all %}
-                        <li><a href="JavaScript:newPopup('/{{ r.id }}');">{{ r|noln|safe }}</a></li>
+                        <li><a href="/{{ r.id }}" target="_blank">{{ r|noln|safe }}</a></li>
                     {% endfor %}
                 </ul>
             {% endif %}
