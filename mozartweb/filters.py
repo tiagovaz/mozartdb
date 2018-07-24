@@ -3,6 +3,10 @@
 import django_filters
 from django.db.models import Q
 from models import *
+from watson import search as watson
+from haystack.query import SearchQuerySet
+
+
 
 class EventFilter(django_filters.FilterSet):
     title = django_filters.CharFilter(method='custom_title_filter')
@@ -48,17 +52,37 @@ class EventFilter(django_filters.FilterSet):
     def custom_title_filter(self, queryset, name, value):
         value_converted = self.multipleReplace(value, self.wordDict)
         value_iconverted = self.multipleReplace(value, self.iwordDict)
-        query = (Q(title__icontains=value ) |
-                 Q(title__icontains=value_converted) |
-                 Q(title__icontains=value_iconverted))
+
+#        query_old = (Q(title__icontains=value ) |
+#                 Q(title__icontains=value_converted) |
+#                 Q(title__icontains=value_iconverted))
+#
+#        query = watson.filter(Event,value)
+#        print "WATSON:"
+#        print query
+#        print "\n"
+#        print "DJANGO Q:"
+#        print queryset.filter(query_old)
+#        print "\n"
+        print "HAYSTACK:"
+        result_hs = SearchQuerySet().filter(content=value).load_all() | SearchQuerySet().filter(content=value_converted).load_all() | SearchQuerySet().filter(content=value_iconverted).load_all()
+        results = [int(r.pk) for r in result_hs]
+#        objects = Event.objects.in_bulk(results)
+#        objects_in_order = [objects[pk] for pk in objects]
+        query = (Q(pk__in=results))
+#        result = queryset.filter(query_old).distinct() | query.distinct()
         return queryset.filter(query)
 
     def custom_piece_filter(self, queryset, name, value):
         value_converted = self.multipleReplace(value, self.wordDict)
         value_iconverted = self.multipleReplace(value, self.iwordDict)
-        query = (Q(piece__name__icontains=value ) |
-                 Q(piece__name__icontains=value_converted) |
-                 Q(piece__name__icontains=value_iconverted))
+        result_hs = SearchQuerySet().filter(content=value).models(Piece) |\
+                    SearchQuerySet().filter(content=value_converted).models(Piece) |\
+                    SearchQuerySet().filter(content=value_iconverted).models(Piece)
+        # SearchQuerySet obj becomes a list of integers to be used in the Event query
+        results = [int(r.pk) for r in result_hs]
+        events = Event.objects.filter(piece__in=results).distinct()
+        query = (Q(piece__in=results))
         return queryset.filter(query)
 
     def custom_kochel_filter(self, queryset, name, value):
