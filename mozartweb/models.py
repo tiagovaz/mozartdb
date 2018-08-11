@@ -150,6 +150,9 @@ class Performer(models.Model):
     last_name = models.CharField("Nom", max_length=200)
     ptype = models.ManyToManyField('PerformerType', related_name='ptype', verbose_name='Nature')
 
+    def get_fullname(self):
+        return "%s %s" % (self.first_name, self.last_name)
+
     def __str__(self):
         li = []
         ptypes = self.ptype.all()
