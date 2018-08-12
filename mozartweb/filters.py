@@ -13,7 +13,7 @@ class EventFilter(django_filters.FilterSet):
     piece__name = django_filters.CharFilter(label='Œuvre (titre)', method='custom_piece_filter')
     piece__kochel = django_filters.CharFilter(label='Köchel', method='custom_kochel_filter')
     reference__article_title = django_filters.CharFilter(label="Titre de l'article", method='custom_article_filter')
-    reference__journal__title = django_filters.CharFilter(label="Journal", method='custom_journal_filter')
+    reference__journal__title = django_filters.ModelChoiceFilter(label="Journal", queryset=Journal.objects.all())
     reference__author = django_filters.ModelChoiceFilter(label="Auteur de l'article", queryset=Author.objects.all())
     places__city = django_filters.ModelChoiceFilter(label="Ville", queryset=City.objects.all())
     places__country = django_filters.ModelChoiceFilter(label="Pays", queryset=Country.objects.all())
@@ -101,15 +101,12 @@ class EventFilter(django_filters.FilterSet):
 
     def custom_venue_filter(self, queryset, name, value):
         results = self.multipleSearch(value, Place)
-        query = (Q(place__in=results))
+        query = (Q(places__in=results))
         return queryset.filter(query)
 
     def custom_comments_filter(self, queryset, name, value):
-        value_converted = self.multipleReplace(value, self.wordDict)
-        value_iconverted = self.multipleReplace(value, self.iwordDict)
-	query = (Q(comment__content__icontains=value ) |
-                 Q(comment__content__icontains=value_converted) |
-                 Q(comment__content__icontains=value_iconverted))
+        results = self.multipleSearch(value, Comment)
+        query = (Q(comment__in=results))
         return queryset.filter(query)
 
     def custom_info_filter(self, queryset, name, value):

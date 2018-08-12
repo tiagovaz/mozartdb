@@ -70,6 +70,13 @@ class VenueIndex(indexes.SearchIndex, indexes.Indexable):
     def get_model(self):
         return Place
 
+class CommentIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(document=True, use_template=True)
+    content = indexes.CharField(model_attr='content')
+
+    def get_model(self):
+        return Comment
+
 #    def index_queryset(self, using=None):
 #        """Used when the entire index for model is updated."""
 #        return self.get_model().objects.filter(pub_date__lte=datetime.datetime.now())
