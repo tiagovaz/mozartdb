@@ -110,12 +110,10 @@ class EventFilter(django_filters.FilterSet):
         return queryset.filter(query)
 
     def custom_info_filter(self, queryset, name, value):
-        value_converted = self.multipleReplace(value, self.wordDict)
-        value_iconverted = self.multipleReplace(value, self.iwordDict)
-	query = (Q(info__content__icontains=value ) |
-                 Q(info__content__icontains=value_converted) |
-                 Q(info__content__icontains=value_iconverted))
+        results = self.multipleSearch(value, AdditionalInfo)
+        query = (Q(info__in=results))
         return queryset.filter(query)
+
 
     class Meta:
         model = Event
