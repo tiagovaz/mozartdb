@@ -15,6 +15,8 @@ class EventIndex(indexes.SearchIndex, indexes.Indexable):
 
 #    def prepare_performer(self, obj):
 #        return [l.get_fullname for l in obj.performer.all()]
+    def index_queryset(self, using=None):
+        return self.get_model().objects.all()
 
     def get_model(self):
         return Event

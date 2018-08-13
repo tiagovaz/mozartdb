@@ -26,6 +26,7 @@ class EventFilter(django_filters.FilterSet):
     comment__content = django_filters.CharFilter(label="Commentaires", method='custom_comments_filter')
     info__content = django_filters.CharFilter(label="Informations complémentaires", method='custom_info_filter')
     created_by__username = django_filters.ModelChoiceFilter(label="Utilisateur", queryset=User.objects.all())
+    all_fields = django_filters.CharFilter(label="Chercher dans tous les champs", method='custom_all_filter')
 
 # With the new version of django-filter we can remove the duplication of
 # broadcasting model, since it's now possible to look for many models in a
@@ -107,6 +108,25 @@ class EventFilter(django_filters.FilterSet):
         query = (Q(info__in=results))
         return queryset.filter(query)
 
+    def custom_all_filter(self, queryset, name, value):
+        results_event = self.multipleSearch(value, Event)
+        results_piece = self.multipleSearch(value, Piece)
+        results_venue = self.multipleSearch(value, Place)
+        results_comment = self.multipleSearch(value, Comment)
+        results_performer = self.multipleSearch(value, Performer)
+        results_speech = self.multipleSearch(value, Speech)
+        results_speaker = self.multipleSearch(value, Speaker)
+        query = (Q(pk__in=results_event) |\
+                 Q(piece__in=results_piece) |\
+                 Q(places__in=results_venue) |\
+                 Q(comment__in=results_comment) |\
+                 Q(performer__in=results_performer) |\
+                 Q(speech__in=results_speech) |\
+                 Q(speech__speaker__in=results_speaker) |\
+                 Q(piece__kochel__iexact=value ))
+
+        return queryset.filter(query)
+
 
     class Meta:
         model = Event
@@ -132,4 +152,5 @@ class EventFilter(django_filters.FilterSet):
             'created_by__username',
             'year_insertion',
             'created_on',
+            'all_fields',
         ]
