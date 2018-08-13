@@ -4,6 +4,7 @@ import django_filters
 from django.db.models import Q
 from models import *
 from watson import search as watson
+from django.forms import DateInput
 from haystack.query import SearchQuerySet
 
 class EventFilter(django_filters.FilterSet):
