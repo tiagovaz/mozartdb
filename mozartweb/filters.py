@@ -56,6 +56,7 @@ class EventFilter(django_filters.FilterSet):
 
     def custom_title_filter(self, queryset, name, value):
         results = self.multipleSearch(value, Event)
+        # quick hack to 'convert' haystack backend querty to a Q query supported by django_filters
         query = (Q(pk__in=results))
         return queryset.filter(query)
 
@@ -112,10 +113,13 @@ class EventFilter(django_filters.FilterSet):
         results_event = self.multipleSearch(value, Event)
         results_piece = self.multipleSearch(value, Piece)
         results_venue = self.multipleSearch(value, Place)
+        results_article = self.multipleSearch(value, Reference)
+        results_journal = self.multipleSearch(value, Journal)
         results_comment = self.multipleSearch(value, Comment)
         results_performer = self.multipleSearch(value, Performer)
         results_speech = self.multipleSearch(value, Speech)
         results_speaker = self.multipleSearch(value, Speaker)
+        results_info = self.multipleSearch(value, AdditionalInfo)
         query = (Q(pk__in=results_event) |\
                  Q(piece__in=results_piece) |\
                  Q(places__in=results_venue) |\
@@ -123,6 +127,9 @@ class EventFilter(django_filters.FilterSet):
                  Q(performer__in=results_performer) |\
                  Q(speech__in=results_speech) |\
                  Q(speech__speaker__in=results_speaker) |\
+                 Q(info__in=results_info) |\
+                 Q(reference__in=results_article) |\
+                 Q(reference__journal__in=results_journal) |\
                  Q(piece__kochel__iexact=value ))
 
         return queryset.filter(query)

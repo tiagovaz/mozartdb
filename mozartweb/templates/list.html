@@ -131,6 +131,13 @@ en musique (OICRM)</a> pour l’hébergement de cette banque de données.</p>
 
     <div class="row">
         <div class="col-sm-12">
+           {% if events.qs|length == 1 %}
+             <p>{{ events.qs|length }} entreé trouvée</p>
+           {% elif events.qs|length > 1 %}
+             <p>{{ events.qs|length }} entreés trouvées</p>
+           {% else %}
+             <p>aucun résultat trouvé</p>
+           {% endif %}
             <div class="panel panel-default">
                 <!-- /.panel-heading -->
                 <div class="panel-body">
