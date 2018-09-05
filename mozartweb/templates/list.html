@@ -19,7 +19,7 @@
                             <center>
                             {% buttons %}
                                 <input type="submit" class="btn btn-primary btn-sm" style="font-size: x-small;" value="Filtrer">
-                                <input class="btn btn-warning btn-sm" style="font-size: x-small;" type="reset" value="Effacer">
+                                <input class="btn btn-warning btn-sm" style="font-size: x-small;" type="button" onclick="clearForm(this.form);" value="Effacer">
                                 <a class="btn btn-danger btn-sm" style="font-size: x-small;" href="/?q=*">Tout afficher</a>
                             {% endbuttons %}
                             </center>
@@ -235,5 +235,81 @@ en musique (OICRM)</a> pour l’hébergement de cette banque de données.</p>
         </div>
     </div>
 {% endif %}
+
+<script>
+function clearForm(oForm) {
+
+    
+
+  var elements = oForm.elements; 
+
+    
+
+  oForm.reset();
+
+
+
+  for(i=0; i<elements.length; i++) {
+
+      
+
+	field_type = elements[i].type.toLowerCase();
+
+	
+
+	switch(field_type) {
+
+	
+
+		case "text": 
+
+		case "password": 
+
+		case "textarea":
+
+	        case "hidden":	
+
+			
+
+			elements[i].value = ""; 
+
+			break;
+
+        
+
+		case "radio":
+
+		case "checkbox":
+
+  			if (elements[i].checked) {
+
+   				elements[i].checked = false; 
+
+			}
+
+			break;
+
+
+
+		case "select-one":
+
+		case "select-multi":
+
+            		elements[i].selectedIndex = -1;
+
+			break;
+
+
+
+		default: 
+
+			break;
+
+	}
+
+    }
+
+}
+</script>
 
 {% endblock %}
