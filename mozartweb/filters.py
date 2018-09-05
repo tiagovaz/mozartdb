@@ -20,9 +20,11 @@ class EventFilter(django_filters.FilterSet):
     places__venue = django_filters.CharFilter(label="Lieu", method='custom_venue_filter')
     speech__title = django_filters.CharFilter(label="Titre de la conférence", method='custom_speech_filter')
     speech__speaker = django_filters.CharFilter(label="Conférencier-ère", method='custom_speaker_filter')
-    start_date = django_filters.DateFromToRangeFilter(label="Date de l'événement (début - fin jj/mm/aaaa)")
+    start_date = django_filters.DateFilter(label="Date de l'événement (à partir de)", widget=DateInput(attrs={'placeholder': 'AAAA-MM-JJ'}),  method='custom_start_date_filter')
+    end_date = django_filters.DateFilter(label="Date de l'événement (jusqu'à)", widget=DateInput(attrs={'placeholder': 'AAAA-MM-JJ'}), method='custom_end_date_filter')
     year_insertion = django_filters.NumberFilter(label="Année d'insertion", name='created_on', lookup_expr='year')
-    created_on = django_filters.DateFromToRangeFilter(label="Date d'insertion (début - fin jj/mm/aaaa)")
+    created_on_start = django_filters.DateFilter(label="Date d'insertion (à partir de)", widget=DateInput(attrs={'placeholder': 'AAAA-MM-JJ'}), method='custom_created_on_start_filter')
+    created_on_end = django_filters.DateFilter(label="Date d'insertion (jusqu'à)", widget=DateInput(attrs={'placeholder': 'AAAA-MM-JJ'}), method='custom_created_on_end_filter')
     comment__content = django_filters.CharFilter(label="Commentaires", method='custom_comments_filter')
     info__content = django_filters.CharFilter(label="Informations complémentaires", method='custom_info_filter')
     created_by__username = django_filters.ModelChoiceFilter(label="Utilisateur", queryset=User.objects.all())
@@ -53,6 +55,22 @@ class EventFilter(django_filters.FilterSet):
                     SearchQuerySet().filter(content=value_iconverted).models(model)
         results = [int(r.pk) for r in result_hs]
         return results
+
+    def custom_created_on_start_filter(self, queryset, name, value):
+        query = (Q(created_on__gte=value))
+        return queryset.filter(query)
+
+    def custom_created_on_end_filter(self, queryset, name, value):
+        query = (Q(created_on__lte=value))
+        return queryset.filter(query)
+
+    def custom_start_date_filter(self, queryset, name, value):
+        query = (Q(start_date__gte=value))
+        return queryset.filter(query)
+
+    def custom_end_date_filter(self, queryset, name, value):
+        query = (Q(start_date__lte=value))
+        return queryset.filter(query)
 
     def custom_title_filter(self, queryset, name, value):
         results = self.multipleSearch(value, Event)
@@ -141,6 +159,7 @@ class EventFilter(django_filters.FilterSet):
             'title',
             'type',
             'start_date',
+            'end_date',
             'piece__name',
             'piece__kochel',
             'performer',
@@ -153,11 +172,11 @@ class EventFilter(django_filters.FilterSet):
             'places__venue',
             'places__city',
             'places__country',
-            'pdf_checked',
             'comment__content',
             'info__content',
             'created_by__username',
             'year_insertion',
-            'created_on',
+            'created_on_start',
+            'created_on_end',
             'all_fields',
         ]
