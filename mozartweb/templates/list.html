@@ -18,8 +18,9 @@
                             {% csrf_token %}
                             <center>
                             {% buttons %}
-                                <button type="submit" class="btn btn-primary btn-sm" style="font-size: x-small;"><b>Filtrer</b></button>
-                                <a class="btn btn-danger btn-sm" style="font-size: x-small;" href="/?q=*"><b>Tout afficher</b></a>
+                                <input type="submit" class="btn btn-primary btn-sm" style="font-size: x-small;" value="Filtrer">
+                                <input class="btn btn-warning btn-sm" style="font-size: x-small;" type="reset" value="Effacer">
+                                <a class="btn btn-danger btn-sm" style="font-size: x-small;" href="/?q=*">Tout afficher</a>
                             {% endbuttons %}
                             </center>
                             <nav id="sidebar">
