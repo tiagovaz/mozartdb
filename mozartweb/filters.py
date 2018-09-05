@@ -154,7 +154,6 @@ class EventFilter(django_filters.FilterSet):
             'places__venue',
             'places__city',
             'places__country',
-            'pdf_checked',
             'comment__content',
             'info__content',
             'created_by__username',
