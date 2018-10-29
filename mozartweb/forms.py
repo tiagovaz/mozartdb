@@ -9,7 +9,7 @@ from models import *
 class Search(forms.ModelForm, Layout):
     helper = FormHelper()
     helper.form_method = 'GET'
-    helper.form_action = '/result/'
+    helper.form_action = '/list/'
     helper.add_input(Submit('submit', 'Chercher'))
 
     class Meta:
