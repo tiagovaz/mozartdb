@@ -556,3 +556,30 @@ models.signals.post_save.connect(
     sender=AdditionalInfo
 )
 
+# Redis clear cache signals
+models.signals.post_save.connect(
+    signals.clear_event_cache,
+    sender=Event
+)
+models.signals.post_save.connect(
+    signals.clear_comment_cache,
+    sender=Comment
+)
+models.signals.post_save.connect(
+    signals.clear_info_cache,
+    sender=AdditionalInfo
+)
+
+models.signals.post_delete.connect(
+    signals.clear_event_cache,
+    sender=Event
+)
+models.signals.post_delete.connect(
+    signals.clear_comment_cache,
+    sender=Comment
+)
+models.signals.post_delete.connect(
+    signals.clear_info_cache,
+    sender=AdditionalInfo
+)
+
