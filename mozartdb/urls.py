@@ -19,6 +19,9 @@ from django.contrib import admin
 from mozartweb.views import *
 from django.conf.urls.static import static
 from django.conf import settings
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
+
 
 
 urlpatterns = [
@@ -41,7 +44,7 @@ urlpatterns = [
 #    url(r'^radio-autocomplete/$', RadioAutocomplete.as_view(), name='radio-autocomplete',),
     url(
             r'^list/$',
-            EventList.as_view(),
+            cache_page(60 * 60 * 24, key_prefix="event_list")(EventList.as_view()),
             name='event_list'
         ),
     url(
@@ -51,17 +54,17 @@ urlpatterns = [
         ),
     url(
             r'^(?P<pk>\d+)$',
-            EventDetail.as_view(),
+            cache_page(60 * 60 * 24, key_prefix="event_detail")(EventDetail.as_view()),
             name='event_detail'
         ),
     url(
             r'^(?P<pk>\d+)/new_comment$',
-            CommentCreate.as_view(),
+            cache_page(60 * 60 * 24, key_prefix="comment_create")(CommentCreate.as_view()),
             name='comment_create'
         ),
     url(
             r'^(?P<pk>\d+)/new_info$',
-            InfoCreate.as_view(),
+            cache_page(60 * 60 * 24, key_prefix="info_create")(InfoCreate.as_view()),
             name='info_create'
         ),
 

@@ -14,13 +14,13 @@
         <div class="wrapper">
                     <p>&nbsp;</p>
                 <div class="panel-body" style="font-size: x-small;">
-                    <form class="form" method="get" style="font-size: x-small;">
+                    <form class="form"action="/list/"  method="get" style="font-size: x-small;">
                             {% csrf_token %}
                             <center>
                             {% buttons %}
-                                <input type="submit" class="btn btn-primary btn-sm" style="font-size: x-small;" value="Filtrer">
+                                <input action="" type="submit" class="btn btn-primary btn-sm" style="font-size: x-small;" value="Filtrer">
                                 <input class="btn btn-warning btn-sm" style="font-size: x-small;" type="button" onclick="clearForm(this.form);" value="Effacer">
-                                <a class="btn btn-danger btn-sm" style="font-size: x-small;" href="/?q=*">Tout afficher</a>
+                                <a class="btn btn-danger btn-sm" style="font-size: x-small;" href="/list?q=*">Tout afficher</a>
                             {% endbuttons %}
                             </center>
                             <nav id="sidebar">
