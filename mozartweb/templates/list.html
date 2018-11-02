@@ -3,6 +3,7 @@
 {% load i18n %}
 {% load bootstrap3 %}
 {% load  noln %}
+{% load  cache %}
 
 {% block toggle_button %}
                       <button type="button" id="sidebarCollapse" class="btn btn-default" > 
@@ -129,13 +130,14 @@ en musique (OICRM)</a> pour l’hébergement de cette banque de données.</p>
     </div>
 
 {% else %}
-
     <div class="row">
         <div class="col-lg-12">
 		&nbsp;
         </div>
         <!-- /.col-lg-12 -->
     </div>
+
+{% cache 604800 events_list events.qs %}
 
     <div class="row">
         <div class="col-sm-12">
@@ -241,6 +243,9 @@ en musique (OICRM)</a> pour l’hébergement de cette banque de données.</p>
             </div>
         </div>
     </div>
+
+{% endcache %}
+
 {% endif %}
 
 <script>

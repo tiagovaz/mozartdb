@@ -13,6 +13,7 @@ from mozartweb.forms import Search, CommentForm, EventForm, InfoForm
 from django.http import HttpResponse
 import csv
 
+
 class EventList(generic.ListView):
     template_name = 'list.html'
     context_object_name = 'events'
