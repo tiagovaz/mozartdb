@@ -44,7 +44,8 @@ urlpatterns = [
 #    url(r'^radio-autocomplete/$', RadioAutocomplete.as_view(), name='radio-autocomplete',),
     url(
             r'^list/$',
-            cache_page(60 * 60 * 24, key_prefix="event_list")(EventList.as_view()),
+            #cache_page(60 * 60 * 24, key_prefix="event_list")(EventList.as_view()),
+            EventList.as_view(),
             name='event_list'
         ),
     url(
@@ -54,17 +55,17 @@ urlpatterns = [
         ),
     url(
             r'^(?P<pk>\d+)$',
-            cache_page(60 * 60 * 24, key_prefix="event_detail")(EventDetail.as_view()),
+            EventDetail.as_view(),
             name='event_detail'
         ),
     url(
             r'^(?P<pk>\d+)/new_comment$',
-            cache_page(60 * 60 * 24, key_prefix="comment_create")(CommentCreate.as_view()),
+            CommentCreate.as_view(),
             name='comment_create'
         ),
     url(
             r'^(?P<pk>\d+)/new_info$',
-            cache_page(60 * 60 * 24, key_prefix="info_create")(InfoCreate.as_view()),
+            InfoCreate.as_view(),
             name='info_create'
         ),
 
