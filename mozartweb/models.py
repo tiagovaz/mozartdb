@@ -161,10 +161,11 @@ class Performer(models.Model):
                 li.append(p.description)
         ptypes_all = ", ".join(li)
 
-        try:
-            return "%s, %s [%s]" % (self.last_name, self.first_name, ptypes_all)
-        except ObjectDoesNotExist:
-            return "%s, %s" % (self.last_name, self.first_name)
+      #  try:
+      #      return "%s, %s [%s]" % (self.last_name, self.first_name, ptypes_all)
+      #  except ObjectDoesNotExist:
+      #      return "%s, %s" % (self.last_name, self.first_name)
+        return "%s, %s" % (self.last_name, self.first_name)
 
     class Meta:
         verbose_name = "Interprète"

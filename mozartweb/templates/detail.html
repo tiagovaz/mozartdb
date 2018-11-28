@@ -105,7 +105,10 @@
                 <div class="panel-body">
                     <ul>
                     {% for p in event.performer.all %}
-                        <li>{{ p|noln }}</li>
+                        <li>{{ p|noln }}
+                        {% for t in p.ptype.all %}
+                            <small>[{{ t|noln }}]</small>{% if not forloop.last %}, {% endif %}
+                        {% endfor %}</li>
                     {% endfor %}
                     </ul>
                 </div>
