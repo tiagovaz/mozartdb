@@ -207,7 +207,6 @@ en musique (OICRM)</a> pour l’hébergement de cette banque de données.</p>
                                         {% endfor %}
                                     </td>
                                     <td>
-                                        {% for performer in event.performer.all %}
                                               {% for p in event.performer.all %}
                                                   <i class="fa fa-caret-right"></i>
                                                   {{ p|noln }}
@@ -216,7 +215,6 @@ en musique (OICRM)</a> pour l’hébergement de cette banque de données.</p>
                                                   {% endfor %}
                                                   <br>
                                               {% endfor %}
-                                        {% endfor %}
                                     </td>
                                     <td>
                                         {% for place in event.places.all %}
