@@ -217,9 +217,6 @@ en musique (OICRM)</a> pour l’hébergement de cette banque de données.</p>
                                               {% for p in event.performer.all %}
                                                   <i class="fa fa-caret-right"></i>
                                                   {{ p|noln }}
-                                                  {% for t in p.ptype.all %}
-                                                      <small>[{{ t|noln }}]</small>{% if not forloop.last %}, {% endif %}
-                                                  {% endfor %}
                                                   <br>
                                               {% endfor %}
                                     </td>
