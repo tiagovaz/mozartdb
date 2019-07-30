@@ -234,7 +234,7 @@ class Author(models.Model):
 
 @python_2_unicode_compatible
 class Piece(models.Model):
-    name = models.CharField("Titre de l'œuvre interpretée", max_length=200, unique=True)
+    name = models.CharField("Titre de l'œuvre interpretée", max_length=200)
     kochel = models.CharField("Köchel", max_length=20, blank=True, null=True)
 
     def __str__(self):
@@ -247,6 +247,7 @@ class Piece(models.Model):
         verbose_name = "Œuvre"
         verbose_name_plural = "Œuvre"
         ordering = ('name',)
+        unique_together = ('name', 'kochel')
 
 @python_2_unicode_compatible
 class AdditionalInfo(models.Model):
