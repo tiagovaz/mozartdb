@@ -22,6 +22,7 @@ from django.conf import settings
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 
+from django.views.generic import TemplateView
 
 
 urlpatterns = [
@@ -70,3 +71,9 @@ urlpatterns = [
         ),
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += [
+    url(r'^robots\.txt$', TemplateView.as_view(template_name="mozartweb/robots.txt", content_type='text/plain')),
+]
+
+
