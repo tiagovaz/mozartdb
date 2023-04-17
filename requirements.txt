@@ -2,5 +2,5 @@ django-extensions
 django-suit
 django-autocomplete-light
 django-bootstrap3-datepicker
-django-filter==0.13.0
+django-filter==2.4.0
 django-crequest
